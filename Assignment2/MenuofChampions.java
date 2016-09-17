@@ -5,7 +5,7 @@
  */
 package mavenproject2;
 
-/**
+/*
  */
 public class MenuofChampions {
     public static void main(String[] args) {

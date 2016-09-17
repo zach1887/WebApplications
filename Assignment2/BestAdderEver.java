@@ -5,7 +5,7 @@
  */
 package mavenproject2;
 
-/**
+/*
 
  */
 public class BestAdderEver {
