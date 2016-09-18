@@ -13,9 +13,9 @@ import java.util.Scanner;
 public class LuckySevens {
     public static void main(String[] args) {
         int rolls = 0; 
-        int maxRolls = 0;
+        int maxRolls = 0;  // this value may stay 0 if the initial value is never exceeded.
         int startingAmt;
-        int s;
+        int s;  //placeholder for the sum of the two dice each roll
         
         Random rand = new Random();
         Scanner sc = new Scanner(System.in);
@@ -28,7 +28,7 @@ public class LuckySevens {
           System.out.print("How many dollars you have?  Whole numbers, please.");
           startingAmt = sc.nextInt();  
         }
-        while (startingAmt > 1e6)
+        while (startingAmt > 1e6)  //selection of one million is arbitrary
        { System.out.println("Number is too large.  Try again.");
           System.out.print("How many dollars you have?  Whole numbers, please.");
           startingAmt = sc.nextInt();  

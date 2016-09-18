@@ -51,7 +51,8 @@ public class InterestCalculator_v2 {
         System.out.print("Will the money be compounded quarterly (q), monthly(m). or daily(d)?  ");
         inputCompounds = sc.nextLine();     
         }    
-       
+     // I decided to provide three outcomes for the compounding period instead of asking for an integer.
+     
         runningAmt = principalAmt;
         interest = 0;
         if (inputCompounds.equals("q")) numCompounds = 4;

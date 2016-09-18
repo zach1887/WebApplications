@@ -25,7 +25,7 @@ public class Factorizer {
          userInput = sc.nextInt();
      }
          
-        for (int k = 1; k <= userInput/2 ; k++) {
+        for (int k = 1; k <= userInput/2 ; k++) {  //no need to check factors greater than half the userInput
             
             if (userInput % k == 0) {
                 factors++;
@@ -37,7 +37,7 @@ public class Factorizer {
             System.out.println(userInput + " is a perfect number."); 
      else   System.out.println(userInput + " is not a perfect number.");
      
-     if (factors == 1)
+     if (factors == 1)  // technically this isn't necessary if userInput is prime, but it doesn't slow the program down much
             System.out.println(userInput + " is a prime number.");
      else System.out.println(userInput + " is not a prime number.");
     }
