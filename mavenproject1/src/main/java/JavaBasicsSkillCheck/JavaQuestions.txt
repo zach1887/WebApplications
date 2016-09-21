@@ -1,0 +1,107 @@
+Jesse Cunningham
+Vocabulary check  September 21, 2016
+
+1.  A variable is a placeholder used to store a piece of information
+
+2.  A variable must be decalred a certain type - integer (int), 
+    decimal (float or double), single character (char), string     
+    (String), or the boolean true/false variable (boolean).
+    Any input value that is not compatible with the variable type
+    leads to an error.
+
+3.  A variable can be assigned an acceptable value at any time.
+    The assigned value will then replace the variable name when 
+    the name shows up.
+
+4. Yes, a variable can be declared and assigned on the same line.
+   It is often useful to do this to simplify code.
+
+5. No, a method may not return more than one value.  
+
+6. If there is no value returned for a method, it is typed "VOID."
+   The main method does not return any value after it completes.
+
+7.  *code blocks*  come back
+
+8.  A method signature is the name and the parameters.  For example, 
+    I wrote a method for the blackjack lab called 
+    public static int assign_value (String str)
+    to assign a card value to a given text.  The method signature
+    is just "assign_value(String str)".
+
+9.  A method parameter is what the method needs to return a value.
+    Sometimes nothing is needed, like generating random numbers.
+    Other times the method takes the input and manipulates it to 
+    get the outcome.  A concatenate method needs at least two  
+    inputs     to be of any use,  such as 
+    public static String concat (String A String B) 
+
+10.  A method can have any number of parameters, although larger 
+     numbers would make it harder to understand and easier to make a 
+     mistake.
+
+11.  No, the parameters do not need to be of the same type.  For  
+     example, the concatenate function can just as easily attach    
+     numbers to a text string, such as
+     public static String concat (String A, int B)
+     A program like this might generate license plate numbers, for 
+     example.
+
+12.  The import keyword pulls in packages that Java does not have 
+     access to unless you say that you need it.  Many of the Math
+     packages are pre-loaded, so they don't need to be imported.
+     Packages like Random and Scanner are often not needed, so you
+     need to ask for them specifically.
+
+13.  A Java class should be written in PascalCase, that is, as one 
+     "word" but with the first letter of every readable English word
+     capitalized.  I often forget to capitalize words like "and",  
+     "or", and "of", though.
+
+14.  A Java variable is usually written in camelCase, that is still as 
+     one "word", but with every first leter captialized *except*
+     the first one.  This helps identify what can be manipulated 
+     (variable) and what can't (class).
+
+15.  I think that a method name is always lowercase with "_" separating
+     the different words, although I might be wrong.  I've also seen
+     single capitalized words (like Buzz() used in class) or 
+     PascalCase.  
+
+16.  The method body manipulates the input to get the return value.
+     Any working variables must be declared.  For example, we did
+     add_two(double x,double y) for one of the HW assignments.  The 
+     new double variable "sum" would be declared, calculated, and
+     returned.
+
+17.  An array is an indexed list of values all of the same type.
+
+18.  It is preferable to use a for loop if you know how many iterations
+     the loop will have or if this value is easy to find.  If there is
+     a complicated operation to determine when to terminate, the
+     do/while or while loop is a better choice.
+
+19.  A do-while loop runs the process once before checking the  
+     condition.  A while loop may not even execute once.  For example, 
+     a do-while loop for the process below would be a poor choice (for 
+     you ... I would like it just fine.)
+     
+     do  {
+     myWealth +=1,000,000;
+     myNumberOfMansions--
+         }
+      while (myNumberOfMansions >0);
+
+20.  A switch statement is a cleaner way to conduct a nested 
+     "if else-if" statement.  It only works if the conditions checked
+     are equality.  Switch statements came in useful for the Blackjack
+     labs and the Weekday Calculator.
+
+21.  The scope of a variable is where it is recognized.  Any variable
+     declared inside a method does not exist outside of the method 
+     itself.  In my add_two(double x, double y) method from earlier, 
+     I could not use "sum" in the main class.  Similarly, I couldn't
+     pull in any other variable from main into add_two except the ones
+     I specifically requested.
+
+
