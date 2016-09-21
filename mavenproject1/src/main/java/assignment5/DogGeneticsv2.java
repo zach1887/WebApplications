@@ -36,11 +36,11 @@ public class DogGeneticsv2 {
         numBreed5 = rand.nextInt(99) + 1;
         sumBreed += numBreed5;
         
-        pctBreed1 = (int) Math.round(100*numBreed1/sumBreed);
-        pctBreed2 = (int) Math.round(100*numBreed2/sumBreed);
-        pctBreed3 = (int) Math.round(100*numBreed3/sumBreed);
-        pctBreed4 = (int) Math.round(100*numBreed4/sumBreed);
-        pctBreed5 = 100 - pctBreed1 - pctBreed2 - pctBreed3 - pctBreed4;
+        pctBreed1 = (int) Math.round(95*numBreed1/sumBreed)+ 1;
+        pctBreed2 = (int) Math.round(95*numBreed2/sumBreed)+ 1;
+        pctBreed3 = (int) Math.round(95*numBreed3/sumBreed)+ 1;
+        pctBreed4 = (int) Math.round(95*numBreed4/sumBreed) + 1;
+        pctBreed5 = 96 - pctBreed1 - pctBreed2 - pctBreed3 - pctBreed4;
         
         
         System.out.println("Well, I have a breakdown of" + dogName + "'s background here.");
