@@ -49,8 +49,8 @@ public class RockPaperScissorsStep1 {
                 System.out.print("I selected " + computerChoiceText + ".  You win.");
       
         else if ((playerChoice == 3 && computerChoice ==1)
-                  || (playerChoice == 1 && computerChoice ==1)
-                    || (playerChoice == 2 && computerChoice ==4))
+                  || (playerChoice == 1 && computerChoice == 2)
+                    || (playerChoice == 2 && computerChoice ==3))
                 System.out.print("I selected " + computerChoiceText + ".  You lose.");
         else System.out.println("There must be an error.");
         if (playerChoice + computerChoice == 3)

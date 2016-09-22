@@ -13,7 +13,7 @@ public class FortuneCookie {
     public static void main(String[] args) {
         Random rand = new Random();
         
-        int quoteNumber = rand.nextInt(9);
+        int quoteNumber = rand.nextInt(10);
         
         System.out.print("Your Geek Fortune:  ");
         switch (quoteNumber) {
