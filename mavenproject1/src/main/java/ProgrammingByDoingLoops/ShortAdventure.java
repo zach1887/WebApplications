@@ -140,6 +140,7 @@ public class ShortAdventure {
                     }
             }  
         } 
+       
         System.out.println("Wasn't that a lot of fun?!?!?");  
     }
     

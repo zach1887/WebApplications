@@ -25,6 +25,7 @@ public class Square {
   this.angleOfIncidence = angleOfIncidence;
   this.colorOfSquare = colorOfSquare;
 } 
+  
  //accessors - getter   
  public int getangleOfIncidence(){
      return this.angleOfIncidence;
@@ -33,7 +34,7 @@ public class Square {
  public String getcolorOfSquare(){
      return this.colorOfSquare;
  }
- 
+
  //mutators - setter
   public void setangleOfIncidence(int angle){
      this.angleOfIncidence = angle;

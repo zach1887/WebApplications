@@ -19,15 +19,15 @@ public class TestProgramsWithMain {
         sq.lowerLeftCornerY = 6;
         
         System.out.println("My " + sq.getcolorOfSquare() + " square " 
-                            + "starts at " + "( " + sq.lowerLeftCornerX + " ,"
-                            + sq.lowerLeftCornerY + ")" + " and has a side length of" 
+                            + "starts at " + "(" + sq.lowerLeftCornerX + " ,"
+                            + sq.lowerLeftCornerY + ")" + " and has a side length of " 
                             + sq.sideLength + "and tilted at an angle of " + sq.getangleOfIncidence() + " degrees.");
      //Constructor B is called   
         Square sq2 = new Square(12, 45,"red");
         
                 System.out.println("My " + sq2.getcolorOfSquare() + " square " 
-                            + "starts at " + "( " + sq2.lowerLeftCornerX + " ,"
-                            + sq2.lowerLeftCornerY + ")" + " and has a side length of" 
+                            + "starts at " + "(" + sq2.lowerLeftCornerX + " ,"
+                            + sq2.lowerLeftCornerY + ")" + " and has a side length of " 
                             + sq2.sideLength + "and tilted at an angle of " + sq2.getangleOfIncidence() + " degrees.");
         
     }
