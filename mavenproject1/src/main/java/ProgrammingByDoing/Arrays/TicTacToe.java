@@ -30,7 +30,8 @@ public class TicTacToe {
         
         System.out.println("Let's play tic-tac toe!");
         System.out.println("Select a location for X, for example 0 0 would be the upper left corner.");
-        System.out.println("Your choice for X:  ");
+        System.out.println("No parentheses or non-numeric characters, please.");
+        System.out.print("Your choice for X:  ");
         inputNumber1 = sc.nextInt();
         inputNumber2 = sc.nextInt();
         while (inputNumber1 <0 || inputNumber1 >3  
@@ -119,6 +120,16 @@ public class TicTacToe {
             
         }
         
+       String win = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0],tictactoeBoard[0][1],tictactoeBoard[0][2]
+                             ,tictactoeBoard[1][0],tictactoeBoard[1][1],tictactoeBoard[1][2]
+                             ,tictactoeBoard[2][0],tictactoeBoard[2][1],tictactoeBoard[2][2]);
+       
+       if (win.equals("win"))
+            System.out.println("Nice work, X has won!");
+       else if (win.equals("loss"))
+            System.out.println("Huh, somehow O won.  That's pretty uncommon.");
+       else
+            System.out.println("The game was a draw... the most common result.");
     }
     
 }
