@@ -23,7 +23,7 @@ public class ShortAdventure {
         System.out.println("You are trying to escape from a house.");
         System.out.println("Your adventure starts in a Red Room.");
         System.out.println("There are two available exits, south and east");
-        System.out.println("Would you like to go South(1) or East(2)?");
+        System.out.print("Would you like to go South(1) or East(2)?");
         redRoomChoice = sc.nextInt();
         while (redRoomChoice != 1 && redRoomChoice != 2) {
             System.out.println("Get with the program!");
@@ -119,7 +119,7 @@ public class ShortAdventure {
                         yellowRoomChoice = sc.nextInt();
                         while (yellowRoomChoice != 1 && yellowRoomChoice != 2 && yellowRoomChoice != 3) {
                             System.out.println("Get with the program!");
-                            System.out.print("Would you like to go South(1), West (2), take the secret passageway(3) or... push the button (4)?");
+                            System.out.print("Would you like to go North(1), West (2), or... push the button (3)?");
                             yellowRoomChoice = sc.nextInt();
                         }   switch (yellowRoomChoice) {
                             case 1:
