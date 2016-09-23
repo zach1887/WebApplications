@@ -131,7 +131,11 @@ public class Calculator_Lab4Range {
         return quotient;
     }
 
-        
+     public static float add_two(float x, float y) {
+        float sum;
+        sum = x + y;
+        return sum;
+    }       
     public static float subtract_two(float x, float y) {
         float diff;
         diff = x - y;

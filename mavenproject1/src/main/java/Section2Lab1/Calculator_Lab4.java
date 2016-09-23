@@ -95,4 +95,50 @@ public class Calculator_Lab4 {
         quotient = x / y;
         return quotient;
     }
+    public static int add_two(int x, int y) {
+        int sum;
+        sum = x + y;
+        return sum;
+    }
+
+    public static int subtract_two(int x, int y) {
+        int diff;
+        diff = x - y;
+        return diff;
+    }
+
+    public static int multiply_two(int x, int y) {
+        int product;
+        product = x * y;
+        return product;
+    }
+
+    public static int divide_two(int x, int y) {
+        int quotient;
+        quotient = x / y;
+        return quotient;
+    }
+    public static float add_two(float x, float y) {
+        float sum;
+        sum = x + y;
+        return sum;
+    }
+
+    public static float subtract_two(float x, float y) {
+        float diff;
+        diff = x - y;
+        return diff;
+    }
+
+    public static float multiply_two(float x, float y) {
+        float product;
+        product = x * y;
+        return product;
+    }
+
+    public static float divide_two(float x, float y) {
+        float quotient;
+        quotient = x / y;
+        return quotient;
+    }
 }
