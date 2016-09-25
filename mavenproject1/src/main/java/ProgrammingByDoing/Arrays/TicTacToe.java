@@ -17,116 +17,77 @@ public class TicTacToe {
         char tictactoeBoard[][] = new char[3][3];
         boolean spaceTaken[][] = new boolean[3][3];
         int inputNumber1, inputNumber2;
+        int firstChoice[] = new int[2];
+        int otherXChoice[] = new int[2];
+        int otherOChoice[] = new int[2];
+        
+        
         Scanner sc = new Scanner(System.in);
         String checkStatus;
 
-
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                tictactoeBoard[i][j] = ' ';
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                spaceTaken[i][j] = false;
-            }
-        }
-
-        System.out.println("Let's play tic-tac toe!");
-        System.out.println("Select a location for X, for example 0 0 would be the upper left corner.");
-        System.out.println("No parentheses or non-numeric characters, please.");
-        System.out.print("Your choice for X:  ");
-        inputNumber1 = sc.nextInt();
-        inputNumber2 = sc.nextInt();
-        while (inputNumber1 < 0 || inputNumber1 > 3
-                || inputNumber2 < 0 || inputNumber2 > 3) {
-            System.out.println("Your selection is invalid.");
-            System.out.println("Your choice:  ");
-            inputNumber1 = sc.nextInt();
-            inputNumber2 = sc.nextInt();
-        }
-
+        tictactoeBoard = WinLoseorDraw.create_blank_board();
+        spaceTaken = WinLoseorDraw.filled_spaces();
+        
+  
+        firstChoice= WinLoseorDraw.validate_first_choice();
+        inputNumber1 = firstChoice[0];
+        inputNumber2 = firstChoice[1];
+       
         tictactoeBoard[inputNumber1][inputNumber2] = 'X';
         spaceTaken[inputNumber1][inputNumber2] = true;
 
-        System.out.println(tictactoeBoard[0][0]
-                + " " + tictactoeBoard[0][1]
-                + " " + tictactoeBoard[0][2]);
-
-        System.out.println(tictactoeBoard[1][0]
-                + " " + tictactoeBoard[1][1]
-                + " " + tictactoeBoard[1][2]);
-
-        System.out.println(tictactoeBoard[2][0]
-                + " " + tictactoeBoard[2][1]
-                + " " + tictactoeBoard[2][2]);
+        WinLoseorDraw.print_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
 
         for (int j = 1; j <= 8; j++) {
             if (j % 2 == 1) {
-                System.out.println("Your choice for 0:  ");
-                inputNumber1 = sc.nextInt();
-                inputNumber2 = sc.nextInt();
-                while (inputNumber1 < 0 || inputNumber1 > 3
-                        || inputNumber2 < 0 || inputNumber2 > 3
-                        || spaceTaken[inputNumber1][inputNumber2] == true) {
-                    System.out.println("Your selection is invalid.");
-                    System.out.println("Your choice:  ");
-                    inputNumber1 = sc.nextInt();
-                    inputNumber2 = sc.nextInt();
-                }
+                otherOChoice = WinLoseorDraw.validate_Ochoices(spaceTaken);
+                inputNumber1 = otherOChoice[0];
+                inputNumber2 = otherOChoice[1];
 
                 tictactoeBoard[inputNumber1][inputNumber2] = 'O';
-                spaceTaken[inputNumber1][inputNumber2] = true ;
-
-                System.out.println(tictactoeBoard[0][0]
-                        + " " + tictactoeBoard[0][1]
-                        + " " + tictactoeBoard[0][2]);
-
-                System.out.println(tictactoeBoard[1][0]
-                        + " " + tictactoeBoard[1][1]
-                        + " " + tictactoeBoard[1][2]);
-
-                System.out.println(tictactoeBoard[2][0]
-                        + " " + tictactoeBoard[2][1]
-                        + " " + tictactoeBoard[2][2]);
-                checkStatus = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2], tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2], tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
-                if (!checkStatus.equals("draw")) break;
+                spaceTaken[inputNumber1][inputNumber2] = true;
+                WinLoseorDraw.print_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                        tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                        tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
+                if (j >= 4) {
+                    checkStatus = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                            tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                            tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
+                    if (!checkStatus.equals("draw")) {
+                        break;
+                    }
+                }
 
             } else {
-                System.out.println("Your choice for X:  ");
-                inputNumber1 = sc.nextInt();
-                inputNumber2 = sc.nextInt();
-                while (inputNumber1 < 0 || inputNumber1 > 3
-                        || inputNumber2 < 0 || inputNumber2 > 3
-                        || spaceTaken[inputNumber1][inputNumber2] == true) {
-                    System.out.println("Your selection is invalid.");
-                    System.out.println("Your choice:  ");
-                    inputNumber1 = sc.nextInt();
-                    inputNumber2 = sc.nextInt();
-                }
+
+                    otherXChoice = WinLoseorDraw.validate_other_Xchoices(spaceTaken);
+                    inputNumber1 = otherXChoice[0];
+                    inputNumber2 = otherXChoice[1];
+
 
                 tictactoeBoard[inputNumber1][inputNumber2] = 'X';
                 spaceTaken[inputNumber1][inputNumber2] = true;
 
-                System.out.println(tictactoeBoard[0][0]
-                        + " " + tictactoeBoard[0][1]
-                        + " " + tictactoeBoard[0][2]);
-
-                System.out.println(tictactoeBoard[1][0]
-                        + " " + tictactoeBoard[1][1]
-                        + " " + tictactoeBoard[1][2]);
-
-                System.out.println(tictactoeBoard[2][0]
-                        + " " + tictactoeBoard[2][1]
-                        + " " + tictactoeBoard[2][2]);
-                checkStatus = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2], tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2], tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
-                if (!checkStatus.equals("draw")) break;
+                WinLoseorDraw.print_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                              tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                              tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);                
+                if (j >= 4) {
+                    checkStatus = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                            tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                            tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
+                    if (!checkStatus.equals("draw")) {
+                        break;
+                    }
+                }
             }
 
         }
 
-        String win = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2], tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2], tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
+        String win = WinLoseorDraw.evaluate_board(tictactoeBoard[0][0], tictactoeBoard[0][1], tictactoeBoard[0][2],
+                tictactoeBoard[1][0], tictactoeBoard[1][1], tictactoeBoard[1][2],
+                tictactoeBoard[2][0], tictactoeBoard[2][1], tictactoeBoard[2][2]);
 
         if (win.equals("win")) {
             System.out.println("Nice work, X has won!");
