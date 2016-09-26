@@ -20,7 +20,7 @@ public class WinLoseorDraw {
         }
                 return newboard;    
     }
-    public static boolean[][] filled_spaces() {
+    public static boolean[][] filled_spaces() {  // probably does not do anything since default values are false
             boolean filled[][] = new boolean[3][3];
                 for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

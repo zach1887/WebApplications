@@ -12,7 +12,7 @@ package Section2Lab1;
 public class Square {
     public int sideLength, lowerLeftCornerX, lowerLeftCornerY;
     private int angleOfIncidence;
-    private String colorOfSquare;
+    private String colorOfSquare = "invisible";
     
  //constructorA with two inputs
   public Square(int angleOfIncidence, String colorOfSquare) {

@@ -12,9 +12,9 @@ import java.util.Scanner;
  * @author Jesse
  */
 public class BlackJackMethods {
+    static Scanner sc = new Scanner(System.in);
    public double[] validate_starting_amt(){ 
        
-        Scanner sc = new Scanner(System.in);
         double [] starting_input = new double[2];
         System.out.println("Let's play some blackjack.");
         System.out.print("How much do you want to start with? (Max 100):  ");
@@ -36,7 +36,6 @@ public class BlackJackMethods {
    
    public double validate_wager(double currentAmt) {
        
-        Scanner sc = new Scanner(System.in);
         double currentWager;
             
         System.out.print("How much do you want to wager on this hand?");
@@ -56,32 +55,22 @@ public class BlackJackMethods {
             boolean playerhasAce;
             boolean dealerhasAce; 
             
-            if ((pCardVal1 == 1 && pCardVal2== 10)
-            || (pCardVal1 == 10 && pCardVal2 == 1))
-             playerBlackjack = true;
-        else playerBlackjack = false;
+            playerBlackjack = (pCardVal1 == 1 && pCardVal2== 10)
+                    || (pCardVal1 == 10 && pCardVal2 == 1);
             
-            if ((dCardVal1 == 1 && dCardVal2== 10)
-            || (dCardVal1 == 10 && pCardVal2 == 1))
-             dealerBlackjack = true;
-        else dealerBlackjack = false;
+            dealerBlackjack = (dCardVal1 == 1 && dCardVal2== 10)
+                    || (dCardVal1 == 10 && pCardVal2 == 1);
             
             if (playerBlackjack)
                 playerhasAce = true;
-            else if (pCardVal1 == 1 || pCardVal2 == 1)
-                playerhasAce = true;
-            else
-                playerhasAce = false;
+            else playerhasAce = pCardVal1 == 1 || pCardVal2 == 1;
             
             if (dealerBlackjack)
                 dealerhasAce = true;
-            else if (pCardVal1 == 1 || pCardVal2 == 1)
-                dealerhasAce = true;
-            else
-                dealerhasAce = false; 
+            else dealerhasAce = dCardVal1 == 1 || dCardVal2 == 1; 
             
             output[0] = playerBlackjack;
-            output[1] = playerBlackjack;
+            output[1] = dealerBlackjack;
             output[2] = playerhasAce;
             output[3] = dealerhasAce;
             

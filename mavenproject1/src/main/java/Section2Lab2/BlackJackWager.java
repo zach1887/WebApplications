@@ -15,16 +15,16 @@ public class BlackJackWager {
 
     public static void main(String[] args) {
         int playerCard1Value, playerCard2Value, dealerCard1Value, dealerCard2Value;
-        int drawCardValue, sumDealer, sumPlayer;
+        int drawCardValue;
         int playerSoftTotal, playerHardTotal;
         int dealerSoftTotal, dealerHardTotal;
         int totalMatrix[], newtotals[];
         double startingAmt, targetAmt, currentAmt, currentWager;
-        double inputValue[];
+        double inputValue[];// output for startingAmt, targetAmt
         boolean playerBlackJack, dealerBlackJack, playerHasAce, dealerHasAce;
-        boolean aceMatrix[];
+        boolean aceMatrix[]; // output of Blackjack and Ace booleans
         String playerCard1, playerCard2, dealerCard1, dealerCard2, drawCard;
-        String playerChoice;
+        String playerChoice;  // hit or stay... no option to quit or double...
         BlackJackMethods bjm = new BlackJackMethods();
 
         Scanner sc = new Scanner(System.in);
@@ -157,7 +157,7 @@ public class BlackJackWager {
 
             }
 
-        } while (currentAmt > 0 && currentAmt <= targetAmt);
+        } while (currentAmt > 0 && currentAmt < targetAmt);
 
         if (currentAmt == 0) {
             System.out.println("You're broke.");

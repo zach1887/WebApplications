@@ -24,7 +24,8 @@ public class TestProgramsWithMain {
                             + sq.sideLength + "and tilted at an angle of " + sq.getangleOfIncidence() + " degrees.");
      //Constructor B is called   
         Square sq2 = new Square(12, 45,"red");
-        
+        sq2.lowerLeftCornerX = -1;
+        sq2.lowerLeftCornerY = 3;
                 System.out.println("My " + sq2.getcolorOfSquare() + " square " 
                             + "starts at " + "(" + sq2.lowerLeftCornerX + " ,"
                             + sq2.lowerLeftCornerY + ")" + " and has a side length of " 
