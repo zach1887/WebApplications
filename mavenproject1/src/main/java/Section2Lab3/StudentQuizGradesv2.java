@@ -123,7 +123,7 @@ public class StudentQuizGradesv2 {
                         quiztotal = 0.0;
                         numScores = quizGrades.get(student).size();
                         for (int i = 0; i < numScores; i++) {
-                            System.out.println("Quiz " + (i+1) + " score is " + quizGrades.get(student).get(i));
+                            System.out.println("Quiz " + (i + 1) + " score is " + quizGrades.get(student).get(i));
                             quiztotal += quizGrades.get(student).get(i);
 
                         }
@@ -144,6 +144,12 @@ public class StudentQuizGradesv2 {
                 case 5: {  // add a student to the class
                     System.out.println("Enter the full name of the student:  ");
                     newName = sc.nextLine();
+                    if (newName.equals("") || newName.isEmpty()) {
+                        System.out.println("This is really, really, BAD!!!!");
+                        System.out.println("Enter the full name of the student:  ");
+                        newName = sc.nextLine();
+                    }
+
                     if (quizGrades.containsKey(newName)) {
                         System.out.println("This student is already in the system.");
                         userChoice = console.display_validate_menu();
@@ -165,11 +171,10 @@ public class StudentQuizGradesv2 {
                             newScore = sc.nextInt();
                         }
                         quizGrades.put(newName, temp);
-  //                      temp.clear();
+                        userChoice = console.display_validate_menu();
+                        break;
                     }
 
-                    userChoice = console.display_validate_menu();
-                    break;
                 }
 
                 case 6: { // remove a student from the class
@@ -208,8 +213,9 @@ public class StudentQuizGradesv2 {
 
                 }
             }
+
         }
-        System.out.println(
-                "You have exited the system.");
+        System.out.println("You have exited the system.");
+
     }
 }

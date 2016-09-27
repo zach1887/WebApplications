@@ -215,7 +215,7 @@ public class StudentQuizGrades {
                 }
                 case 6: { // remove a student from the class
                     System.out.println("Enter the name of the student you would like to remove:");
-                    dropName = sc.nextLine();
+                    dropName = sc.next();
                     if (!quizGrades.containsKey(dropName)) {
                         System.out.println("There is no student with the name of " + dropName + " in this course.");
                         userChoice = console.display_validate_menu();
