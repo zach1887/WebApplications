@@ -13,9 +13,9 @@ import java.util.Scanner;
  */
 public class ConsoleIO {
 
-    public int display_validate_menu() {
-        int userChoice;
-        Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
+
+    public void display_menu() {
         System.out.println("Quiz score database retreival.");
         System.out.println("Select from the options below.");
         System.out.println("List all students (1).");
@@ -26,14 +26,46 @@ public class ConsoleIO {
         System.out.println("Add a student(5).");
         System.out.println("Remove a student(6).");
         System.out.println("Exit system (7).");
-        System.out.print("Your selection:");
-        userChoice = sc.nextInt();
-        while (userChoice < 1 || userChoice > 7) {
-            System.out.println("Your selection is invaliid");
-            System.out.print("Your selection:");
-            userChoice = sc.nextInt();
-        }
 
-        return userChoice;
     }
+
+//        public static int getNum(String prompt) {
+//
+//        boolean invalidInput = true;
+//        int num = -1;
+//        do {
+//
+//            System.out.println(prompt);
+//            String userInput = sc.nextLine();
+//            try {
+//                num = Integer.parseInt(userInput);
+//                invalidInput = false;
+//            } catch (NumberFormatException e) {
+//                System.out.println("Incorrect input.  Please try again:");
+//            }
+//
+//        } while (invalidInput);
+//
+//        return num;
+//
+//    }
+    public static int getNum(String prompt) {
+        boolean invalidInput = true;
+        int num = -1;
+
+        do {
+
+            System.out.print(prompt);
+            String userInput = sc.nextLine();
+            try {
+                num = Integer.parseInt(userInput);
+                invalidInput = false;
+            } catch (NumberFormatException e) {
+                System.out.println("That selection is invalid.  Please try again.");
+            }
+        } while (invalidInput);
+
+        return num;
+    }
+
 }
