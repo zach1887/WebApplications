@@ -27,40 +27,42 @@ public class StudentQuizGrades {
         ConsoleIO console = new ConsoleIO();
         Scanner sc = new Scanner(System.in);
         DecimalFormat df = new DecimalFormat("#.00");
-        
+
         QuizScores anneD = new QuizScores(19, 20, 12, 15, 18);
         QuizScores bobT = new QuizScores(18, 17, 16, 11, 19);
         QuizScores colinO = new QuizScores(15, 16, 8, 17, 14);
         QuizScores deandraF = new QuizScores(19, 20, 12, 15, 18);
         QuizScores evelynS = new QuizScores(20, 20, 18, 18, 19);
         QuizScores frankA = new QuizScores(17, 19, 11, 20, 14);
-        
+
         HashMap<String, QuizScores> quizGrades = new HashMap<>();
-        
+
         quizGrades.put("Anne Davis", anneD);
         quizGrades.put("Bob Thompson", bobT);
         quizGrades.put("Colin O'Shea", colinO);
         quizGrades.put("Deandra Franklin", deandraF);
         quizGrades.put("Evelyn Stewart", evelynS);
         quizGrades.put("Frank Anderson", frankA);
-        
+
         Set<String> studentNames = quizGrades.keySet();
-        
-        userChoice = console.display_validate_menu();
-        
+
+        console.display_menu();
+        userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
+
         while (userChoice >= 1 && userChoice <= 6) {
             switch (userChoice) {
                 case 1: {  // list all students
                     for (String student : studentNames) {
                         System.out.println(student);
                     }
-                    userChoice = console.display_validate_menu();
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                     break;
                 }
                 case 2: {  // search for one students score
                     System.out.print("Enter the full name of the student:");
                     studentName = sc.nextLine();
-                    
+
                     if (quizGrades.containsKey(studentName)) {
                         System.out.println(studentName);
                         q1 = quizGrades.get(studentName).getQuiz1Score();
@@ -68,20 +70,20 @@ public class StudentQuizGrades {
                         q3 = quizGrades.get(studentName).getQuiz3Score();
                         q4 = quizGrades.get(studentName).getQuiz4Score();
                         q5 = quizGrades.get(studentName).getQuiz5Score();
-                     
+
                         System.out.println("Quiz 1 = " + q1);
                         System.out.println("Quiz 2 = " + q2);
                         System.out.println("Quiz 3 = " + q3);
                         System.out.println("Quiz 4 = " + q4);
                         System.out.println("Quiz 5 = " + q5);
-                        System.out.println("Quiz Average = " + df.format((q1 + q2 + q3 + q4 + q5)/5));
-                        
+                        System.out.println("Quiz Average = " + df.format((q1 + q2 + q3 + q4 + q5) / 5));
+
                     } else {
                         System.out.println("We could not find + " + studentName);
                     }
-                    userChoice = console.display_validate_menu();
-                    break;
-                    
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
+
                 }
                 case 3: {  // output all grades
                     for (String student : studentNames) {
@@ -91,18 +93,19 @@ public class StudentQuizGrades {
                         q3 = quizGrades.get(student).getQuiz3Score();
                         q4 = quizGrades.get(student).getQuiz4Score();
                         q5 = quizGrades.get(student).getQuiz5Score();
-                        
+
                         System.out.print("Quiz 1 = " + q1);
                         System.out.print("  Quiz 2 = " + q2);
                         System.out.print("  Quiz 3 = " + q3);
                         System.out.print("  Quiz 4 = " + q4);
                         System.out.println("  Quiz 5 = " + q5);
-                        System.out.println("Quiz Average = " + df.format((q1 + q2 + q3 + q4 + q5)/5));
-                        
+                        System.out.println("Quiz Average = " + df.format((q1 + q2 + q3 + q4 + q5) / 5));
+
                     }
-                    userChoice = console.display_validate_menu();
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                     break;
-                    
+
                 }
                 case 4: {  // list all Quiz Averages
                     total = 0.0;
@@ -155,16 +158,18 @@ public class StudentQuizGrades {
                     }
                     System.out.println("Quiz 5 Average: " + df.format(total / numScores));
                     System.out.println("Quiz 5 Count: " + numScores);
-                    userChoice = console.display_validate_menu();
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                     break;
-                    
+
                 }
                 case 5: {  // add a student to the class
                     System.out.println("Enter the full name of the student:  ");
                     newName = sc.nextLine();
                     if (quizGrades.containsKey(newName)) {
                         System.out.println("This student is already in the system.");
-                        userChoice = console.display_validate_menu();
+                        console.display_menu();
+                        userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                         break;
                     }
 //                    System.out.println("Enter the first name and first letter of last name:");
@@ -198,7 +203,7 @@ public class StudentQuizGrades {
                         System.out.println("Enter a score for Quiz 4 (0-20): ");
                         newScore4 = sc.nextInt();
                     }
-                    
+
                     System.out.println("Enter a score for Quiz 5 (0-20");
                     newScore5 = sc.nextInt();
                     while (newScore5 < 0 || newScore5 > 20) {
@@ -208,9 +213,10 @@ public class StudentQuizGrades {
                     }
                     QuizScores newStudent = new QuizScores(newScore1, newScore2, newScore3,
                             newScore4, newScore5);
-                    
+
                     quizGrades.put(newName, newStudent);
-                    userChoice = console.display_validate_menu();
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                     break;
                 }
                 case 6: { // remove a student from the class
@@ -218,7 +224,8 @@ public class StudentQuizGrades {
                     dropName = sc.next();
                     if (!quizGrades.containsKey(dropName)) {
                         System.out.println("There is no student with the name of " + dropName + " in this course.");
-                        userChoice = console.display_validate_menu();
+                        console.display_menu();
+                        userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                         break;
                     } else {
                         System.out.println("The student " + dropName + " is in this course.");
@@ -230,28 +237,29 @@ public class StudentQuizGrades {
                             dropVerification = sc.nextLine();
                         }
                         if (dropVerification.equals("n")) {
-                            userChoice = console.display_validate_menu();
-                            break;                            
+                            console.display_menu();
+                            userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
+                            break;
                         } else if ((dropVerification.equals("y"))) {
                             quizGrades.remove(dropName);
                             System.out.println("The student " + dropName + " has been removed.");
                             System.out.println(dropName + quizGrades.containsKey(dropName));
-                            userChoice = console.display_validate_menu();
+                            console.display_menu();
+                            userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                             break;
                         }
                     }
-                
-                }
-        
-    
 
-default: {
-                    userChoice = console.display_validate_menu();
+                }
+
+                default: {
+                    console.display_menu();
+                    userChoice = ConsoleIO.getNum("Please select a value from 1 to 7:  ");
                     break;
-           
-        }
+
+                }
             }
-    }
+        }
         System.out.println("You have exited the system.");
-}
     }
+}
