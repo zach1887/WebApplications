@@ -1,4 +1,4 @@
-package com.tsguild.addressbookproject;
+package com.tsguild.addressbookproject.ui;
 
 /*
  * To change this template, choose Tools | Templates

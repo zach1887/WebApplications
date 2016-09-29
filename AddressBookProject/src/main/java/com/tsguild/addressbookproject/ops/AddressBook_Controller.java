@@ -5,7 +5,11 @@
  */
 package com.tsguild.addressbookproject.ops;
 
-import com.tsguild.addressbookproject.ConsoleIO;
+import com.tsguild.addressbookproject.ui.ConsoleIO;
+import com.tsguild.addressbookprojects.dto.AddressDTO;
+import com.tsguild.addressbookproject.dao.AddressBookDAO;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  *
@@ -14,25 +18,33 @@ import com.tsguild.addressbookproject.ConsoleIO;
 public class AddressBook_Controller {
 
     ConsoleIO console = new ConsoleIO();
+    AddressBookDAO dao = new AddressBookDAO();
+    AddressDTO address = new AddressDTO();
 
     public void run() {
 
         boolean keepRunning = true;
 
         print_menu();
-        int userChoice = console.readInt("Enter a value from 1 to 6.", 1, 6);
+        int userChoice = console.readInt("Enter a value from 1 to 7.", 1, 7);
 
         while (keepRunning) {
             switch (userChoice) {
                 case 1:
+                    add_address();
                     break;
                 case 2:
+                    remove_address();
                     break;
                 case 3:
+                    locate_address_by_name();
                     break;
                 case 4:
+                    console.print("There are a total of " + count_all_addresses()
+                                    + " addresses in this book.");
                     break;
                 case 5:
+                    list_all_addresses();
                     break;
                 case 6:
                     keepRunning = false;
@@ -51,7 +63,146 @@ public class AddressBook_Controller {
         console.print("3. Find an address by last name.");
         console.print("4. List the number of addresses in the database.");
         console.print("5. List all addresses in the database.");
-        console.print("6.  Save and exit the program.");
+        console.print("6. Edit an existing address.");
+        console.print("7. Save and exit the program.");
 
+    }
+
+    private void add_address() {
+        String firstName = console.readString("Enter the first name for the new address:");
+        String lastName = console.readString("Enter the last name for the new address:");
+        // check to see if the name is already in the system
+        
+        String addressLine1 = console.readString("Enter the street address:");
+        String city = console.readString("Enter the city name for the new address.");
+        String state = console.readString("Enter the two digit state abbreviation for the new address:");
+        while (state.length() != 2) {
+            console.print("The input is invalid.");
+            state = console.readString("Enter the two digit state abbreviation for the new address:");
+        }
+        int zip = console.readInt("Enter the zip code of the new address.");
+
+        while ((zip < 10000 || zip > 99999)
+                && (zip < 1000000000 || zip > 999999999)) {
+            console.print("The input is invalid.  Zip codes may only contain 5 digits or 9 digits.");
+        }
+        address.setFirstName(firstName);
+        address.setSecondName(lastName);
+        address.setStreetAddress(addressLine1);
+        address.setCity(city);
+        address.setStateAbbrev(state);
+        address.setZipCode(zip);
+
+        dao.addAddress(address);
+
+    }
+
+    private void remove_address() {
+        String delName = console.readString("Enter the full name of the address you would like to delete: ");
+        AddressDTO delAddress = dao.removeAddress(delName);
+
+        if (delAddress == null) {
+            console.print("There are no matching names in the system");
+        } else {
+            console.print("The entry for " + delAddress + "has been removed from the address book.");
+        }
+    }
+
+    private void locate_address_by_name() {
+        String findName = console.readString("Please enter the last name of the person you are trying to find.");
+        Collection<AddressDTO> addresses = dao.getAllAddresses();
+        for (AddressDTO a : addresses) {
+            if (findName.equals(a.getSecondName())) {
+                console.print(a.getFirstName() + " " + a.getSecondName());
+                console.print(a.getStreetAddress());
+                console.print(a.getCity() + ", " + a.getStateAbbrev() + " " + a.getZipCode());
+            }
+
+        }
+    }
+
+    private void list_all_addresses() {
+        console.print("Here are all the addresses in the book:");
+
+        Collection<AddressDTO> addresses = dao.getAllAddresses();
+        for (AddressDTO a : addresses) {
+            console.print(a.getFirstName() + " " + a.getSecondName());
+            console.print(a.getStreetAddress());
+            console.print(a.getCity() + ", " + a.getStateAbbrev() + " " + a.getZipCode());
+        }
+
+    }
+    
+    private void edit_an_address(){
+          String editName = console.readString("Please enter the full name of the address you would like to change.");
+          // verfiy that the name is there
+          
+     //     menuChoice: display_edit_menu();
+          switch(menuChoice) {
+              case 1: {
+                String newFirst = console.readString("Enter in the new first name:");
+                  address.setFirstName(newFirst);
+                  break;
+          }  
+              case 2: {
+                String newSecond = console.readString("Enter in the new first name:");
+                  address.setSecondName(newSecond);
+                  break;
+          }  
+              case 3: {
+                String newAddress = console.readString("Enter in the new address:");
+                  address.setStreetAddress(newAddress);
+                  break;
+          }  
+              case 4: {
+                String newCity = console.readString("Enter in the new city:");
+                  address.setCity(newCity);
+                  break;
+          }  
+              case 5: {
+                String newState = console.readString("Enter in the new state abbreviation:");
+                  address.setStateAbbrev(newState);
+                  break;
+          }  
+              case 6: {
+                int newZip = console.readInt("Enter in the new zip code:");
+                  address.setZipCode(newZip);
+                  break;
+          }  
+              case 7:  {
+                  break;
+              }
+              case 8:  {
+                  break;
+              }
+              default:  {
+                  break;
+              }
+              
+          
+          }
+        
+     
+
+
+        }
+    
+    private int count_all_addresses() {
+        Collection<AddressDTO> addresses = dao.getAllAddresses();
+        return addresses.size();
+
+    }
+
+    private int display_edit_menu() {
+        console.print("Select from the following options.");
+        console.print("Change the first name of the entry (1).");
+        console.print("Change the last name of the entry (2).");
+        console.print("Change the address of the entry (3).");
+        console.print("Change the city of the entry (4).");
+        console.print("Change the state abbreviation of the entry (5).");
+        console.print("Change the first name of the entry (6).");
+        console.print("Save changes and go back to the menu.(7).");
+        console.print("Cancel changes an return to menu (8).");
+        return console.readInt("Your selection:  ",1,8);
     }
 }
