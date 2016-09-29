@@ -21,22 +21,23 @@ public class CalcLab_Updated {
         final int INPUT_MIN = (int) -1e8;
         final int INPUT_MAX = (int) 1e8;
         ConsoleIO console = new ConsoleIO();
+        CalculatorMethods cm = new CalculatorMethods();
 //        Scanner sc = new Scanner(System.in);
 
         System.out.println("Welcome to our calculator program!");
         userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
         
         while (userChoice != 5) {
-            input1 = CalculatorMethods.input_first_operand(userChoice);
+            input1 = cm.input_first_operand(userChoice);
             while (CalculatorMethodsRange.is_out_of_range(input1, INPUT_MIN, INPUT_MAX)){
                 System.out.println("That value is out of range.  Please select again.");
-                input1 = CalculatorMethods.input_first_operand(userChoice);
+                input1 = cm.input_first_operand(userChoice);
             }
                 
-            input2 = CalculatorMethods.input_second_operand(userChoice);
+            input2 = cm.input_second_operand(userChoice);
             while (CalculatorMethodsRange.is_out_of_range(input2, INPUT_MIN, INPUT_MAX)){
                 System.out.println("That value is out of range.  Please select again.");
-                input2 = CalculatorMethods.input_second_operand(userChoice);
+                input2 = cm.input_second_operand(userChoice);
             }           
             
 //            input1 = CalculatorMethods.input_first_int_operand(userChoice);
@@ -47,32 +48,32 @@ public class CalcLab_Updated {
             switch (userChoice) {
                 case 1: {
                     response = add_two(input1, input2);
-                    System.out.println("The answer is " + response + ".");
+                    console.print("The answer is " + response + ".");
                      userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
 
                     break;
                 }
                 case 2: {
                     response = subtract_two(input1, input2);
-                    System.out.println("The answer is " + response + ".");
+                    console.print("The answer is " + response + ".");
                      userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
                 case 3: {
                     response = multiply_two(input1, input2);
-                    System.out.println("The answer is " + response + ".");
+                    console.print("The answer is " + response + ".");
                      userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
                 case 4: {
 
                     if (input2 == 0) {
-                        System.out.println("Invalid denominator.  Let's try this again.");
+                        console.print("Invalid denominator.  Let's try this again.");
                         userChoice = 4;
                         break;
                     }
                     response = divide_two(input1, input2);
-                    System.out.println("The answer is " + response + ".");
+                    console.print("The answer is " + response + ".");
                      userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
