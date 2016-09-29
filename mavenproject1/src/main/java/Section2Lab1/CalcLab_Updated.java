@@ -12,7 +12,7 @@ package Section2Lab1;
  *
  * @author apprentice
  */
-public class Calculator_Lab4Range {
+public class CalcLab_Updated {
 
     public static void main(String[] args) {
         int userChoice;
@@ -20,11 +20,12 @@ public class Calculator_Lab4Range {
         double response;
         final int INPUT_MIN = (int) -1e8;
         final int INPUT_MAX = (int) 1e8;
+        ConsoleIO console = new ConsoleIO();
 //        Scanner sc = new Scanner(System.in);
 
         System.out.println("Welcome to our calculator program!");
-        userChoice = CalculatorMethods.display_Menu();
-
+        userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
+        
         while (userChoice != 5) {
             input1 = CalculatorMethods.input_first_operand(userChoice);
             while (CalculatorMethodsRange.is_out_of_range(input1, INPUT_MIN, INPUT_MAX)){
@@ -47,20 +48,20 @@ public class Calculator_Lab4Range {
                 case 1: {
                     response = add_two(input1, input2);
                     System.out.println("The answer is " + response + ".");
-                    userChoice = CalculatorMethods.display_Menu();
+                     userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
 
                     break;
                 }
                 case 2: {
                     response = subtract_two(input1, input2);
                     System.out.println("The answer is " + response + ".");
-                    userChoice = CalculatorMethods.display_Menu();
+                     userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
                 case 3: {
                     response = multiply_two(input1, input2);
                     System.out.println("The answer is " + response + ".");
-                    userChoice = CalculatorMethods.display_Menu();
+                     userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
                 case 4: {
@@ -72,7 +73,7 @@ public class Calculator_Lab4Range {
                     }
                     response = divide_two(input1, input2);
                     System.out.println("The answer is " + response + ".");
-                    userChoice = CalculatorMethods.display_Menu();
+                     userChoice = console.readInt("Add(1), Subtract(2), Multiply(3), Divide(4), Quit Program(5):  ",1,5);
                     break;
                 }
                 default:
