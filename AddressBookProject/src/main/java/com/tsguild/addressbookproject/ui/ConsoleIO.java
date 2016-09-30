@@ -1,7 +1,7 @@
 package com.tsguild.addressbookproject.ui;
 
 /*
- * To change this template, choose Tools | Templates
+ * To change this template, chooseTools | Templates
  * and open the template in the editor.
  */
 
