@@ -8,8 +8,11 @@ package com.tsguild.addressbookproject.ops;
 import com.tsguild.addressbookproject.ui.ConsoleIO;
 import com.tsguild.addressbookprojects.dto.AddressDTO;
 import com.tsguild.addressbookproject.dao.AddressBookDAO;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,32 +26,53 @@ public class AddressBook_Controller {
 
     public void run() {
 
+        try {
+            dao.loadFromFile();
+        } catch (IOException ex) {
+            console.print("Unable to locate file.");
+        }
+
         boolean keepRunning = true;
 
-        print_menu();
-        int userChoice = console.readInt("Enter a value from 1 to 7.", 1, 7);
-
         while (keepRunning) {
+            print_menu();
+            int userChoice = console.readInt("Enter a value from 1 to 7.", 1, 7);
+
             switch (userChoice) {
                 case 1:
-                    add_address();
+                    this.add_address();
                     break;
                 case 2:
-                    remove_address();
+                    this.remove_address();
                     break;
                 case 3:
-                    locate_address_by_name();
+                    this.locate_address_by_name();
                     break;
                 case 4:
                     console.print("There are a total of " + count_all_addresses()
-                                    + " addresses in this book.");
+                            + " addresses in this book.");
                     break;
                 case 5:
-                    list_all_addresses();
+                    this.list_all_addresses();
                     break;
                 case 6:
-                    keepRunning = false;
+                    this.edit_an_address();
                     break;
+                case 7: {
+                    try {
+                        dao.saveToFile();
+                    } catch (IOException ex) {
+                        console.print("Unable to save to file location.");
+                        String ans = console.readString("Are you sure you want to quit (y/n)? Changes have not been saved.");
+                        if (ans.equalsIgnoreCase("y")) {
+                            console.print("You have exited the system.");
+                            keepRunning = false;
+                        }
+                    }
+                }
+                console.print("Any changes that you made have been saved.");
+                keepRunning = false;
+                break;
                 default:
                     break;
             }
@@ -71,21 +95,18 @@ public class AddressBook_Controller {
     private void add_address() {
         String firstName = console.readString("Enter the first name for the new address:");
         String lastName = console.readString("Enter the last name for the new address:");
-        // check to see if the name is already in the system
-        
+//        if (!address.getFirstName().isEmpty() && !address.getSecondName().isEmpty()) {
+//            console.print("There is already someone in the system with that name.");
+//            return;
+//        }
+
         String addressLine1 = console.readString("Enter the street address:");
         String city = console.readString("Enter the city name for the new address.");
-        String state = console.readString("Enter the two digit state abbreviation for the new address:");
-        while (state.length() != 2) {
-            console.print("The input is invalid.");
-            state = console.readString("Enter the two digit state abbreviation for the new address:");
-        }
+        String state = console.readString("Enter the two-letter state abbreviation for the new address:");
+        state = validate_state_abbrev(state);
         int zip = console.readInt("Enter the zip code of the new address.");
+        zip = validate_zip_code(zip);
 
-        while ((zip < 10000 || zip > 99999)
-                && (zip < 1000000000 || zip > 999999999)) {
-            console.print("The input is invalid.  Zip codes may only contain 5 digits or 9 digits.");
-        }
         address.setFirstName(firstName);
         address.setSecondName(lastName);
         address.setStreetAddress(addressLine1);
@@ -104,7 +125,7 @@ public class AddressBook_Controller {
         if (delAddress == null) {
             console.print("There are no matching names in the system");
         } else {
-            console.print("The entry for " + delAddress + "has been removed from the address book.");
+            console.print("The entry for " + delAddress.getFirstName() + " " + "has been removed from the address book.");
         }
     }
 
@@ -132,61 +153,94 @@ public class AddressBook_Controller {
         }
 
     }
-    
-    private void edit_an_address(){
-          String editName = console.readString("Please enter the full name of the address you would like to change.");
-          // verfiy that the name is there
-          
-     //     menuChoice: display_edit_menu();
-          switch(menuChoice) {
-              case 1: {
-                String newFirst = console.readString("Enter in the new first name:");
-                  address.setFirstName(newFirst);
-                  break;
-          }  
-              case 2: {
-                String newSecond = console.readString("Enter in the new first name:");
-                  address.setSecondName(newSecond);
-                  break;
-          }  
-              case 3: {
-                String newAddress = console.readString("Enter in the new address:");
-                  address.setStreetAddress(newAddress);
-                  break;
-          }  
-              case 4: {
-                String newCity = console.readString("Enter in the new city:");
-                  address.setCity(newCity);
-                  break;
-          }  
-              case 5: {
-                String newState = console.readString("Enter in the new state abbreviation:");
-                  address.setStateAbbrev(newState);
-                  break;
-          }  
-              case 6: {
-                int newZip = console.readInt("Enter in the new zip code:");
-                  address.setZipCode(newZip);
-                  break;
-          }  
-              case 7:  {
-                  break;
-              }
-              case 8:  {
-                  break;
-              }
-              default:  {
-                  break;
-              }
-              
-          
-          }
-        
-     
 
+    private void edit_an_address() {
+        String editName = console.readString("Please enter the full name of the address you would like to change.");
+        // verfiy that the name is there
+        //      address newInfo= dao.
+        AddressDTO newName = dao.getAddress(editName);
+
+        if (newName == null) {
+            console.print("There is no one with that name in the system.");
+            return;
+        }
+
+//            private void updatePet() {
+//        console.print("**** UPDATE PET RECORD ****");
+//        int petId = console.readInt("Pet ID: ");
+//        Pet pet = dao.getPet(petId);
+        boolean runMenu = true;
+
+        String oldFirstName = address.getFirstName();
+        String oldSecondName = address.getSecondName();
+        String oldAddress = address.getStreetAddress();
+        String oldCity = address.getCity();
+        String oldState = address.getStateAbbrev();
+        int oldZip = address.getZipCode();
+
+        //     menuChoice: display_edit_menu();
+        while (runMenu) {
+            int menuChoice = display_edit_menu();
+            switch (menuChoice) {
+
+                case 1: {
+                    String newFirst = console.readString("Enter in the new first name:");
+                    address.setFirstName(newFirst);
+                    break;
+                }
+                case 2: {
+                    String newSecond = console.readString("Enter in the new first name:");
+                    address.setSecondName(newSecond);
+                    break;
+                }
+                case 3: {
+                    String newAddress = console.readString("Enter in the new address:");
+                    address.setStreetAddress(newAddress);
+                    break;
+                }
+                case 4: {
+                    String newCity = console.readString("Enter in the new city:");
+                    address.setCity(newCity);
+                    break;
+                }
+                case 5: {
+                    String newState = console.readString("Enter in the new state abbreviation:");
+                    newState = validate_state_abbrev(newState);
+                    address.setStateAbbrev(newState);
+
+                    break;
+                }
+                case 6: {
+                    int newZip = console.readInt("Enter in the new zip code:");
+                    newZip = validate_zip_code(newZip);
+                    address.setZipCode(newZip);
+                    break;
+                }
+                case 7: {
+                    address.setFirstName(oldFirstName);
+                    address.setSecondName(oldSecondName);
+                    address.setStateAbbrev(oldAddress);
+                    address.setCity(oldCity);
+                    address.setStateAbbrev(oldState);
+                    address.setZipCode(oldZip);
+                    runMenu = false;
+                    break;
+                }
+                case 8: {
+                    dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), address);
+                    dao.removeAddress(oldFirstName + " " + oldSecondName);
+                    runMenu = false;
+                    break;
+                }
+                default: {
+                    break;
+                }
+
+            }
 
         }
-    
+    }
+
     private int count_all_addresses() {
         Collection<AddressDTO> addresses = dao.getAllAddresses();
         return addresses.size();
@@ -201,8 +255,46 @@ public class AddressBook_Controller {
         console.print("Change the city of the entry (4).");
         console.print("Change the state abbreviation of the entry (5).");
         console.print("Change the first name of the entry (6).");
-        console.print("Save changes and go back to the menu.(7).");
-        console.print("Cancel changes an return to menu (8).");
-        return console.readInt("Your selection:  ",1,8);
+        console.print("Cancel changes an return to main menu (7).");
+        console.print("Save changes and go back to the main menu.(8).");
+        return console.readInt("Your selection:  ", 1, 8);
+    }
+
+    private int validate_zip_code(int zip) {
+
+        while ((zip < 10000 || zip > 99999)
+                && (zip < 1000000000 || zip > 999999999)) {
+            console.print("The input is invalid.  Zip codes may only contain 5 digits or 9 digits.");
+            zip = console.readInt("Enter the zip code of the new address.");
+        }
+        return zip;
+    }
+
+    private String validate_state_abbrev(String state) {
+        boolean isLetter1, isLetter2;
+
+        do {
+            if ((state.charAt(0) >= 'a' && state.charAt(0) <= 'z')
+                    || (state.charAt(0) >= 'A' && state.charAt(0) <= 'Z')) {
+                isLetter1 = true;
+            } else {
+                isLetter1 = false;
+            }
+
+            if ((state.charAt(1) >= 'a' && state.charAt(1) <= 'z')
+                    || (state.charAt(1) >= 'A' && state.charAt(1) <= 'Z')) {
+                isLetter2 = true;
+            } else {
+                isLetter2 = false;
+            }
+
+            if (state.length() != 2 || !isLetter1 || !isLetter2) {
+                console.print("The input is invalid.");
+                state = console.readString("Enter the two-letter state abbreviation for the new address:");
+            }
+        } while (state.length() != 2 || !isLetter1 || !isLetter2);
+
+        return state;
+
     }
 }
