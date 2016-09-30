@@ -18,9 +18,16 @@ public class DrillsArrays {
 //firstLast6({6, 1, 2, 3}) -> true
 //firstLast6({13, 6, 1, 2, 3}) -> false
 //
-//public boolean firstLast6(int[] numbers) {
-//
-//}   
+public boolean firstLastSix(int[] numbers) {
+    int x = numbers.length;
+    
+    if (numbers[0] == 6) return true;
+    
+    else if (numbers[x - 1] == 6) return true;
+    
+    else return false;
+
+}   
 
 //Problem 02
 //    Given an array of ints, return true if the array is length 1 or more, and the first element and the last element are equal. 
@@ -65,7 +72,26 @@ public class DrillsArrays {
 //
 //}
 
+// Problem 10
+//Given an int array , return true if it contains an even number (HINT: Use Mod (%)). 
+//
+//hasEven({2, 5}) -> true
+//hasEven({4, 3}) -> true
+//hasEven({7, 5}) -> false
 
+public boolean hasEven(int[] numbers) {
+    int x = numbers.length;
+    boolean hasEven = false;
+     for (int i = 0; i < x-1; i++) {
+        if (numbers[i] % 2 == 0){
+            hasEven = true;
+            break;
+        }  
+    }
+     return hasEven;
+ 
+
+}
 
 
 

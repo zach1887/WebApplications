@@ -29,7 +29,7 @@ public class AddressBookDAO {
     private final String DELIMITER = "::";
 
     public AddressBookDAO() {
-        FILE_NAME = "AddressBook.txt";
+        FILE_NAME = "src/main/java/com/tsguild/addressbookproject/AddressBook.txt";
         addressBook = new HashMap<>();
     }
 
@@ -42,9 +42,9 @@ public class AddressBookDAO {
                 String houseLine = houseScanner.nextLine();
                 String[] houseProperties = houseLine.split(DELIMITER);
 
-                if (houseProperties.length != 6) {
-                    continue;
-                }
+//                if (houseProperties.length != 6) {
+//                    continue;
+//                }
 
                 AddressDTO oneHouse = new AddressDTO();
                 oneHouse.setFirstName(houseProperties[0]);
@@ -54,12 +54,13 @@ public class AddressBookDAO {
                 oneHouse.setStateAbbrev(houseProperties[4]);
 
                 try {
-                    int zipC = Integer.parseInt(houseProperties[4]);
+                    int zipC = Integer.parseInt(houseProperties[5]);
                     oneHouse.setZipCode(zipC);
                 } catch (NumberFormatException e) {
                     continue;
                 }
-            }
+                addressBook.put(oneHouse.getFirstName() + " " +oneHouse.getSecondName() , oneHouse);
+          }
 
         } catch (FileNotFoundException ex) {
             new FileWriter(FILE_NAME);
@@ -89,15 +90,15 @@ public class AddressBookDAO {
 
     public void saveToFile() throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
-        
+
         for (AddressDTO a : addressBook.values()) {
-            writer.println (a.getFirstName() + DELIMITER + a.getSecondName() 
-                            + DELIMITER + a.getStateAbbrev() + DELIMITER 
-                            + a.getCity() + DELIMITER + a.getStateAbbrev()
-                                + DELIMITER + a.getZipCode());
+            writer.println(a.getFirstName() + DELIMITER + a.getSecondName()
+                    + DELIMITER + a.getStreetAddress() + DELIMITER
+                    + a.getCity() + DELIMITER + a.getStateAbbrev()
+                    + DELIMITER + a.getZipCode());
         }
         writer.flush();
         writer.close();
-        
+
     }
 }

@@ -171,67 +171,86 @@ public class AddressBook_Controller {
 //        Pet pet = dao.getPet(petId);
         boolean runMenu = true;
 
-        String oldFirstName = address.getFirstName();
-        String oldSecondName = address.getSecondName();
-        String oldAddress = address.getStreetAddress();
-        String oldCity = address.getCity();
-        String oldState = address.getStateAbbrev();
-        int oldZip = address.getZipCode();
-
+        String oldFirstName = newName.getFirstName();
+        String oldSecondName = newName.getSecondName();
+        String oldAddress = newName.getStreetAddress();
+        String oldCity = newName.getCity();
+        String oldState = newName.getStateAbbrev();
+        int oldZip = newName.getZipCode();
+        String newFirst = null; 
+        String newSecond = null;
+        String newAddress = null;
+        String newCity = null;
+        String newState = null;
+        int newZip = 0;
         //     menuChoice: display_edit_menu();
         while (runMenu) {
             int menuChoice = display_edit_menu();
             switch (menuChoice) {
 
                 case 1: {
-                    String newFirst = console.readString("Enter in the new first name:");
-                    address.setFirstName(newFirst);
+                    newFirst = console.readString("Enter in the new first name:");
+                    newName.setFirstName(newFirst);
                     break;
                 }
                 case 2: {
-                    String newSecond = console.readString("Enter in the new first name:");
-                    address.setSecondName(newSecond);
+                    newSecond = console.readString("Enter in the new last name:");
+                    newName.setSecondName(newSecond);
                     break;
                 }
                 case 3: {
-                    String newAddress = console.readString("Enter in the new address:");
-                    address.setStreetAddress(newAddress);
+                    newAddress = console.readString("Enter in the new address:");
+                    newName.setStreetAddress(newAddress);
                     break;
                 }
                 case 4: {
-                    String newCity = console.readString("Enter in the new city:");
-                    address.setCity(newCity);
+                    newCity = console.readString("Enter in the new city:");
+                    newName.setCity(newCity);
                     break;
                 }
                 case 5: {
-                    String newState = console.readString("Enter in the new state abbreviation:");
+                    newState = console.readString("Enter in the new state abbreviation:");
                     newState = validate_state_abbrev(newState);
-                    address.setStateAbbrev(newState);
+                    newName.setStateAbbrev(newState);
 
                     break;
                 }
                 case 6: {
-                    int newZip = console.readInt("Enter in the new zip code:");
+                    newZip = console.readInt("Enter in the new zip code:");
                     newZip = validate_zip_code(newZip);
-                    address.setZipCode(newZip);
+                    newName.setZipCode(newZip);
                     break;
                 }
                 case 7: {
-                    address.setFirstName(oldFirstName);
-                    address.setSecondName(oldSecondName);
-                    address.setStateAbbrev(oldAddress);
-                    address.setCity(oldCity);
-                    address.setStateAbbrev(oldState);
-                    address.setZipCode(oldZip);
+                    newName.setFirstName(oldFirstName);
+                    newName.setSecondName(oldSecondName);
+                    newName.setStateAbbrev(oldAddress);
+                    newName.setCity(oldCity);
+                    newName.setStateAbbrev(oldState);
+                    newName.setZipCode(oldZip);
+                    console.print("Your changes were not saved.");
                     runMenu = false;
                     break;
-                }
-                case 8: {
-                    dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), address);
-                    dao.removeAddress(oldFirstName + " " + oldSecondName);
+                } 
+                case 8: 
+                    if (newFirst == null) newName.setFirstName(oldFirstName);
+                    if (newSecond == null) newName.setSecondName(oldSecondName);
+                    if (newAddress == null) newName.setStreetAddress(oldAddress);
+                    if (newCity== null) newName.setCity(oldCity);
+                    if (newState == null) newName.setStateAbbrev(oldState);
+                    if (newZip == 0) newName.setZipCode(oldZip);
+                    
+                    if (!newName.getFirstName().equals(oldFirstName) ||
+                            !newName.getSecondName().equals(oldSecondName)) {
+                        dao.removeAddress(editName);  
+                        dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), newName);
+                    }
+                    else {
+                        dao.updateAddress(editName, newName);
+                    }
                     runMenu = false;
                     break;
-                }
+               
                 default: {
                     break;
                 }
@@ -254,7 +273,7 @@ public class AddressBook_Controller {
         console.print("Change the address of the entry (3).");
         console.print("Change the city of the entry (4).");
         console.print("Change the state abbreviation of the entry (5).");
-        console.print("Change the first name of the entry (6).");
+        console.print("Change the zip code of the entry (6).");
         console.print("Cancel changes an return to main menu (7).");
         console.print("Save changes and go back to the main menu.(8).");
         return console.readInt("Your selection:  ", 1, 8);
