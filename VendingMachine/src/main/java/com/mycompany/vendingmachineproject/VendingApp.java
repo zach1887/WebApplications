@@ -3,24 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.dvdproject;
+package com.mycompany.vendingmachineproject;
 
-import com.mycompany.dvdproject.ops.DVDCommander;
+import com.mycompany.vendingmachineproject.ops.VendController;
 import java.io.IOException;
 
-/**4
- * 
+/**
  *
  * @author Jesse
  */
-public class MyDVDApp {
-
+public class VendingApp {
 
     public static void main(String[] args) throws IOException {
 
-        DVDCommander DVDc = new DVDCommander();
-
-        DVDc.run();
+        VendController vendc = new VendController();
+        vendc.run();
 
     }
 }
