@@ -234,7 +234,7 @@ public class DVDCommander {
         console.print("Change the comments for the DVD (6).");
         console.print("Cancel all changes and exit (7).");
         console.print("Save all changes and exit(8).");
-        int userChoice = console.readInt("Your selection:  ", 1, 7);
+        int userChoice = console.readInt("Your selection:  ", 1, 8);
         return userChoice;
     }
 
