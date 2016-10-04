@@ -23,7 +23,7 @@ public class MyDao {
 
     private String FILE_NAME;
     private final String DELIMITER = "::";
-    private HashMap<String, VendObject> vendMap;
+    private HashMap<Integer, VendObject> vendMap;
 
 //    public dao() {
 //        dvdMap = new HashMap<>();
@@ -39,15 +39,19 @@ public class MyDao {
 
         try {
             Scanner sc = new Scanner(new BufferedReader(new FileReader(FILE_NAME)));
-
+             int i =0;
             while (sc.hasNextLine()) {
+                i++;
                 VendObject vend = new VendObject();
                 String nextVendQty = sc.nextLine();
 
                 String[] VendProperties = nextVendQty.split(DELIMITER);
                 
+                
+                
                 String itemName = VendProperties[0];
                 vend.setItemName(itemName);
+                vend.setItemOrder(i);
 
                 try {
                     int itemQty = Integer.parseInt(VendProperties[1]);
@@ -56,9 +60,9 @@ public class MyDao {
                     vend.setItemPrice(itemPrice);
 
                 } catch (NumberFormatException e) {
-                    //      continue;
+                         continue;
                 }
-                vendMap.put(itemName, vend);
+                vendMap.put(i, vend);
             }
             sc.close();
 
@@ -68,29 +72,39 @@ public class MyDao {
 
         }
     }
-
-        
  
+    public int getSize() {
+        return vendMap.size();
+    }
     
-    public String getCandyName(String key) {
-        return vendMap.get(key).getItemName();
+    public String getCandyName(int itemOrder) {
+        return vendMap.get(itemOrder).getItemName();
     }
-    public int getCandyQty(String key) {
-        return vendMap.get(key).getItemQty();
+    public int getCandyQty(int itemOrder) {
+        return vendMap.get(itemOrder).getItemQty();
     }
-    public double getCandyPrice(String key) {
-        return vendMap.get(key).getItemPrice();
+        
+    public double getCandyPrice(int itemOrder) {
+        return vendMap.get(itemOrder).getItemPrice();
     }
 
-//    public void saveToFile() throws IOExceptio
-//        PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
-//
-//        for (VendObject v : vendMap.values()) {
-//
-//        }
-//        writer.flush();
-//        writer.close();
-//
-//    }
+
+
+    public void DecreaseQty(int candyChoice) {
+        int oldqty = vendMap.get(candyChoice).getItemQty();
+        vendMap.get(candyChoice).setItemQty(oldqty -1);
+    }
+    
+        public void saveToFile() throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
+
+        for (VendObject v : vendMap.values()) {
+          writer.println(v.getItemName() + DELIMITER + v.getItemQty() 
+                  + DELIMITER + v.getItemPrice());
+        }
+        writer.flush();
+        writer.close();
+
+    }
 
 }

@@ -1,5 +1,5 @@
-Snickers::10::0.85
-Twix::8::0.75
-Reeses::11::0.70
-Certs::7::0.50
-Gum::11:0.25
+Snickers::8::0.85
+Twix::6::0.75
+Reeses::11::0.7
+Certs::7::0.5
+Gum::11::0.25

@@ -14,6 +14,7 @@ public class VendObject {
     private String itemName;
     private int itemQty;
     private double itemPrice;
+    private int itemOrder;
 
 
 public VendObject(){
@@ -47,6 +48,10 @@ public VendObject(){
 
     public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public void setItemOrder(int itemOrder) {
+        this.itemOrder = itemOrder;
     }
 
     
