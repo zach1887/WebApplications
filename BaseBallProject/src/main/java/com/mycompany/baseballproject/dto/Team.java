@@ -11,16 +11,16 @@ import java.util.ArrayList;
  *
  * @author Jesse
  */
-public class BaseballObject {
+public class Team {
     
     private String teamName;
     private ArrayList <String> teamPlayers;
     
-    public BaseballObject(){
+    public Team(){
         
     }
     
-    public BaseballObject (String teamName, ArrayList teamPlayers) {
+    public Team (String teamName, ArrayList teamPlayers) {
         this.teamName = teamName;
         this.teamPlayers = teamPlayers;
     }
@@ -33,11 +33,11 @@ public class BaseballObject {
         this.teamName = teamName;
     }
 
-    public ArrayList getTeamPlayers() {
+    public ArrayList<String> getTeamPlayers() {
         return teamPlayers;
     }
 
-    public void setTeamPlayers(ArrayList teamPlayers) {
+    public void setTeamPlayers(ArrayList<String> teamPlayers) {
         this.teamPlayers = teamPlayers;
     }
     

@@ -7,7 +7,9 @@ package com.mycompany.baseballproject.ops;
 
 import com.mycompany.baseballproject.ui.ConsoleIO;
 import com.mycompany.baseballproject.dao.dao;
+import com.mycompany.baseballproject.dto.Team;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -23,7 +25,7 @@ public class controller {
         boolean keepRunning = true;
         dao.loadFile();
         int userChoice;
-        
+
         while (keepRunning) {
             userChoice = displayMenu();
             switch (userChoice) {
@@ -46,9 +48,9 @@ public class controller {
                     listAllTeams();
                     break;
                 case 7:
-                dao.saveToFile();
-                keepRunning = false;
-                break;
+                    dao.saveToFile();
+                    keepRunning = false;
+                    break;
 
                 default:
                     break;
@@ -102,36 +104,37 @@ public class controller {
 
     }
 
+    private void tradePlayer() {
+        String tradedPlayer = console.readString("Enter the name of the player you would like to trade:  ");
+        if (dao.playerIsInLeague(tradedPlayer) == false) {
+            console.print("There is no player in the league with that name.");
+        } else {
+            console.print("Player " + tradedPlayer + " is currently with the team of " + dao.playerIsOnWhichTeam(tradedPlayer) + ".");
+            String newPlayerTeam = console.readString("Enter the name of the team to which you would like to trade the player:  ");
+            if (dao.teamExists(newPlayerTeam) == false) {
+                console.print("There is no team in the league with that name.  ");
+            } else {
+                dao.tradePlayer(tradedPlayer, dao.playerIsOnWhichTeam(tradedPlayer), newPlayerTeam);
+            }
 
-
-private void tradePlayer() {
-       String tradedPlayer = console.readString("Enter the name of the player you would like to trade:  ");
-       if (dao.playerIsInLeague(tradedPlayer) == false) {
-           console.print("There is no player in the league with that name.");
-                   }
-       else {
-           console.print("Player " + tradedPlayer + " is currently with the team of " + dao.playerIsOnWhichTeam(tradedPlayer) + ".");
-           String newPlayerTeam = console.readString("Enter the name of the team to which you would like to trade the player:  ");
-                 if (dao.teamExists(newPlayerTeam) == false) {
-            console.print("There is no team in the league with that name.  ");
-                 }
-                 else
-                     dao.tradePlayer(tradedPlayer, dao.playerIsOnWhichTeam(tradedPlayer), newPlayerTeam);
-            
-       }
+        }
     }
 
     private void listPlayers() {
         String teamName = console.readString("Enter the name of the team whose roster you wish to see:  ");
-        if (dao.teamExists(teamName) == false) 
+        if (dao.teamExists(teamName) == false) {
             console.print("There is no team with that name in the league.");
-        else for (int i = 0; i < dao.listAllPlayers(teamName).size(); i++) {
-               console.print(dao.listAllPlayers(teamName).get(i));
+        } else {
+            for (int i = 0; i < dao.listAllPlayers(teamName).size(); i++) {
+                console.print(dao.listAllPlayers(teamName).get(i));
             }
-    }
-
-    private void listAllTeams() {
-   
         }
     }
 
+    private void listAllTeams() {
+        Collection<Team> allTeams = dao.listAllTeams();
+        for (Team b : allTeams) {
+            console.print(b.getTeamName());
+        }
+    }
+}

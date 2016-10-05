@@ -5,7 +5,7 @@
  */
 package com.mycompany.baseballproject.dao;
 
-import com.mycompany.baseballproject.dto.BaseballObject;
+import com.mycompany.baseballproject.dto.Team;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +17,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  *
@@ -26,7 +27,7 @@ public class dao {
 
     private String FILE_NAME;
     private String DELIMITER = "::";
-    private HashMap<String, BaseballObject> playerMap;
+    private HashMap<String, Team> playerMap;
 
     public dao() {
         playerMap = new HashMap<>();
@@ -37,7 +38,7 @@ public class dao {
         try {
             Scanner sc = new Scanner(new BufferedReader(new FileReader(FILE_NAME)));
             while (sc.hasNextLine()) {
-                BaseballObject ball = new BaseballObject();
+                Team ball = new Team();
                 String nextTeam = sc.nextLine();
 
                 String[] TeamPlayers = nextTeam.split(DELIMITER);
@@ -46,10 +47,8 @@ public class dao {
                 ball.setTeamName(teamName);
 
                 ArrayList arr = new ArrayList<>();
-                int i = 1;
-                while (!TeamPlayers[i].isEmpty()) {
-                    arr.add(TeamPlayers[i]);
-                    i++;
+                for (int j = 0; j < TeamPlayers.length; j++) {
+                    arr.add(TeamPlayers[j]);
                 }
                 ball.setTeamPlayers(arr);
                 playerMap.put(ball.getTeamName(), ball);
@@ -64,63 +63,57 @@ public class dao {
     }
 
     public boolean teamExists(String teamName) {
-        BaseballObject ball = new BaseballObject();
-        boolean alreadyThere = false;
+        Team ball = new Team();
 
-        for (BaseballObject b : playerMap.values()) {
-            if (b.getTeamName().equalsIgnoreCase(teamName)) {
-                alreadyThere = true;
+        for (Team b : playerMap.values()) { // 
+            if (b.getTeamName().equals(teamName)) {
+                return true;
             }
-            break;
         }
-        return alreadyThere;
+        return false;
 
     }
 
     public boolean playerIsInLeague(String teamPlayer) {
-        BaseballObject ball = new BaseballObject();
-        boolean playerInLeague = false;
+        Team ball = new Team();
 
-        for (BaseballObject b : playerMap.values()) {
-            for (int j = 1; j <= b.getTeamPlayers().size(); j++) {
-                if (b.getTeamPlayers().get(j).equals(teamPlayer)) {
-                    playerInLeague = true;
-                }
+        for (Team b : playerMap.values()) {
+
+            for(String player : b.getTeamPlayers()){
+                if (player.equals(teamPlayer))
+                    return true;
+                
             }
-
         }
 
-        return playerInLeague;
+        return false;
 
     }
 
     public String playerIsOnWhichTeam(String teamPlayer) {
-        BaseballObject ball = new BaseballObject();
-        String whichTeam = null;
+        Team ball = new Team();
 
-        for (BaseballObject b : playerMap.values()) {
-            for (int j = 1; j <= b.getTeamPlayers().size(); j++) {
-                if (b.getTeamPlayers().get(j).equals(teamPlayer)) {
-                    whichTeam = b.getTeamName();
+        for (Team b : playerMap.values()) {
+            for (String player : b.getTeamPlayers()){
+                if (player.equals(teamPlayer))
+                    return b.getTeamName();
                 }
             }
 
-        }
-
-        return whichTeam;
-
+        return "Player Not Found";  // this shouldn't happen due to an earlier check
     }
+    
 
     public void addNewTeam(String newTeam) {
-        if (playerMap.containsKey(newTeam)) {
-        } else {
-            playerMap.put(newTeam, null);
-        }
+        Team ball = new Team();
+        ball.setTeamName(newTeam);
+        ball.setTeamPlayers(new ArrayList<String>());
+        playerMap.put(newTeam, ball);
     }
 
     public void addNewPlayer(String newPlayerTeam, String newPlayer) {
         ArrayList oldRoster = playerMap.get(newPlayerTeam).getTeamPlayers();
-        BaseballObject newRoster = new BaseballObject();
+        Team newRoster = new Team();
         newRoster.setTeamName(newPlayerTeam);
         oldRoster.add(newPlayer);
         newRoster.setTeamPlayers(oldRoster);
@@ -131,7 +124,7 @@ public class dao {
     public void removePlayer(String droppedPlayer) {
         String oldTeam = playerIsOnWhichTeam(droppedPlayer);
         ArrayList oldRoster = playerMap.get(oldTeam).getTeamPlayers();
-        BaseballObject newRoster = new BaseballObject();
+        Team newRoster = new Team();
         newRoster.setTeamName(oldTeam);
         oldRoster.remove(droppedPlayer);
         newRoster.setTeamPlayers(oldRoster);
@@ -139,9 +132,9 @@ public class dao {
         playerMap.put(oldTeam, newRoster);
     }
 
-    public void tradePlayer(String tradedPlayer, String oldPlayerTeam, String newPlayerTeam) {
+    public void tradePlayer(String tradedPlayer,String oldPlayerTeam,String newPlayerTeam) {
         removePlayer(tradedPlayer);
-        addNewPlayer(tradedPlayer, newPlayerTeam);
+        addNewPlayer(newPlayerTeam, tradedPlayer);
     }
 
     public ArrayList<String> listAllPlayers(String teamName) {
@@ -150,36 +143,29 @@ public class dao {
 
     }
 
-    public void listAllTeams() {
-     
+    public Collection<Team> listAllTeams() {
+
+        return playerMap.values();
 
     }
 
     public void saveToFile() throws IOException {
-        
-        PrintWriter writer = new PrintWriter (new FileWriter(FILE_NAME));
-        
-        for (BaseballObject b : playerMap.values())
-            writer.println(b.getTeamName() + DELIMITER + 
-                    b.getTeamPlayers()); 
-                
+
+        PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
+        for (Team b : playerMap.values()) {
+            ArrayList roster = b.getTeamPlayers();
+            writer.print(b.getTeamName());
+            Iterator iter = roster.iterator();
+            while (iter.hasNext()) {
+                writer.print(DELIMITER + iter.next());
+            }
+            writer.println();
+        }
+
+        writer.flush();
+        writer.close();
+
     }
 
-
-
-
-//          public void saveToFile() throws IOException {
-    //        PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
-    //
-    //        for (DVDObject d : dvdMap.values()) {
-    //            writer.println(d.getTitle() + DELIMITER + d.getReleaseYear()
-    //                    + DELIMITER + d.getMPAArating() + DELIMITER
-    //                    + d.getDirector() + DELIMITER + d.getStudio()
-    //                    + DELIMITER + d.getComments());
-    //        }
-    //            writer.flush();
-    //            writer.close();
-    //
-    //        }
 
 }
