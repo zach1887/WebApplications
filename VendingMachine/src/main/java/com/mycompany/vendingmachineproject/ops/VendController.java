@@ -78,7 +78,7 @@ public class VendController {
         console.print("Current available options are below.");
         for (int i = 1; i <= dao.getSize(); i++) {
             console.print(dao.getCandyName(i) + "\t " + dao.getCandyQty(i) + "\t"
-                    + dao.getCandyPrice(i));
+                    + df.format(dao.getCandyPrice(i)));
         }
         double moneyIn = console.readDouble("Enter in an amount no greater than $5.00.");
         return moneyIn;
@@ -111,19 +111,6 @@ public class VendController {
         return choice;
     }
 
-    //    private int[] coinMatrix(int coinChange) {
-//        int[] coins = {0, 0, 0, 0};
-//
-//        coins[3] = (coinChange - coinChange % 25) / 25;
-//        int ch = (coinChange - 25 * coins[3]);
-//        coins[2] = (ch - (ch % 10)) / 10;
-//        int ch2 = ch - 10 * coins[2];
-//        coins[1] = (ch2 - (ch % 5)) / 5;
-//        coins[0] = ch2 % 5;
-//
-//        return coins;
-//
-//    }
     private void decreaseQty(int candyChoice) {
         dao.DecreaseQty(candyChoice);
     }
