@@ -14,75 +14,77 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-public class SquareTest {
-    
-    public SquareTest() {
+public class RectangleTest {
+
+    public RectangleTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of Area method, of class Square.
+     * Test of Area method, of class Rectangle.
      */
     @Test
-    public void testArea1() {
-        Square instance = new Square("red",10.0);
-        double expResult = 100;
+    public void testArea() {
+        Rectangle instance = new Rectangle("red",15, 10);
+        double expResult = 150.0;
         double result = instance.Area();
         assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Square.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void testPerimeter() {
-    Square instance = new Square("red",10.0);
-        double expResult = 40.0;
+        Rectangle instance = new Rectangle("red", 15, 10);
+        double expResult = 50.0;
         double result = instance.Perimeter();
         assertEquals(expResult, result, 0.001);
+        // TODO review the generated test code and remove the default call to fail.
     }
-    
+
     @Test
     public void test2Area() {
-        Square instance = new Square("blue",8.0);
-        double expResult = 64;
+        Rectangle instance = new Rectangle("blue", 100, 0.001);
+        double expResult = .1;
         double result = instance.Area();
         assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Square.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void test2Perimeter() {
-    Square instance = new Square("blue",8.0);
-        double expResult = 32.0;
+        Rectangle instance = new Rectangle("blue", 100, 0.001);
+        double expResult = 200.002;
         double result = instance.Perimeter();
         assertEquals(expResult, result, 0.001);
+        // TODO review the generated test code and remove the default call to fail.
     }
-    
+
     @Test
     public void test3Area() {
-        Square instance = new Square("fuchsia",0);
+        Rectangle instance = new Rectangle("nonexistent", -2, 8);
         double expResult = 0;
         double result = instance.Area();
         assertEquals(expResult, result, 0.001);
@@ -90,14 +92,36 @@ public class SquareTest {
     }
 
     /**
-     * Test of Perimeter method, of class Square.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void test3Perimeter() {
-    Square instance = new Square("fuchsia",0);
+        Rectangle instance = new Rectangle("nonexistent", -2, 8);
         double expResult = 0;
         double result = instance.Perimeter();
         assertEquals(expResult, result, 0.001);
+        // TODO review the generated test code and remove the default call to fail.
     }
-    
+
+    @Test
+    public void test4Area() {
+        Rectangle instance = new Rectangle("straightLine", 3, 0);
+        double expResult = 0;
+        double result = instance.Area();
+        assertEquals(expResult, result, 0.001);
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
+    /**
+     * Test of Perimeter method, of class Rectangle.
+     */
+    @Test
+    public void test4Perimeter() {
+        Rectangle instance = new Rectangle("straightLine", 3, 0);
+        double expResult = 0;
+        double result = instance.Perimeter();
+        assertEquals(expResult, result, 0.001);
+        // TODO review the generated test code and remove the default call to fail.
+    }
+
 }

@@ -40,6 +40,12 @@ public class Triangle extends Shape {
 
     @Override
     public double Perimeter() {
-        return side1Length + side2Length + side3Length;
+        if (side1Length >= (side2Length + side3Length)
+                || side2Length >= (side1Length + side3Length)
+                || side3Length >= (side1Length + side2Length)) {
+            System.out.println("These sides do not represent a triangle.");
+            return 0;
+        }
+            return side1Length + side2Length + side3Length;
+        }
     }
-}

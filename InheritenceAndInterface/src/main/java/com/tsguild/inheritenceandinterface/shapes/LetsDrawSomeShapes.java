@@ -20,8 +20,6 @@ public class LetsDrawSomeShapes {
    
     Circle circ = new Circle("blue", 8);
     
-    Double x = circ.Area();
-    Double y = circ.Perimeter();
     
     System.out.println("The area of my " + circ.color + " circle is " 
                         + df.format(circ.Area())+ ".") ;
@@ -34,6 +32,8 @@ public class LetsDrawSomeShapes {
                         + df.format(tri.Area()) + ".");
     System.out.println("The perimeter of my " + tri.color + " triangle is "
                         + df.format(tri.Perimeter()) + ".");
+    System.out.println("It is " + (tri.Area() == 6) + " that the area is 6.");
+    System.out.println("It is " + (tri.Perimeter() == 12) + " that the perimeter is 12.");
     
     Triangle tri3 = new Triangle("green", 3, 4, 10);
      

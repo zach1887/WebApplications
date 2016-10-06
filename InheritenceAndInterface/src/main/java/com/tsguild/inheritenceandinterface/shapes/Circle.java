@@ -10,24 +10,33 @@ package com.tsguild.inheritenceandinterface.shapes;
  * @author apprentice
  */
 public class Circle extends Shape {
+
     private double radius;
-    
+
     public Circle() {
         super();
     }
-    
-    public Circle (String color, double radius) {
+
+    public Circle(String color, double radius) {
         super(color);
         this.radius = radius;
     }
-    
+
     @Override
     public double Area() {
-      return Math.PI*Math.pow(radius,2);  
+        if (radius <= 0) {
+            System.out.println("That is not a circle.");
+            return 0;
+        }
+        return Math.PI * Math.pow(radius, 2);
     }
-    
+
     @Override
     public double Perimeter() {
-      return 2*Math.PI*radius; 
+        if (radius <= 0) {
+            System.out.println("That is not a circle.");
+            return 0;
+        }
+        return 2 * Math.PI * radius;
     }
 }
