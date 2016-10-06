@@ -1,2 +1,2 @@
-Admirals::Admirals::Joe Schmoe::George Goering::Billy Bob Bell
-Barons::Barons::Jack Thompson
+Admirals::Admirals::Admirals::Joe Schmoe::George Goering::Billy Bob Bell
+Barons::Barons::Barons::Jack Thompson
