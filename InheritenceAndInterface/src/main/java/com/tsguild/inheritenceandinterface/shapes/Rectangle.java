@@ -3,27 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.inheritenceandinterface;
+package com.tsguild.inheritenceandinterface.shapes;
 
 /**
  *
  * @author apprentice
  */
-public class Square extends Shape {
-    private double sideLength;
+public class Rectangle extends Shape {
     
-    public Square() {
+    private double side1Length, side2Length;
+    
+    public Rectangle() {
         super();
     }
     
     @Override
     public double Area() {
-        return Math.pow(sideLength, 2);
+        return side1Length*side2Length;  
     }
     
     @Override
-    public double Perimeter() {
-        return 4*sideLength;
+    public double Perimeter () {
+       return 2*side1Length + 2*side2Length;
     }
-    
 }

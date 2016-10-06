@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.inheritenceandinterface;
+package com.tsguild.inheritenceandinterface.shapes;
 
 /**
  *
  * @author apprentice
  */
-public class Shape {
+abstract public class Shape {
     protected String color;
 
     public Shape() {
@@ -28,12 +28,8 @@ public class Shape {
         this.color = color;
     }
 
-    public double Area (){
-    return 0;
-    }    
-    public double Perimeter (){
+    abstract public double Area ();
     
-    return 0;
-    };
+    abstract public double Perimeter ();
     
 }

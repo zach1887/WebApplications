@@ -3,31 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.inheritenceandinterface;
+package com.tsguild.inheritenceandinterface.shapes;
 
 /**
  *
  * @author apprentice
  */
-public class Circle extends Shape {
-    private double radius;
+public class Square extends Shape {
+    private double sideLength;
     
-    public Circle() {
+    public Square() {
         super();
     }
-    
-    public Circle (String color, double radius) {
+    public Square(String color, double sideLength) {
         super(color);
-        this.radius = radius;
+        this.sideLength = sideLength;
     }
     
     @Override
     public double Area() {
-      return Math.PI*Math.pow(radius,2);  
+        return Math.pow(sideLength, 2);
     }
     
     @Override
     public double Perimeter() {
-      return 2*Math.PI*radius; 
+        return 4*sideLength;
     }
+    
 }
