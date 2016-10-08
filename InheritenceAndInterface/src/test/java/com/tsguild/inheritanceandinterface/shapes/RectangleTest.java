@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.inheritenceandinterface.shapes;
+package com.tsguild.inheritanceandinterface.shapes;
 
+import com.tsguild.inheritanceandinterface.shapes.Rectangle;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,113 +17,112 @@ import static org.junit.Assert.*;
  *
  * @author Jesse
  */
-public class CircleTest {
-    
-    public CircleTest() {
+public class RectangleTest {
+
+    public RectangleTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of Area method, of class Circle.
+     * Test of Area method, of class Rectangle.
      */
     @Test
     public void testArea() {
-        Circle instance = new Circle("black",3);
-        double expResult = 9*Math.PI;
+        Rectangle instance = new Rectangle("red",15, 10);
+        double expResult = 150.0;
         double result = instance.Area();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Circle.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void testPerimeter() {
-       Circle instance = new Circle("black",3);
-        double expResult = 6*Math.PI;
+        Rectangle instance = new Rectangle("red", 15, 10);
+        double expResult = 50.0;
         double result = instance.Perimeter();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
-   
     }
+
     @Test
     public void test2Area() {
-        Circle instance = new Circle("grey",0);
-        double expResult = 0;
+        Rectangle instance = new Rectangle("blue", 100, 0.001);
+        double expResult = .1;
         double result = instance.Area();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Circle.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void test2Perimeter() {
-       Circle instance = new Circle("grey",0);
-        double expResult = 0;
+        Rectangle instance = new Rectangle("blue", 100, 0.001);
+        double expResult = 200.002;
         double result = instance.Perimeter();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
-   
     }
+
     @Test
     public void test3Area() {
-        Circle instance = new Circle("gold",10);
-        double expResult = 100*Math.PI;
+        Rectangle instance = new Rectangle("nonexistent", -2, 8);
+        double expResult = 0;
         double result = instance.Area();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Circle.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void test3Perimeter() {
-       Circle instance = new Circle("gold",10);
-        double expResult = 20*Math.PI;
+        Rectangle instance = new Rectangle("nonexistent", -2, 8);
+        double expResult = 0;
         double result = instance.Perimeter();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
-   
     }
+
     @Test
     public void test4Area() {
-        Circle instance = new Circle("not a circle",-4);
+        Rectangle instance = new Rectangle("straightLine", 3, 0);
         double expResult = 0;
         double result = instance.Area();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
-     * Test of Perimeter method, of class Circle.
+     * Test of Perimeter method, of class Rectangle.
      */
     @Test
     public void test4Perimeter() {
-       Circle instance = new Circle("not a circle",-4);
+        Rectangle instance = new Rectangle("straightLine", 3, 0);
         double expResult = 0;
         double result = instance.Perimeter();
-        assertEquals(expResult, result, 0.0001);
+        assertEquals(expResult, result, 0.001);
         // TODO review the generated test code and remove the default call to fail.
-   
     }
-    
+
 }
