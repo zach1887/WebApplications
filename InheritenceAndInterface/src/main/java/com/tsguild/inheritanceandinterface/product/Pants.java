@@ -49,7 +49,7 @@ public class Pants implements Product {
     }
 
     @Override
-    public void setStockAmt(Product product, int chgAmt) {
-        this.stockAmt = product.getStockAmt() + chgAmt;
+    public void setStockAmt(int chgAmt) {
+        this.stockAmt = getStockAmt() + chgAmt;
     }
 }

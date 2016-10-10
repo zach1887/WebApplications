@@ -43,47 +43,7 @@ public class CheckingAccountTest {
     /**
      * Test of makeDeposit method, of class CheckingAccount.
      */
-    @Test
-    public void testMakeDeposit() {
-        chk.makeDeposit((Account) chk, 300);
-        CheckingAccount shouldMatch = new CheckingAccount(1243, 898898, 1500);
-        Assert.assertEquals(chk, (Account) shouldMatch);
-    }
-
-    @Test
-    public void test2MakeDeposit() {
-        chk.makeDeposit(chk, 50000);
-        CheckingAccount shouldMatch = new CheckingAccount(1243, 898898, 51200);
-
-        Assert.assertEquals(chk, shouldMatch);
-    }
-
-    @Test
-    public void testMakeWithdrawal() {
-        chk.makeWithdrawal(chk, 300);
-        CheckingAccount shouldMatch = new CheckingAccount(1243, 898898, 900);
-
-        Assert.assertEquals(chk, shouldMatch);
-
-    }
-     @Test
-   public void test2MakeWithdrawal() {
-     chk.makeWithdrawal(chk, 10000);
-      CheckingAccount shouldMatch = new CheckingAccount(1243, 898898, 1200);
-     
-      Assert.assertEquals(chk, shouldMatch);
-     
-  }
-      @Test
-    public void test3MakeWithdrawal() {
-      chk.makeWithdrawal(chk, 1250);
-      CheckingAccount shouldMatch = new CheckingAccount(1243, 898898, -60);
-      
-      Assert.assertEquals(chk, shouldMatch);
-      
-    }
-    
-    
+  
 //    public void usingTest(){
 ////        int PIN, int acctNum, double currentBalance
 //        Account acct = new CheckingAccount(1234, 1111, 100);
