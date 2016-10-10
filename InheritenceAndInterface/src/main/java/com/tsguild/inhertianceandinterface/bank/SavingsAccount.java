@@ -12,7 +12,6 @@ package com.tsguild.inhertianceandinterface.bank;
 public class SavingsAccount extends Account {
 
     private final double TRANSACTION_COST = 3;
-    private double depositAmount, withdrawalAmount;
 
     SavingsAccount(int PIN, int acctNum, double currentBalance) {
         super(PIN, acctNum, currentBalance);
@@ -35,11 +34,11 @@ public class SavingsAccount extends Account {
     public Account makeWithdrawal(Account acct, double withdrawalAmt) {
         double currentAmt = acct.currentBalance;
         
-        if (withdrawalAmount > (currentAmt - TRANSACTION_COST)) {
+        if (withdrawalAmt > (currentAmt - TRANSACTION_COST)) {
             System.out.println("You do not have sufficient funds to make this transaction.");
             return acct;
         }
-        acct.setCurrentBalance(currentAmt - withdrawalAmount - TRANSACTION_COST);
+        acct.setCurrentBalance(currentAmt - withdrawalAmt - TRANSACTION_COST);
         System.out.println("Your updated balance is " + df.format(acct.getCurrentBalance()));
         return acct;
     }

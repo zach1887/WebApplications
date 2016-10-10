@@ -84,12 +84,12 @@ public class CheckingAccountTest {
     }
     
     
-    public void usingTest(){
-//        int PIN, int acctNum, double currentBalance
-        Account acct = new CheckingAccount(1234, 1111, 100);
-        acct.makeDeposit(100);
-        Assert.assertEquals(200, acct.getCurrentBalance());
-    }
-    
+//    public void usingTest(){
+////        int PIN, int acctNum, double currentBalance
+//        Account acct = new CheckingAccount(1234, 1111, 100);
+//        acct.makeDeposit(100);
+//        Assert.assertEquals(200, acct.getCurrentBalance());
+//    }
+//    
 
 }
