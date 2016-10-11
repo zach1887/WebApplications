@@ -29,7 +29,7 @@ public class AddressBookDAO {
     private final String DELIMITER = "::";
 
     public AddressBookDAO() {
-        FILE_NAME = "src/main/java/com/tsguild/addressbookproject/AddressBook.txt";
+        FILE_NAME = "AddressBook.txt";
         addressBook = new HashMap<>();
     }
 

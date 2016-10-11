@@ -132,9 +132,9 @@ public class Inventory {
     }
 
     public void SetNewQty(String invKey, int chgAmt) {
-        if (chgAmt < 0) {
-            inventoryMap.get(invKey).setStockAmt(inventoryMap.get(invKey).getStockAmt() + chgAmt);
-        }
+
+            inventoryMap.get(invKey).setStockAmt(chgAmt);
+      
     }
 
     public double valuateItem(String invKey) {
@@ -161,6 +161,8 @@ public class Inventory {
                     + p.getStockAmt() + DELIMITER + p.getItemPrice() + DELIMITER
                     + p.getStockAmt());
         }
+        writer.flush();
+        writer.close();
     }
 
 }

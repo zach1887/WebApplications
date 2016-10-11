@@ -20,6 +20,7 @@ public class SuitCoat implements Product {
         this.coatName = coatName;
         this.itemPrice = itemPrice;
         this.itemStockNum = itemStockNum;
+        this.stockAmt = stockAmt;
     }
 
     @Override

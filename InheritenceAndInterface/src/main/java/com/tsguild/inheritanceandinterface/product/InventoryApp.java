@@ -18,5 +18,6 @@ public class InventoryApp {
     
     Controller contr = new Controller();
     contr.run();
+            
     }
 }

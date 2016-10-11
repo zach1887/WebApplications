@@ -8,7 +8,10 @@ package com.tsguild.inheritanceandinterface.product.ops;
 import com.tsguild.inheritanceandinterface.product.ui.ConsoleIO;
 import com.tsguild.inheritanceandinterface.product.dao.Inventory;
 import com.tsguild.inheritanceandinterface.product.dto.Product;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,63 +24,100 @@ public class Controller {
     HashMap<String, com.tsguild.inheritanceandinterface.product.Product> inventoryMap = new HashMap<>();
 
     public void run() {
+        try {
+            inv.loadFromFile();
+        } catch (IOException ex) {
+            console.print("Unable to locate file.");
+        }
         int userChoice;
         int newChoice, newStockNum, newStockAmt, addInvChoice, remInvChoice, valItemChoice;
         String newName, itemKey = "";
         double newPrice;
 
         boolean keepRunning = true;
-        
+
         while (keepRunning) {
-        userChoice = displayMenuOptions();
-        switch (userChoice) {
-            case 1:
-                console.print("What category will the new item belong to?");
-                newChoice = displayItemMenu();
-                if (newChoice == 5) {
-                    break;
-                } else {
-                    createNewItem(newChoice);
-                }
-                break;
-
-            case 2:
-                console.print("What category contains the item whose stock you would like to replenish?");
-                addInvChoice = displayItemMenu();
-                if (addInvChoice == 5) {
+            userChoice = displayMenuOptions();
+            switch (userChoice) {
+                case 1: {
+                    console.print("What category will the new item belong to?");
+                    newChoice = displayItemMenu();
+                    if (newChoice == 5) {
+                        break;
+                    } else {
+                        createNewItem(newChoice);
+                    }
                     break;
                 }
-                addInvChoice(addInvChoice);
-                break;
+                case 2: {
+                    console.print("What category contains the item whose stock you would like to replenish?");
+                    addInvChoice = displayItemMenu();
+                    if (addInvChoice == 5) {
+                        break;
+                    }
+                    addInvChoice(addInvChoice);
+                    break;
+                }
 
-            case 3:
-                console.print("What category contains the item whose stock you would like to replenish?");
-                remInvChoice = displayItemMenu();
-                break;
-
+                case 3: {
+                    {
+                        console.print("What category contains the item whose stock you would like to deplete?");
+                        remInvChoice = displayItemMenu();
+                        if (remInvChoice == 5) {
+                            break;
+                        }
+                        remInvChoice(remInvChoice);
+                        break;
+                    }
+                }
+                
+            
             case 4:
-                listAllInventory();
-                break;
+                    listAllInventory();
+                    break;
 
-            case 5:
-                console.print("What category contains the item whose stock you would like to valuate?");
-                valItemChoice = displayItemMenu();
-                break;
+                case 5: {
+                    console.print("What category contains the item whose stock you would like to valuate?");
+                    valItemChoice = displayItemMenu();
+                    if (valItemChoice == 5) {
+                        break;
+                    }
+                    valInvChoice(valItemChoice);
 
-            case 6:
-                calculateValInventory();
-                break;
+                    break;
+                }
 
-            case 7:
-                keepRunning = false;
-                break;
+                case 6: {
+                    double total = calculateValInventory();
+                    console.print("Your current inventory is valued at $" + total + ".");
+                    break;
+                }
+                case 7:  {
+                    try {
+                        inv.saveToFile();
+                    } catch (IOException ex) {
+                        console.print("Unable to save to file location.");
+                        String ans = console.readString("Are you sure you want to quit (y/n)? Changes have not been saved.");
+                        if (ans.equalsIgnoreCase("y")) {
+                            console.print("You have exited the system.");
+                            keepRunning = false;
+                        }
 
-            default:
-                break;
+                    }
+                    keepRunning = false;
+                    System.out.println("Your changes have been successfully saved.");
+                    break;
+                }
+                default:
+                    break;
+            }
+
         }
 
-    }
-    }
+        System.out.println("Your changes have been successfully saved.");
+        }
+
+    
 
     private int displayMenuOptions() {
         console.print("Welcome to the department store inventory homepage.");
@@ -131,11 +171,7 @@ public class Controller {
 
     }
 
-    private int addInvChoice(int addChoice) {
-
-        if (addChoice == 5) {
-            return 5;
-        }
+    private void addInvChoice(int addChoice) {
 
         int restockID = console.readInt("What is the stock number of the item you would like to restock?");
         String invKey = createKey(addChoice, restockID);
@@ -147,15 +183,11 @@ public class Controller {
         } else {
             console.print("That item does not exist.");
         }
-        return 0;
 
     }
 
-    private int remInvChoice(int remChoice) {
+    private void remInvChoice(int remChoice) {
 
-        if (remChoice == 5) {
-            return 5;
-        }
         int depleteID = console.readInt("What is the stock number of the item you would like to deplete?");
         String invKey = createKey(remChoice, depleteID);
         if (inv.returnItemName(invKey) != null) {
@@ -163,29 +195,24 @@ public class Controller {
             int newQty = console.readInt("Enter the amount of new inventory you would like to removed:  ", 0, 999);
             while (newQty > inv.returnItemQty(invKey)) {
                 System.out.println("That is more inventory than it available, or 0 to exit.");
-                newQty = console.readInt(invKey, 0, 999);
+                newQty = console.readInt("Enter the amount of new inventory you would like to removed:  ", 0, 999);
             }
 
             inv.SetNewQty(invKey, -newQty);
         } else {
             console.print("That item does not exist.");
         }
-        return 0;
-
     }
 
     private void valInvChoice(int valChoice) {
 
-
         int valuateID = console.readInt("What is the stock number of the item you would like to valuate?");
         String invKey = createKey(valChoice, valuateID);
-        
-
 
         if (inv.returnItemName(invKey) != null) {
-            console.print("The item " + inv.returnItemName(invKey) + " has a current valuation of $" 
+            console.print("The item " + inv.returnItemName(invKey) + " has a current valuation of $"
                     + inv.valuateItem(invKey) + ".");
- 
+
         } else {
             console.print("That item does not exist.");
         }
@@ -218,10 +245,8 @@ public class Controller {
         inv.listAllInventory();
     }
 
-
     private double calculateValInventory() {
-        return 0.0;
+        return inv.valuateInventory();
     }
-
 
 }
