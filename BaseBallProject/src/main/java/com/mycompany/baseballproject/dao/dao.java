@@ -47,7 +47,7 @@ public class dao {
                 ball.setTeamName(teamName);
 
                 ArrayList arr = new ArrayList<>();
-                for (int j = 0; j < TeamPlayers.length; j++) {
+                for (int j = 1; j < TeamPlayers.length; j++) {
                     arr.add(TeamPlayers[j]);
                 }
                 ball.setTeamPlayers(arr);
