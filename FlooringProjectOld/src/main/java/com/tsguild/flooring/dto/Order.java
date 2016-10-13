@@ -11,7 +11,7 @@ package com.tsguild.flooring.dto;
  */
 public class Order {
     
-    private int orderNumber;  // auto-generated for new orders
+    private String orderNumber;  // auto-generated for new orders
     private String customerName;
     private String stateAbbrev;
     private double taxRate;  // linked to stateAbbrev for new orders
@@ -23,7 +23,6 @@ public class Order {
     private double laborCost; // calculated for new order - retreived for older orders
     private double compTax; // calculated for new orders
     private double totalAmt; // calculated for new orders
-    public String dateStr; // computed from other info
 
     public Order() {
 
@@ -68,11 +67,11 @@ public class Order {
         this.squareFT = squareFT;
     }
 
-    public int getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -130,14 +129,6 @@ public class Order {
 
     public void setTotalAmt(double totalAmt) {
         this.totalAmt = totalAmt;
-    }
-
-    public String getDateStr() {
-        return dateStr;
-    }
-
-    public void setDateStr(String dateStr) {
-        this.dateStr = dateStr;
     }
 
 }

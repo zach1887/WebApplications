@@ -29,10 +29,10 @@ public class OrderDaoImpl {
 
     private String FILE_NAME;
     private final String DELIMITER = ",";
-    private HashMap<String, Order> orderMap;
-    HashMap<Integer, HashMap<String, Order>> megamap = new HashMap<>();
-    int numChanges = 0;
-//    private HashMap<String, Order> orderMap = new HashMap<>();
+    private HashMap<String, Order> orderMap = new HashMap<>();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    TaxesDaoImpl tdao = new TaxesDaoImpl();
+    ProductDaoImpl pdao = new ProductDaoImpl();
 
     public OrderDaoImpl() {
         orderMap = new HashMap<>();
@@ -51,12 +51,12 @@ public class OrderDaoImpl {
 
                 Order oldOrder = new Order();
 
+                oldOrder.setOrderNumber(orderProperties[0]);
                 oldOrder.setCustomerName(orderProperties[1]);
                 oldOrder.setStateAbbrev(orderProperties[2]);
                 oldOrder.setProductType(orderProperties[4]);
 
                 try {
-                    int orderNumber = Integer.parseInt(orderProperties[0]);
                     Double taxRate = Double.parseDouble(orderProperties[3]);
                     Double sqFt = Double.parseDouble(orderProperties[5]);
                     Double materialSqFt = Double.parseDouble(orderProperties[6]);
@@ -66,7 +66,6 @@ public class OrderDaoImpl {
                     Double compTax = Double.parseDouble(orderProperties[10]);
                     Double compTotal = Double.parseDouble(orderProperties[11]);
 
-                    oldOrder.setOrderNumber(orderNumber);
                     oldOrder.setTaxRate(taxRate);
                     oldOrder.setMaterialCostPerSqFt(materialSqFt);
                     oldOrder.setLaborCostPerSqFt(laborSqFt);
@@ -75,7 +74,6 @@ public class OrderDaoImpl {
                     oldOrder.setMaterialCost(laborCost);
                     oldOrder.setCompTax(compTax);
                     oldOrder.setTotalAmt(compTotal);
-                    oldOrder.setDateStr(FILE_NAME.substring(7, 13));
                 } catch (NumberFormatException e) {
                     continue;
                 }
@@ -98,12 +96,12 @@ public class OrderDaoImpl {
 
                 Order oldOrder = new Order();
 
+                oldOrder.setOrderNumber(orderProperties[0]);
                 oldOrder.setCustomerName(orderProperties[1]);
                 oldOrder.setStateAbbrev(orderProperties[2]);
                 oldOrder.setProductType(orderProperties[4]);
 
                 try {
-                    Integer ordNum = Integer.parseInt(orderProperties[0]);
                     Double taxRate = Double.parseDouble(orderProperties[3]);
                     Double sqFt = Double.parseDouble(orderProperties[5]);
                     Double materialSqFt = Double.parseDouble(orderProperties[6]);
@@ -113,7 +111,6 @@ public class OrderDaoImpl {
                     Double compTax = Double.parseDouble(orderProperties[10]);
                     Double compTotal = Double.parseDouble(orderProperties[11]);
 
-                    oldOrder.setOrderNumber(ordNum);
                     oldOrder.setTaxRate(taxRate);
                     oldOrder.setMaterialCostPerSqFt(materialSqFt);
                     oldOrder.setLaborCostPerSqFt(laborSqFt);
@@ -122,7 +119,6 @@ public class OrderDaoImpl {
                     oldOrder.setMaterialCost(laborCost);
                     oldOrder.setCompTax(compTax);
                     oldOrder.setTotalAmt(compTotal);
-                    oldOrder.setDateStr(FILE_NAME.substring(7, 13));
                 } catch (NumberFormatException e) {
                     continue;
                 }
@@ -130,7 +126,7 @@ public class OrderDaoImpl {
 
             }
         } catch (FileNotFoundException ex) {
-            new FileWriter(FILE_NAME);
+//            FileWriter = new FileWriter(FILE_NAME);
 
         }
     }
@@ -145,44 +141,38 @@ public class OrderDaoImpl {
 
     }
 
-    public void addOrders(String fileIntro, Order order) throws IOException {
+    public void addOrders(String fileIntro, String custName, String stateAbbrev, String ProductType, double sqFt) throws IOException {
 
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
+        String FILE_NAME = "Orders_" + fileIntro + ".txt";
+        loadFromFileAdd(FILE_NAME);
 
-        loadFromFileAdd(fileNameIfExists);
+        Order newOrder = new Order();
 
-        orderMap.put(fileIntro + order.getOrderNumber(), order);
-        numChanges++;
-        megamap.put(numChanges, orderMap);
-    }
+        newOrder.setCustomerName(custName);
+        newOrder.setStateAbbrev(stateAbbrev);
+        newOrder.setProductType(ProductType);
+        newOrder.setSquareFT(sqFt);
 
-    public void removeOrder(String remDate, String fileIntro, String orderNum) throws IOException {
+        newOrder.setTaxRate(tdao.getTaxRate(newOrder.getStateAbbrev()));
 
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
+        newOrder.setMaterialCostPerSqFt(pdao.getMaterialCost(newOrder.getProductType()));
+        newOrder.setLaborCostPerSqFt(pdao.getLaborCost(newOrder.getProductType()));
 
-        loadFromFile(fileNameIfExists);
+        newOrder.setMaterialCost(newOrder.getMaterialCost() * newOrder.getSquareFT());
+        newOrder.setLaborCost(newOrder.getLaborCost() * newOrder.getSquareFT());
+        newOrder.setCompTax(newOrder.getCompTax() * (newOrder.getLaborCost() + newOrder.getMaterialCost()));
+        newOrder.setTotalAmt(newOrder.getLaborCost() + newOrder.getMaterialCost() + newOrder.getCompTax());
 
-        Order delOrder = orderMap.get(fileIntro + orderNum);
-
-        orderMap.remove(orderNum, delOrder);
-        numChanges++;
-        megamap.put(numChanges, orderMap);
-
-    }
-
-    public Order retreiveEditOrder(String editDate, String fileIntro, String orderNum) throws IOException {
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
-
-        loadFromFile(fileNameIfExists);
-
-        return orderMap.get(fileIntro + orderNum);
-    }
-
-    public void saveAllChanges() {
-        if (numChanges > 0) {
-            for (int i = 1; i <= numChanges; i++) {
-                HashMap tempMap = megamap.get(i);
+        for (int i = 1; i < 1000; i++) {
+            if (orderMap.containsKey(fileIntro + i)) {
+                i++;
+            } else {
+                orderMap.put(fileIntro + i, newOrder);
+                break;
             }
+
         }
+
     }
+
 }
