@@ -69,6 +69,7 @@ public class TaxesDaoImpl implements TaxesDao {
             return taxMap.get(stateAbbrev);
         }
         
+    @Override
         public boolean doesStateExist (String stateAbbrev) {
           return (stateAbbrev.equalsIgnoreCase("AL") || stateAbbrev.equalsIgnoreCase("AK")      
                   || stateAbbrev.equalsIgnoreCase("AR") || stateAbbrev.equalsIgnoreCase("AZ")
@@ -97,6 +98,7 @@ public class TaxesDaoImpl implements TaxesDao {
                   || stateAbbrev.equalsIgnoreCase("WV") || stateAbbrev.equalsIgnoreCase("WY") // 50 states
                   || stateAbbrev.equalsIgnoreCase("PR") || stateAbbrev.equalsIgnoreCase("VI")); // + two terroritories
                   }
+    @Override
         public boolean isStateListed (String stateAbbrev){            
         return taxMap.keySet().contains(stateAbbrev);
 }

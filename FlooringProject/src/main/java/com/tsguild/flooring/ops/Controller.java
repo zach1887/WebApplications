@@ -84,9 +84,16 @@ public class Controller {
         Collection<Order> ordersThatDate = dao.displayOrders(fileIntro);
 
         for (Order o : ordersThatDate) {
-            console.print(o.getCustomerName() + "  " + o.getOrderNumber() + " "
-                    + o.getStateAbbrev() + " " + o.getProductType() + " "
-                    + o.getSquareFT() + " " + o.getTotalAmt());
+            console.print("Customer Name: \t" + o.getCustomerName());
+            console.print("\nOrder Number: \t" + o.getOrderNumber());
+            console.print("\nState:  \t \t" + o.getStateAbbrev());
+            console.print("\nFlooring Type:  \t" + o.getProductType());
+            console.print("\nSquare Footage of Order" + o.getSquareFT());
+            console.print("Total Cost for Material" + o.getMaterialCost());
+            console.print("Total Cost for Labor" + o.getLaborCost());
+            console.print("Total Tax \t" + o.getLaborCost());
+            console.print("Total Cost \t \t" + o.getTotalAmt());
+
         }
     }
 
@@ -115,6 +122,7 @@ public class Controller {
                 if (stateChoice == 0) {
                     stateCont = false;
                 }
+
             }
         }
 
@@ -138,7 +146,7 @@ public class Controller {
 
         newOrder.setLaborCost(sqFt * newOrder.getLaborCostPerSqFt());
         newOrder.setMaterialCost(sqFt * newOrder.getMaterialCostPerSqFt());
-        newOrder.setCompTax(sqFt * newOrder.getTaxRate());
+        newOrder.setCompTax(sqFt * newOrder.getTaxRate() / 100);
         newOrder.setTotalAmt(newOrder.getLaborCost() + newOrder.getMaterialCost() + newOrder.getCompTax());
 
         dao.addOrders(fileIntro, newOrder);
@@ -150,9 +158,15 @@ public class Controller {
             console.print("That date is invalid.  Please enter another date.");
             remDate = console.readString("Enter a date for the new order (mm/dd/yyyy), including leading zeroes:  ");
         }
-        String orderNum = console.readString("Enter the order number that you would like to delete.");
+        int orderNum = console.readInt("Enter the order number that you would like to delete.",0,1000);
         String fileIntro = remDate.substring(0, 2) + remDate.substring(3, 5) + remDate.substring(6);
-        dao.removeOrder(remDate, fileIntro, orderNum);
+        Order ord = dao.retreiveEditOrder(remDate, fileIntro, String.valueOf(orderNum));
+        if (ord == null) 
+            console.print("There is no order number of " + orderNum + " on the date requested.");
+        else {
+            dao.removeOrder(fileIntro, orderNum);
+        }
+
     }
 
     private void editMenu() throws IOException {
@@ -162,48 +176,58 @@ public class Controller {
             console.print("That date is invalid.  Please enter another date.");
             editDate = console.readString("Enter a date for the order (mm/dd/yyyy), including leading zeroes:  ");
         }
-        String orderNum = console.readString("Enter the order number that you would like to delete.");
+        int orderNum = console.readInt("Enter the order number that you would like to delete.");
         String fileIntro = editDate.substring(0, 2) + editDate.substring(3, 5) + editDate.substring(6);
 
-        Order editOrder = dao.retreiveEditOrder(editDate, fileIntro, orderNum);
+        Order editOrder = dao.retreiveEditOrder(editDate, fileIntro, String.valueOf(orderNum));
+        if (editOrder == null) {
+            console.print("There is no order number of " + orderNum + "on the date requested.");
+        } else {
+            String newDate = console.readString("If the order date needs to be changed, enter the new date(mm/dd/yyyy).  Otherwise, hit ENTER:");
+            while (!newDate.isEmpty() && !isDateValid(newDate)) {
+                newDate = console.readString("That date is invalid.  If the order date needs to be changed, enter the new date(mm/dd/yyyy).  Otherwise, hit ENTER:");
+            }
+            String newFileIntro;
+            if (newDate.equals(editDate) || newDate.isEmpty()) {
+                newFileIntro = fileIntro;
+                changeDate = true;
+            } else {
 
-        String newDate = console.readString("If the order date needs to be changed, enter the new date(mm/dd/yyyy).  Otherwise, hit ENTER:");
-        while (!newDate.isEmpty() && !isDateValid(newDate)) {
-            newDate = console.readString("That date is invalid.  If the order date needs to be changed, enter the new date(mm/dd/yyyy).  Otherwise, hit ENTER:");
+                newFileIntro = fileIntro;
+            }
+
+            Order correctedOrder = new Order();
+            console.print("Enter new values or press ENTER to keep the old value.");
+
+            String stringOrder = console.readString("Order Number (" + editOrder.getOrderNumber() + "):  ");
+            String custName = console.readString("Customer name (" + editOrder.getCustomerName() + "):  ");
+            String stateAbbrev = console.readString("State Abbreviation(" + editOrder.getStateAbbrev() + "):  ");
+            String StrtaxRate = console.readString("Tax rate (as a percentage):  " + editOrder.getTaxRate() + "):  ");
+            String prodType = console.readString("Product Type (" + editOrder.getProductType() + "):  ");
+            String StrsqFt = console.readString("Square footage of the order +(" + editOrder.getSquareFT() + "):  ");
+            String StrmatCost = console.readString("Material Cost per square foot (" + editOrder.getMaterialCostPerSqFt() + "):");
+            String StrlabCost = console.readString("Labor Cost per square foot (" + editOrder.getLaborCostPerSqFt() + "):");
+            String Strmat = console.readString("Cost of material (" + editOrder.getMaterialCost() + "):");
+            String Strlab = console.readString("Cost of labor (" + editOrder.getLaborCost() + "):");
+            String Strtax = console.readString("Tax (" + editOrder.getCompTax() + "):");
+            String Strtotal = console.readString("Total Cost of Order (" + editOrder.getLaborCost() + "):");
+
+            updateOrderNumber(editOrder, correctedOrder, stringOrder);
+            updateCustName(editOrder, correctedOrder, custName);
+            updateStateAbbrev(editOrder, correctedOrder, stateAbbrev);
+            updateTaxRate(editOrder, correctedOrder, StrtaxRate);
+            updateProductType(editOrder, correctedOrder, prodType);
+            updateSqFt(editOrder, correctedOrder, StrsqFt);
+            updateMatCost(editOrder, correctedOrder, StrmatCost);
+            updateLabCost(editOrder, correctedOrder, StrlabCost);
+            updateMat(editOrder, correctedOrder, Strmat);
+            updateLab(editOrder, correctedOrder, Strlab);
+            updateTax(editOrder, correctedOrder, Strtax);
+            updateTotal(editOrder, correctedOrder, Strtotal);
+
+            dao.switchOrder(editOrder, correctedOrder, fileIntro, newFileIntro);
+
         }
-        if (!newDate.equals(editDate)) {
-            changeDate = true;
-        }
-        
-        Order correctedOrder = new Order();
-        console.print("Enter new values or press ENTER to keep the old value.");
-
-        String stringOrder = console.readString("Order Number (" + editOrder.getOrderNumber() + "):  ");
-        String custName = console.readString("Customer name (" + editOrder.getCustomerName() + "):  ");
-        String stateAbbrev = console.readString("State Abbreviation(" + editOrder.getStateAbbrev() + "):  ");
-        String StrtaxRate = console.readString("Tax rate (as a percentage):  " + editOrder.getTaxRate() + "):  ");
-        String prodType = console.readString("Product Type (" + editOrder.getProductType() + "):  ");
-        String StrsqFt = console.readString("Square footage of the order +(" + editOrder.getSquareFT() + "):  ");
-        String StrmatCost = console.readString("Material Cost per square foot (" + editOrder.getMaterialCostPerSqFt() + "):");
-        String StrlabCost = console.readString("Labor Cost per square foot (" + editOrder.getLaborCostPerSqFt() + "):");
-        String Strmat = console.readString("Cost of material (" + editOrder.getMaterialCost() + "):");
-        String Strlab = console.readString("Cost of labor (" + editOrder.getLaborCost() + "):");
-        String Strtax = console.readString("Tax (" + editOrder.getCompTax() + "):");
-        String Strtotal = console.readString("Total Cost of Order (" + editOrder.getLaborCost() + "):");
-
-        updateOrderNumber(editOrder, correctedOrder, stringOrder);
-        updateCustName(editOrder, correctedOrder, custName);
-        updateStateAbbrev(editOrder, correctedOrder, stateAbbrev);
-        updateTaxRate(editOrder, correctedOrder, StrtaxRate);
-        updateProductType(editOrder, correctedOrder, prodType);
-        updateSqFt(editOrder, correctedOrder, StrsqFt);
-        updateMatCost(editOrder, correctedOrder, StrmatCost);
-        updateLabCost(editOrder, correctedOrder, StrlabCost);
-        updateMat(editOrder, correctedOrder, Strmat);
-        updateLab(editOrder, correctedOrder, Strlab);
-        updateTax(editOrder, correctedOrder, Strtax);
-        updateTotal(editOrder, correctedOrder, Strtotal);
-
     }
 
     public boolean isDateValid(String str) {
@@ -279,10 +303,10 @@ public class Controller {
         if (stateAbb.isEmpty()) {
             corrOrder.setStateAbbrev(editOrder.getStateAbbrev());
         } else {
-            do {
+            while (!tdao.doesStateExist(stateAbb) && !stateAbb.isEmpty()) {
                 console.print("There is no state with that abbreviation.");
                 stateAbb = console.readString("Enter the state of the order or ENTER to keep old value:");
-            } while (!tdao.doesStateExist(stateAbb) && !stateAbb.isEmpty());
+            }
 
             if (stateAbb.isEmpty()) {
                 corrOrder.setStateAbbrev(editOrder.getStateAbbrev());
@@ -300,7 +324,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strtaxRate);
-                if (temp < 0 || temp > 100) {
+                if (temp >= 0 && temp <= 100) {
                     corrOrder.setTaxRate(temp);
                 } else {
                     console.print("The value input is not acceptable as a tax rate.");
@@ -340,7 +364,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strSqFt);
-                if (temp < 0 || temp > 10000) {
+                if (temp > 0 && temp <= 10000) {
                     corrOrder.setSquareFT(temp);
                 } else {
                     console.print("The value input is not acceptable as a for square footage.");
@@ -371,7 +395,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strmatCost);
-                if (temp < 0 || temp > 10000) {
+                if (temp >= 0 && temp <= 10000) {
                     corrOrder.setMaterialCostPerSqFt(temp);
                 } else {
                     console.print("The value input is not acceptable as a for material cost per square foot.");
@@ -387,7 +411,7 @@ public class Controller {
                 console.print("The value input is not acceptable as a for material cost per square foot.");
                 double temp = console.readDouble("Enter the material cost per square foot (max, 10000) for the order or -1 to keep the old value", -1, 10000);
                 if (temp == -1) {
-                    corrOrder.setMaterialCostPerSqFt(editOrder.getSquareFT());
+                    corrOrder.setMaterialCostPerSqFt(editOrder.getMaterialCostPerSqFt());
                 } else {
                     corrOrder.setMaterialCostPerSqFt(temp);
                 }
@@ -402,8 +426,8 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strlabCost);
-                if (temp < 0 || temp > 10000) {
-                    corrOrder.setSquareFT(temp);
+                if (temp >= 0 && temp <= 10000) {
+                    corrOrder.setLaborCostPerSqFt(temp);
                 } else {
                     console.print("The value input is not acceptable as a for labor cost per square foot.");
                     temp = console.readDouble("Enter the labor cost per square foot (max, 10000) for the order or -1 to keep the old value", -1, 10000);
@@ -433,7 +457,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strmat);
-                if (temp < 0 || temp > 1e8) {
+                if (temp >= 0 && temp <= 1e8) {
                     corrOrder.setMaterialCost(temp);
                 } else {
                     console.print("The value input is not acceptable for total material cost.");
@@ -464,7 +488,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strlab);
-                if (temp < 0 || temp > 1e8) {
+                if (temp >= 0 && temp <= 1e8) {
                     corrOrder.setLaborCost(temp);
                 } else {
                     console.print("The value input is not acceptable for total labor cost.");
@@ -495,7 +519,7 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strtax);
-                if (temp < 0 || temp > 1e8) {
+                if (temp >= 0 && temp <= 1e8) {
                     corrOrder.setCompTax(temp);
                 } else {
                     console.print("The value input is not acceptable for total tax..");
@@ -526,11 +550,11 @@ public class Controller {
         } else {
             try {
                 double temp = Double.parseDouble(strtotal);
-                if (temp < 0 || temp > 1e8) {
+                if (temp >= 0 && temp <= 1e10) {
                     corrOrder.setTotalAmt(temp);
                 } else {
                     console.print("The value input is not acceptable for total amount.");
-                    temp = console.readDouble("Enter the total tax for total amount or -1 to keep the old value", -1, 1000000000);
+                    temp = console.readDouble("Enter the total amount or -1 to keep the old value", -1, 1000000000);
                     if (temp == -1) {
                         corrOrder.setTotalAmt(editOrder.getTotalAmt());
                     } else {

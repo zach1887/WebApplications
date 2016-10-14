@@ -15,6 +15,10 @@ public interface TaxesDao {
 
     void LoadFromFile() throws IOException;
 
+    boolean doesStateExist(String stateAbbrev);
+
     double getTaxRate(String stateAbbrev);
+
+    boolean isStateListed(String stateAbbrev);
     
 }

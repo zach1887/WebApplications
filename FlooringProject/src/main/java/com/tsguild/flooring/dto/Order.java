@@ -11,7 +11,7 @@ package com.tsguild.flooring.dto;
  */
 public class Order {
     
-    private int orderNumber;  // auto-generated for new orders
+    private int orderNumber;  // 
     private String customerName;
     private String stateAbbrev;
     private double taxRate;  // linked to stateAbbrev for new orders
