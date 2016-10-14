@@ -23,7 +23,6 @@ public class Order {
     private double laborCost; // calculated for new order - retreived for older orders
     private double compTax; // calculated for new orders
     private double totalAmt; // calculated for new orders
-    public String dateStr; // computed from other info
 
     public Order() {
 
@@ -132,12 +131,5 @@ public class Order {
         this.totalAmt = totalAmt;
     }
 
-    public String getDateStr() {
-        return dateStr;
-    }
-
-    public void setDateStr(String dateStr) {
-        this.dateStr = dateStr;
-    }
 
 }
