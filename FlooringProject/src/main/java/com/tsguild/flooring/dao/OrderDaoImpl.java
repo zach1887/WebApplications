@@ -99,67 +99,69 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> displayOrders(String fileIntro) throws IOException {
+    public Collection<Order> displayOrders(String dateTag) throws IOException {
 
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
+        String fileNameIfExists = "Orders_" + dateTag + ".txt";
 
         loadFromFile(fileNameIfExists);
 
-        return megamap.get(fileIntro).values();
+        return megamap.get(dateTag).values();
 
     }
 
     @Override
-    public void addOrders(String fileIntro, Order order) throws IOException {
+    public void addOrders(String dateTag, Order order) throws IOException {
 
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
-        loadFromFileAdd(fileNameIfExists);
-//        HashMap<String, Order> addMap = new HashMap<>();
-        HashMap addMap = megamap.get(fileIntro);
+        HashMap addMap = megamap.get(dateTag);
 
         if (addMap == null) {
             addMap = new HashMap<>();
-            addMap.put(fileIntro + order.getOrderNumber(), order);
-            megamap.put(fileIntro, addMap);
+            addMap.put(dateTag + order.getOrderNumber(), order);
+            megamap.put(dateTag, addMap);
         } else {
-            megamap.remove(fileIntro);
-            addMap.put(fileIntro + order.getOrderNumber(), order);
-            megamap.put(fileIntro, addMap);
+            megamap.remove(dateTag);
+            addMap.put(dateTag + order.getOrderNumber(), order);
+            megamap.put(dateTag, addMap);
         }
     }
 
     @Override
-    public void removeOrder(String fileIntro, int orderNum) throws IOException {
-        HashMap delMap = megamap.get(fileIntro);
-        megamap.remove(fileIntro);       
-        delMap.remove(fileIntro + orderNum);
+    public void removeOrder(String dateTag, int orderNum) throws IOException {
+        HashMap delMap = megamap.get(dateTag);
+        megamap.remove(dateTag);       
+        delMap.remove(dateTag + orderNum);
         if (delMap != null) {
-            megamap.put(fileIntro, delMap);
+            megamap.put(dateTag, delMap);
         }
 
     }
 
     @Override
-    public void switchOrder(Order editOrder, Order correctedOrder, String fileIntro, String newFileIntro) throws IOException {
-        removeOrder(fileIntro, editOrder.getOrderNumber());
-        addOrders(newFileIntro, correctedOrder);
+    public void switchOrder(Order editOrder, Order correctedOrder, String dateTag, String newDateTag) throws IOException {
+        removeOrder(dateTag, editOrder.getOrderNumber());
+        addOrders(newDateTag, correctedOrder);
     }
 
     @Override
-    public Order retreiveEditOrder(String editDate, String fileIntro, String orderNum) throws IOException {
+    public Order retreiveEditOrder(String editDate, String dateTag, String orderNum) throws IOException {
         
-        String fileNameIfExists = "Orders_" + fileIntro + ".txt";
+        String fileNameIfExists = "Orders_" + dateTag + ".txt";
         loadFromFile(fileNameIfExists);
 //        HashMap<String, Order> addMap = new HashMap<>();
-        HashMap<String, Order> editMap = megamap.get(fileIntro); 
+        HashMap<String, Order> editMap = megamap.get(dateTag); 
 
-        if (editMap.containsKey(fileIntro + orderNum)) {
-            return editMap.get(fileIntro + orderNum);
+        if (editMap.containsKey(dateTag + orderNum)) {
+            return editMap.get(dateTag + orderNum);
         } else {
             return null;
         }
     }
-
+ 
+    public boolean isOrderNumberAvailable(String dateTag, int orderNum) {
+        Collection<Order> ordersThatDay= megamap.get(dateTag).values();
+        return (ordersThatDay.stream().filter(p -> p.getOrderNumber() == orderNum).count() == 0);
+    }
+    
     @Override
     public void saveAllChanges() throws FileNotFoundException {
         Collection<String> dates = megamap.keySet();

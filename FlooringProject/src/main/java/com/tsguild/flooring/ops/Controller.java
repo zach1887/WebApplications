@@ -89,10 +89,10 @@ public class Controller {
             console.print("\nState:  \t \t" + o.getStateAbbrev());
             console.print("\nFlooring Type:  \t" + o.getProductType());
             console.print("\nSquare Footage of Order" + o.getSquareFT());
-            console.print("Total Cost for Material" + o.getMaterialCost());
-            console.print("Total Cost for Labor" + o.getLaborCost());
-            console.print("Total Tax \t" + o.getLaborCost());
-            console.print("Total Cost \t \t" + o.getTotalAmt());
+            console.print("\nTotal Cost for Material" + o.getMaterialCost());
+            console.print("\nTotal Cost for Labor" + o.getLaborCost());
+            console.print("\nTotal Tax \t \t" + o.getLaborCost());
+            console.print("\nTotal Cost \t \t" + o.getTotalAmt());
 
         }
     }
@@ -104,8 +104,12 @@ public class Controller {
             addDate = console.readString("Enter a date to search (mm/dd/yyyy), including leading zeroes:  ");
         }
         String fileIntro = addDate.substring(0, 2) + addDate.substring(3, 5) + addDate.substring(6);
-
-        int orderNum = console.readInt("Enter the order number:");
+        dao.loadFromFileAdd("Orders_" + fileIntro + ".txt");
+        int orderNum = console.readInt("Enter the order number:",1,10000000);
+        while (!dao.isOrderNumberAvailable(fileIntro, orderNum)) {
+            console.print("That order number is already taken for the date provided.");
+            orderNum = console.readInt("Enter the order number:",1,10000000);
+        }
         String custName = console.readString("Enter the name of the customer:  ");
         String stateAbbrev = console.readString("Enter the two-letter state abbreviation for the customer:  ");
 
@@ -190,10 +194,10 @@ public class Controller {
             String newFileIntro;
             if (newDate.equals(editDate) || newDate.isEmpty()) {
                 newFileIntro = fileIntro;
-                changeDate = true;
             } else {
 
                 newFileIntro = fileIntro;
+                changeDate = true;
             }
 
             Order correctedOrder = new Order();
