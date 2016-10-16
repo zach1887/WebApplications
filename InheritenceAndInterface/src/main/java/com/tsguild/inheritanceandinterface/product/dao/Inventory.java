@@ -124,6 +124,7 @@ public class Inventory {
     }
 
     public String returnItemName(String invKey) {
+        if (!inventoryMap.containsKey(invKey)) return null;
         return inventoryMap.get(invKey).getItemName();
     }
 

@@ -10,6 +10,7 @@ import com.tsguild.inheritanceandinterface.product.ops.Controller;
 /**
  *
  * @author apprentice4
+ * 4
  * 
  */
 public class InventoryApp {
@@ -18,6 +19,7 @@ public class InventoryApp {
     
     Controller contr = new Controller();
     contr.run();
+            
             
     }
 }
