@@ -23,18 +23,19 @@ import java.util.logging.Logger;
  *
  * @author Jesse
  */
-public class dao {
+public class DVDLibraryImpl implements DVDLibraryAPI {
 
     private String FILE_NAME;
     private final String DELIMITER = "::";
     private HashMap<String, DVD> dvdMap;
 
-    public dao() {
+    public DVDLibraryImpl() {
         dvdMap = new HashMap<>();
         FILE_NAME = "DVDLibrary2.txt";
 
     }
 
+    @Override
     public void loadFromFile() throws IOException {
         try {
             Scanner sc = new Scanner(new BufferedReader(new FileReader(FILE_NAME)));
@@ -73,24 +74,29 @@ public class dao {
         }
     }
 
+    @Override
     public void addDVD(DVD dvd) {
         dvdMap.put(dvd.getTitle(), dvd);
     }
 
+    @Override
     public DVD removeDVD(String title) {
         return dvdMap.remove(title);
 
     }
 
+    @Override
     public void updateDVD(DVD changeDVD) {
         dvdMap.put(changeDVD.getTitle(), changeDVD);
 
     }
 
+    @Override
     public void displayDVDInfo() {
 
     }
 
+    @Override
     public DVD getDVDInfo(String title) {
         return dvdMap.get(title);
 
@@ -108,14 +114,17 @@ public class dao {
 //     }
 //     
 
+    @Override
     public Collection<DVD> getallDVDs() {
         return dvdMap.values();
 
     }
 
+    @Override
     public void searchByTitle() {
     }
 
+    @Override
     public void saveToFile() throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
 

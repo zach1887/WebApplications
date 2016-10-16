@@ -5,7 +5,7 @@
  */
 package com.mycompany.dvdproject.ops;
 
-import com.mycompany.dvdproject.dao.dao;
+import com.mycompany.dvdproject.dao.DVDLibraryImpl;
 import com.mycompany.dvdproject.dto.DVD;
 import com.mycompany.dvdproject.ui.ConsoleIO;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  */
 public class DVDController {
 
-    dao AccessObject = new dao();
+    DVDLibraryImpl AccessObject = new DVDLibraryImpl();
     ConsoleIO console = new ConsoleIO();
 
     public void run() throws IOException {
