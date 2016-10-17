@@ -48,7 +48,7 @@ public class Controller {
                     this.removeAddress();
                     break;
                 case 3:
-                    displaySearchMenu();
+                    this.searchMenu();
                     break;
                 case 4:
                     console.print("There are a total of " + countAllAddresses()
@@ -123,12 +123,22 @@ public class Controller {
 
     private void removeAddress() {
         String delName = console.readString("Enter the full name of the address you would like to delete: ");
-        Entry delAddress = dao.removeAddress(delName);
-
-        if (delAddress == null) {
+        Collection<Entry> addresses = dao.getAllAddresses();
+        boolean hasName = addresses.stream().anyMatch(p -> (p.getFirstName() + " " + p.getSecondName()).contains(delName));
+        if (!hasName) {
             console.print("There are no matching names in the system");
         } else {
-            console.print("The entry for " + delAddress.getFirstName() + " " + "has been removed from the address book.");
+            Entry delAddress = dao.getAddress(delName);
+            console.print("There is an entry for " + delAddress.getFirstName() +" " + delAddress.getSecondName() 
+                         + "of " + delAddress.getCity() + ", " + delAddress.getStateAbbrev() + ".");
+            String confirmYes = console.readString("Would you like to delete this entry? (y/n)");
+            if (confirmYes.equalsIgnoreCase("Y")) {
+                dao.removeAddress(delName);
+                console.print("The entry has been removed.");
+            }
+            else {
+                console.print("The entry will not be removed.");
+            }
         }
     }
 
@@ -258,9 +268,9 @@ public class Controller {
                     if (!newName.getFirstName().equals(oldFirstName)
                             || !newName.getSecondName().equals(oldSecondName)) {
                         dao.removeAddress(editName);
-                        dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), newName);
+                        dao.addAddress(newName);
                     } else {
-                        dao.updateAddress(editName, newName);
+                        
                     }
                     runMenu = false;
                     break;
@@ -274,17 +284,19 @@ public class Controller {
         }
     }
 
-    private void searchMenu(int searchChoice) {
+    private void searchMenu() {
         boolean runSearch = true;
+        int searchChoice;
         Collection<Entry> entries = dao.getAllAddresses();
-        while (runSearch) {
+         while (runSearch) {
+             searchChoice = displaySearchMenu();
             switch (searchChoice) {
-                case 1:
+                case 1: 
                     String entryName = console.readString("Enter the last name of the person you are searching:");
                     entries.stream().filter(d -> d.getSecondName().contains(entryName))
                             .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
                                     + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
-                                    + d.getStateAbbrev() + "  " + d.getZipCode()));
+                                    + d.getStateAbbrev() + "  " + d.getZipCode()));              
                     break;
 
                 case 2:
@@ -298,7 +310,9 @@ public class Controller {
                 case 3:
                     String Abbrev = console.readString("Enter the two-letter state abbreviation:");
                     String stAbb = validateStateAbbrev(Abbrev);
-                    entries.stream().filter(d -> d.getStateAbbrev().contains(stAbb)).sorted()
+                    Comparator<Entry> byCity = 
+                            (Entry e1, Entry e2) -> e1.getCity().compareTo(e2.getCity());
+                    entries.stream().filter(d -> d.getStateAbbrev().contains(stAbb)).sorted(byCity)
                             .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
                                     + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
                                     + d.getStateAbbrev() + "  " + d.getZipCode()));
@@ -307,7 +321,7 @@ public class Controller {
                 case 4:
                     int code = console.readInt("Enter the zip code:");
                     int zipCode = validateZipCode(code);
-                    entries.stream().filter(d -> d.getZipCode()== zipCode).sorted()
+                    entries.stream().filter(d -> d.getZipCode()== zipCode)
                             .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
                                     + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
                                     + d.getStateAbbrev() + "  " + d.getZipCode()));

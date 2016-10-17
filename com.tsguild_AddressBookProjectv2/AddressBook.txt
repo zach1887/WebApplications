@@ -1,1 +1,9 @@
-Kathy::Simmons::ef::weretown::ef::32234
+Joe::Simmons::2345 This Street::Thistown::ME::60555
+Kathy::Simmons::2345 Wherever Street::Weretown::DF::59332
+Kathy::Thompson::2345 M Street::Mtown::LL::60753
+Kathy::Ellis::2345 Whyever Street::Whytown::KY::60553
+Joe::Namath::2345 J Street::Jtown::ME::60753
+Kathy::Thomas::2345 Whichever Street::Whichtown::DF::59333
+Joe::Simon::2345 N Street::Ntown::LL::60753
+Kathy::Franklin::2345 However Street::Howtown::KY::60553
+Joe::Stanislaw::2345 That Street::Thattown::DF::59332

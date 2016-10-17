@@ -168,10 +168,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     public boolean isOrderNumberAvailable(String dateTag, int orderNum) {
-        if (megamap.isEmpty()) return true;
-        Collection<Order> ordersThatDay = megamap.get(dateTag).values();
-        if (ordersThatDay.isEmpty()) return true;
-        return (ordersThatDay.stream().filter(p -> p.getOrderNumber() == orderNum).count() == 0);
+//        if (megamap.isEmpty()) return true;
+//        Collection<Order> ordersThatDay = megamap.get(dateTag).values();
+//        if (ordersThatDay.isEmpty()) return true;
+//        return (ordersThatDay.stream().filter(p -> p.getOrderNumber() == orderNum).count() == 0);
+     return true;
     }
 
     @Override

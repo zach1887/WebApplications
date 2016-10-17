@@ -12,11 +12,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,12 +30,14 @@ import java.util.logging.Logger;
 public class DAO {
 
     public final String FILE_NAME;
-    private HashMap<String, Entry> addressBook;
+    //   private HashMap<String, Entry> addressBook;
+    private ArrayList<Entry> addressBook;
     private final String DELIMITER = "::";
 
     public DAO() {
         FILE_NAME = "AddressBook.txt";
-        addressBook = new HashMap<>();
+        addressBook = new ArrayList<>();
+        //      addressBook = new HashMap<>();
     }
 
     public void loadFromFile() throws IOException {
@@ -45,7 +52,6 @@ public class DAO {
 //                if (houseProperties.length != 6) {
 //                    continue;
 //                }
-
                 Entry oneHouse = new Entry();
                 oneHouse.setFirstName(houseProperties[0]);
                 oneHouse.setSecondName(houseProperties[1]);
@@ -59,8 +65,8 @@ public class DAO {
                 } catch (NumberFormatException e) {
                     continue;
                 }
-                addressBook.put(oneHouse.getFirstName() + " " +oneHouse.getSecondName() , oneHouse);
-          }
+                addressBook.add(oneHouse);
+            }
 
         } catch (FileNotFoundException ex) {
             new FileWriter(FILE_NAME);
@@ -69,29 +75,31 @@ public class DAO {
     }
 
     public void addAddress(Entry address) {
-        addressBook.put(address.getFirstName() + " " + address.getSecondName(), address);
+        addressBook.add(address);
     }
 
-    public Entry getAddress(String nameEntered) {
-        return addressBook.get(nameEntered);
+    public void removeAddress(String delName) {
+        int remNameIndex = addressBook.indexOf(delName);
+        addressBook.remove(remNameIndex);
     }
 
-    public Entry removeAddress(String delName) {
-        return addressBook.remove(delName);
+    public Entry getAddress(String name) {
+        int nameIndex = addressBook.indexOf(name);
+        return addressBook.get(nameIndex);
+
     }
 
     public Collection<Entry> getAllAddresses() {
-        return addressBook.values();
-    }
+        Collection<Entry> allAddresses = null;
 
-    public void updateAddress(String editName, Entry address) {
-        addressBook.put(editName, address);
+        addressBook.stream().forEach(a -> allAddresses.add(a));
+        return allAddresses;
     }
 
     public void saveToFile() throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(FILE_NAME));
 
-        for (Entry a : addressBook.values()) {
+        for (Entry a : addressBook.subList(0, 8)) {
             writer.println(a.getFirstName() + DELIMITER + a.getSecondName()
                     + DELIMITER + a.getStreetAddress() + DELIMITER
                     + a.getCity() + DELIMITER + a.getStateAbbrev()
