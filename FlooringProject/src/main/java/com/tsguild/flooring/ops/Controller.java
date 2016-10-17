@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.text.DecimalFormat;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  *
@@ -81,23 +83,46 @@ public class Controller {
             reqDate = console.readString("Enter a date to search (mm/dd/yyyy), including leading zeroes:  ");
         }
         String fileIntro = reqDate.substring(0, 2) + reqDate.substring(3, 5) + reqDate.substring(6);
+
         Collection<Order> ordersThatDate = dao.displayOrders(fileIntro);
 
-        for (Order o : ordersThatDate) {
-            console.print("Customer Name: \t" + o.getCustomerName());
-            console.print("\nOrder Number: \t" + o.getOrderNumber());
-            console.print("\nState:  \t \t" + o.getStateAbbrev());
-            console.print("\nFlooring Type:  \t" + o.getProductType());
-            console.print("\nSquare Footage of Order" + o.getSquareFT());
-            console.print("\nTotal Cost for Material" + o.getMaterialCost());
-            console.print("\nTotal Cost for Labor" + o.getLaborCost());
-            console.print("\nTotal Tax \t \t" + o.getLaborCost());
-            console.print("\nTotal Cost \t \t" + o.getTotalAmt());
-
+        if (ordersThatDate == null) {
+            console.print("There are no orders in the database for " + reqDate + ".");
+        } else {
+            ordersThatDate.stream().map((o) -> {
+                console.print("Customer Name:                              " + o.getCustomerName());
+                return o;
+            }).map((o) -> {
+                console.print("\nOrder Number:                             " + o.getOrderNumber());
+                return o;
+            }).map((o) -> {
+                console.print("\nState:                                    " + o.getStateAbbrev());
+                return o;
+            }).map((o) -> {
+                console.print("\nFlooring Type:                            " + o.getProductType());
+                return o;
+            }).map((o) -> {
+                console.print("\nSquare Footage of Order                   " + o.getSquareFT());
+                return o;
+            }).map((o) -> {
+                console.print("\nTotal Cost for Material                   " + o.getMaterialCost());
+                return o;
+            }).map((o) -> {
+                console.print("\nTotal Cost for Labor                      " + o.getLaborCost());
+                return o;
+            }).map((o) -> {
+                console.print("\nTotal Tax                                 " + o.getLaborCost());
+                return o;
+            }).forEach((o) -> {
+                console.print("\nTotal Cost \t \t" + o.getTotalAmt());
+            });
         }
     }
 
     private void addMenu() throws IOException {
+        boolean returnToMain = false;
+        
+        while (!returnToMain) {
         String addDate = console.readString("Enter a date for the new order (mm/dd/yyyy), including leading zeroes:  ");
         while (!isDateValid(addDate)) {
             console.print("That date is invalid.  Please enter another date.");
@@ -105,10 +130,10 @@ public class Controller {
         }
         String fileIntro = addDate.substring(0, 2) + addDate.substring(3, 5) + addDate.substring(6);
         dao.loadFromFileAdd("Orders_" + fileIntro + ".txt");
-        int orderNum = console.readInt("Enter the order number:",1,10000000);
+        int orderNum = console.readInt("Enter the order number:", 1, 10000000);
         while (!dao.isOrderNumberAvailable(fileIntro, orderNum)) {
             console.print("That order number is already taken for the date provided.");
-            orderNum = console.readInt("Enter the order number:",1,10000000);
+            orderNum = console.readInt("Enter the order number:", 1, 10000000);
         }
         String custName = console.readString("Enter the name of the customer:  ");
         String stateAbbrev = console.readString("Enter the two-letter state abbreviation for the customer:  ");
@@ -133,8 +158,15 @@ public class Controller {
         String productType = console.readString("Enter the product type for the customer:  ");
         while (!pdao.typeIncluded(productType)) {
             console.print("That product type is not included in our files.  Please make another selection.");
-            productType = console.readString("Enter the product type for the customer:  ");
-        }
+            console.print("Available choices are listed below.");
+            Set <String> prodList = pdao.listAllvalues();
+            for (String p : prodList) {
+                console.print (p + "\t");
+            }
+                productType = console.readString("Enter the product type for the customer:  ");
+
+            }
+       
         double sqFt = console.readDouble("Enter the square feet of flooring for the order (max 10,000 sq ft):  ", 1, 10000);
 
         Order newOrder = new Order();
@@ -155,6 +187,7 @@ public class Controller {
 
         dao.addOrders(fileIntro, newOrder);
     }
+    }
 
     private void removeMenu() throws IOException {
         String remDate = console.readString("Enter a date for the new order (mm/dd/yyyy), including leading zeroes:  ");
@@ -162,12 +195,12 @@ public class Controller {
             console.print("That date is invalid.  Please enter another date.");
             remDate = console.readString("Enter a date for the new order (mm/dd/yyyy), including leading zeroes:  ");
         }
-        int orderNum = console.readInt("Enter the order number that you would like to delete.",0,1000);
+        int orderNum = console.readInt("Enter the order number that you would like to delete.", 0, 1000);
         String fileIntro = remDate.substring(0, 2) + remDate.substring(3, 5) + remDate.substring(6);
         Order ord = dao.retreiveEditOrder(remDate, fileIntro, String.valueOf(orderNum));
-        if (ord == null) 
+        if (ord == null) {
             console.print("There is no order number of " + orderNum + " on the date requested.");
-        else {
+        } else {
             dao.removeOrder(fileIntro, orderNum);
         }
 
@@ -180,7 +213,7 @@ public class Controller {
             console.print("That date is invalid.  Please enter another date.");
             editDate = console.readString("Enter a date for the order (mm/dd/yyyy), including leading zeroes:  ");
         }
-        int orderNum = console.readInt("Enter the order number that you would like to delete.");
+        int orderNum = console.readInt("Enter the order number that you would like to edit.");
         String fileIntro = editDate.substring(0, 2) + editDate.substring(3, 5) + editDate.substring(6);
 
         Order editOrder = dao.retreiveEditOrder(editDate, fileIntro, String.valueOf(orderNum));
@@ -204,29 +237,39 @@ public class Controller {
             console.print("Enter new values or press ENTER to keep the old value.");
 
             String stringOrder = console.readString("Order Number (" + editOrder.getOrderNumber() + "):  ");
-            String custName = console.readString("Customer name (" + editOrder.getCustomerName() + "):  ");
-            String stateAbbrev = console.readString("State Abbreviation(" + editOrder.getStateAbbrev() + "):  ");
-            String StrtaxRate = console.readString("Tax rate (as a percentage):  " + editOrder.getTaxRate() + "):  ");
-            String prodType = console.readString("Product Type (" + editOrder.getProductType() + "):  ");
-            String StrsqFt = console.readString("Square footage of the order +(" + editOrder.getSquareFT() + "):  ");
-            String StrmatCost = console.readString("Material Cost per square foot (" + editOrder.getMaterialCostPerSqFt() + "):");
-            String StrlabCost = console.readString("Labor Cost per square foot (" + editOrder.getLaborCostPerSqFt() + "):");
-            String Strmat = console.readString("Cost of material (" + editOrder.getMaterialCost() + "):");
-            String Strlab = console.readString("Cost of labor (" + editOrder.getLaborCost() + "):");
-            String Strtax = console.readString("Tax (" + editOrder.getCompTax() + "):");
-            String Strtotal = console.readString("Total Cost of Order (" + editOrder.getLaborCost() + "):");
-
             updateOrderNumber(editOrder, correctedOrder, stringOrder);
+
+            String custName = console.readString("Customer name (" + editOrder.getCustomerName() + "):  ");
             updateCustName(editOrder, correctedOrder, custName);
+
+            String stateAbbrev = console.readString("State Abbreviation(" + editOrder.getStateAbbrev() + "):  ");
             updateStateAbbrev(editOrder, correctedOrder, stateAbbrev);
+
+            String StrtaxRate = console.readString("Tax rate (as a percentage):  " + editOrder.getTaxRate() + "):  ");
             updateTaxRate(editOrder, correctedOrder, StrtaxRate);
+
+            String prodType = console.readString("Product Type (" + editOrder.getProductType() + "):  ");
             updateProductType(editOrder, correctedOrder, prodType);
+
+            String StrsqFt = console.readString("Square footage of the order +(" + editOrder.getSquareFT() + "):  ");
             updateSqFt(editOrder, correctedOrder, StrsqFt);
+
+            String StrmatCost = console.readString("Material Cost per square foot (" + editOrder.getMaterialCostPerSqFt() + "):");
             updateMatCost(editOrder, correctedOrder, StrmatCost);
+
+            String StrlabCost = console.readString("Labor Cost per square foot (" + editOrder.getLaborCostPerSqFt() + "):");
             updateLabCost(editOrder, correctedOrder, StrlabCost);
+
+            String Strmat = console.readString("Cost of material (" + editOrder.getMaterialCost() + "):");
             updateMat(editOrder, correctedOrder, Strmat);
+
+            String Strlab = console.readString("Cost of labor (" + editOrder.getLaborCost() + "):");
             updateLab(editOrder, correctedOrder, Strlab);
+
+            String Strtax = console.readString("Tax (" + editOrder.getCompTax() + "):");
             updateTax(editOrder, correctedOrder, Strtax);
+
+            String Strtotal = console.readString("Total Cost of Order (" + editOrder.getLaborCost() + "):");
             updateTotal(editOrder, correctedOrder, Strtotal);
 
             dao.switchOrder(editOrder, correctedOrder, fileIntro, newFileIntro);

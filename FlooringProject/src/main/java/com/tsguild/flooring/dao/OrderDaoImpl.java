@@ -99,11 +99,18 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Collection<Order> displayOrders(String dateTag) throws IOException {
+    public Collection<Order> displayOrders(String dateTag) {
 
         String fileNameIfExists = "Orders_" + dateTag + ".txt";
 
-        loadFromFile(fileNameIfExists);
+        try {
+            loadFromFile(fileNameIfExists);
+        } catch (IOException ex) {
+            return null;
+        }
+        if (megamap.isEmpty() || megamap.size() == 0) {
+            return null;
+        }
 
         return megamap.get(dateTag).values();
 
@@ -128,7 +135,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void removeOrder(String dateTag, int orderNum) throws IOException {
         HashMap delMap = megamap.get(dateTag);
-        megamap.remove(dateTag);       
+        megamap.remove(dateTag);
         delMap.remove(dateTag + orderNum);
         if (delMap != null) {
             megamap.put(dateTag, delMap);
@@ -144,24 +151,29 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Order retreiveEditOrder(String editDate, String dateTag, String orderNum) throws IOException {
-        
+
         String fileNameIfExists = "Orders_" + dateTag + ".txt";
         loadFromFile(fileNameIfExists);
-//        HashMap<String, Order> addMap = new HashMap<>();
-        HashMap<String, Order> editMap = megamap.get(dateTag); 
-
-        if (editMap.containsKey(dateTag + orderNum)) {
-            return editMap.get(dateTag + orderNum);
-        } else {
+        if (megamap.isEmpty() || megamap.size() == 0) {
             return null;
         }
+
+        if (!megamap.containsKey(dateTag)) {
+            return null;
+        }
+        if (!megamap.get(dateTag).containsKey(dateTag + orderNum)) {
+            return null;
+        }
+        return megamap.get(dateTag).get(dateTag + orderNum);
     }
- 
+
     public boolean isOrderNumberAvailable(String dateTag, int orderNum) {
-        Collection<Order> ordersThatDay= megamap.get(dateTag).values();
+        if (megamap.isEmpty()) return true;
+        Collection<Order> ordersThatDay = megamap.get(dateTag).values();
+        if (ordersThatDay.isEmpty()) return true;
         return (ordersThatDay.stream().filter(p -> p.getOrderNumber() == orderNum).count() == 0);
     }
-    
+
     @Override
     public void saveAllChanges() throws FileNotFoundException {
         Collection<String> dates = megamap.keySet();
@@ -181,10 +193,10 @@ public class OrderDaoImpl implements OrderDao {
                         + DELIMITER + o.getLaborCost() + DELIMITER + o.getCompTax()
                         + DELIMITER + o.getTotalAmt());
             }
-       
-        writer.flush();
-        writer.close();
-    }
 
-}
+            writer.flush();
+            writer.close();
+        }
+
+    }
 }

@@ -10,6 +10,8 @@ import com.tsguild.addressbookprojects.dto.Entry;
 import com.tsguild.addressbookproject.dao.DAO;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,23 +42,23 @@ public class Controller {
 
             switch (userChoice) {
                 case 1:
-                    this.add_address();
+                    this.addAddress();
                     break;
                 case 2:
-                    this.remove_address();
+                    this.removeAddress();
                     break;
                 case 3:
-                    this.locate_address_by_name();
+                    displaySearchMenu();
                     break;
                 case 4:
-                    console.print("There are a total of " + count_all_addresses()
+                    console.print("There are a total of " + countAllAddresses()
                             + " addresses in this book.");
                     break;
                 case 5:
-                    this.list_all_addresses();
+                    this.listAllAddresses();
                     break;
                 case 6:
-                    this.edit_an_address();
+                    this.editAddress();
                     break;
                 case 7: {
                     try {
@@ -84,7 +86,8 @@ public class Controller {
         console.print("Address Book Options:");
         console.print("1. Add an address to the database.");
         console.print("2. Delete an address to the database.");
-        console.print("3. Find an address by last name.");
+//        console.print("3. Find an address by last name.");
+        console.print("3. Enter the search menu.");
         console.print("4. List the number of addresses in the database.");
         console.print("5. List all addresses in the database.");
         console.print("6. Edit an existing address.");
@@ -92,7 +95,7 @@ public class Controller {
 
     }
 
-    private void add_address() {
+    private void addAddress() {
         String firstName = console.readString("Enter the first name for the new address:");
         String lastName = console.readString("Enter the last name for the new address:");
 //        if (!address.getFirstName().isEmpty() && !address.getSecondName().isEmpty()) {
@@ -103,9 +106,9 @@ public class Controller {
         String addressLine1 = console.readString("Enter the street address:");
         String city = console.readString("Enter the city name for the new address.");
         String state = console.readString("Enter the two-letter state abbreviation for the new address:");
-        state = validate_state_abbrev(state);
+        state = validateStateAbbrev(state);
         int zip = console.readInt("Enter the zip code of the new address.");
-        zip = validate_zip_code(zip);
+        zip = validateZipCode(zip);
 
         address.setFirstName(firstName);
         address.setSecondName(lastName);
@@ -118,7 +121,7 @@ public class Controller {
 
     }
 
-    private void remove_address() {
+    private void removeAddress() {
         String delName = console.readString("Enter the full name of the address you would like to delete: ");
         Entry delAddress = dao.removeAddress(delName);
 
@@ -142,7 +145,7 @@ public class Controller {
         }
     }
 
-    private void list_all_addresses() {
+    private void listAllAddresses() {
         console.print("Here are all the addresses in the book:");
 
         Collection<Entry> addresses = dao.getAllAddresses();
@@ -154,7 +157,7 @@ public class Controller {
 
     }
 
-    private void edit_an_address() {
+    private void editAddress() {
         String editName = console.readString("Please enter the full name of the address you would like to change.");
         // verfiy that the name is there
         //      address newInfo= dao.
@@ -177,15 +180,15 @@ public class Controller {
         String oldCity = newName.getCity();
         String oldState = newName.getStateAbbrev();
         int oldZip = newName.getZipCode();
-        String newFirst = null; 
+        String newFirst = null;
         String newSecond = null;
         String newAddress = null;
         String newCity = null;
         String newState = null;
         int newZip = 0;
-        //     menuChoice: display_edit_menu();
+        //     menuChoice: displayEditMenu();
         while (runMenu) {
-            int menuChoice = display_edit_menu();
+            int menuChoice = displayEditMenu();
             switch (menuChoice) {
 
                 case 1: {
@@ -210,14 +213,14 @@ public class Controller {
                 }
                 case 5: {
                     newState = console.readString("Enter in the new state abbreviation:");
-                    newState = validate_state_abbrev(newState);
+                    newState = validateStateAbbrev(newState);
                     newName.setStateAbbrev(newState);
 
                     break;
                 }
                 case 6: {
                     newZip = console.readInt("Enter in the new zip code:");
-                    newZip = validate_zip_code(newZip);
+                    newZip = validateZipCode(newZip);
                     newName.setZipCode(newZip);
                     break;
                 }
@@ -231,26 +234,37 @@ public class Controller {
                     console.print("Your changes were not saved.");
                     runMenu = false;
                     break;
-                } 
-                case 8: 
-                    if (newFirst == null) newName.setFirstName(oldFirstName);
-                    if (newSecond == null) newName.setSecondName(oldSecondName);
-                    if (newAddress == null) newName.setStreetAddress(oldAddress);
-                    if (newCity== null) newName.setCity(oldCity);
-                    if (newState == null) newName.setStateAbbrev(oldState);
-                    if (newZip == 0) newName.setZipCode(oldZip);
-                    
-                    if (!newName.getFirstName().equals(oldFirstName) ||
-                            !newName.getSecondName().equals(oldSecondName)) {
-                        dao.removeAddress(editName);  
-                        dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), newName);
+                }
+                case 8:
+                    if (newFirst == null) {
+                        newName.setFirstName(oldFirstName);
                     }
-                    else {
+                    if (newSecond == null) {
+                        newName.setSecondName(oldSecondName);
+                    }
+                    if (newAddress == null) {
+                        newName.setStreetAddress(oldAddress);
+                    }
+                    if (newCity == null) {
+                        newName.setCity(oldCity);
+                    }
+                    if (newState == null) {
+                        newName.setStateAbbrev(oldState);
+                    }
+                    if (newZip == 0) {
+                        newName.setZipCode(oldZip);
+                    }
+
+                    if (!newName.getFirstName().equals(oldFirstName)
+                            || !newName.getSecondName().equals(oldSecondName)) {
+                        dao.removeAddress(editName);
+                        dao.updateAddress(address.getFirstName() + " " + address.getSecondName(), newName);
+                    } else {
                         dao.updateAddress(editName, newName);
                     }
                     runMenu = false;
                     break;
-               
+
                 default: {
                     break;
                 }
@@ -260,13 +274,67 @@ public class Controller {
         }
     }
 
-    private int count_all_addresses() {
+    private void searchMenu(int searchChoice) {
+        boolean runSearch = true;
+        Collection<Entry> entries = dao.getAllAddresses();
+        while (runSearch) {
+            switch (searchChoice) {
+                case 1:
+                    String entryName = console.readString("Enter the last name of the person you are searching:");
+                    entries.stream().filter(d -> d.getSecondName().contains(entryName))
+                            .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
+                                    + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
+                                    + d.getStateAbbrev() + "  " + d.getZipCode()));
+                    break;
+
+                case 2:
+                    String cityName = console.readString("Enter the name of the city:");
+                    entries.stream().filter(d -> d.getCity().contains(cityName))
+                            .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
+                                    + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
+                                    + d.getStateAbbrev() + "  " + d.getZipCode()));
+                    break;
+
+                case 3:
+                    String Abbrev = console.readString("Enter the two-letter state abbreviation:");
+                    String stAbb = validateStateAbbrev(Abbrev);
+                    entries.stream().filter(d -> d.getStateAbbrev().contains(stAbb)).sorted()
+                            .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
+                                    + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
+                                    + d.getStateAbbrev() + "  " + d.getZipCode()));
+                    break;
+
+                case 4:
+                    int code = console.readInt("Enter the zip code:");
+                    int zipCode = validateZipCode(code);
+                    entries.stream().filter(d -> d.getZipCode()== zipCode).sorted()
+                            .forEach(d -> console.print(d.getFirstName() + " " + d.getSecondName()
+                                    + "\n" + d.getStreetAddress() + "\n" + d.getCity() + ", "
+                                    + d.getStateAbbrev() + "  " + d.getZipCode()));
+                    break;
+                case 5:
+                    runSearch = false;
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+    }
+
+    
+
+
+    
+
+    private int countAllAddresses() {
         Collection<Entry> addresses = dao.getAllAddresses();
         return addresses.size();
 
     }
 
-    private int display_edit_menu() {
+    private int displayEditMenu() {
         console.print("Select from the following options.");
         console.print("Change the first name of the entry (1).");
         console.print("Change the last name of the entry (2).");
@@ -279,7 +347,7 @@ public class Controller {
         return console.readInt("Your selection:  ", 1, 8);
     }
 
-    private int validate_zip_code(int zip) {
+    private int validateZipCode(int zip) {
 
         while ((zip < 10000 || zip > 99999)
                 && (zip < 1000000000 || zip > 999999999)) {
@@ -289,7 +357,7 @@ public class Controller {
         return zip;
     }
 
-    private String validate_state_abbrev(String state) {
+    private String validateStateAbbrev(String state) {
         boolean isLetter1, isLetter2;
 
         do {
@@ -315,5 +383,16 @@ public class Controller {
 
         return state;
 
+    }
+
+    private int displaySearchMenu() {
+        console.print("Select one of the options below.");
+        console.print("1. Search by last name.");
+        console.print("2. Search by city.");
+        console.print("3. Search by state.");
+        console.print("4. Search by zip code.");
+        console.print("Return to the main menu. (5)");
+        int searchChoice = console.readInt("Your selection:  ", 1, 5);
+        return searchChoice;
     }
 }

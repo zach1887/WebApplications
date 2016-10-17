@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,6 +75,10 @@ public class ProductDaoImpl implements ProductDao {
     public boolean typeIncluded (String productType) {
         return priceMap.keySet().contains(productType);
         
+    }
+
+    public Set <String> listAllvalues() {
+        return priceMap.keySet();
     }
 
 }
