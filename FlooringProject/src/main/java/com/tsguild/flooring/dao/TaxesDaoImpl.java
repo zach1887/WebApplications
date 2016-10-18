@@ -31,7 +31,6 @@ public class TaxesDaoImpl implements TaxesDao {
     public TaxesDaoImpl() {
         taxMap = new HashMap<>();
         FILE_NAME = "Data/Taxes.txt";
-
     }
     
     @Override

@@ -9,13 +9,23 @@ package com.tsguild.flooring.dto;
  *
  * @author apprentice
  */
-public class Price {
+public class Product {
+    private String materialName;
     private double materialCostPerSqFt;
     private double laborCostPerSqFt;
 
-    public Price(double materialCostPerSqFt, double laborCostPerSqFt) {
+    public Product(String materialName, double materialCostPerSqFt, double laborCostPerSqFt) {
+        this.materialName = materialName;
         this.materialCostPerSqFt = materialCostPerSqFt;
         this.laborCostPerSqFt = laborCostPerSqFt;
+    }
+
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
     }
     
 

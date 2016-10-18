@@ -6,13 +6,13 @@
 package com.tsguid.flooring;
 
 import com.tsguild.flooring.ops.Controller;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.text.ParseException;
 
-
-/**2
+/**
  * 
  *
  * @author apprentice
@@ -20,7 +20,9 @@ import java.text.ParseException;
 public class FlooringApp {
 
     public static void main(String[] args) throws IOException, ParseException {
-        Controller cont = new Controller();
+
+        ApplicationContext springFactory = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Controller cont = springFactory.getBean("controller", Controller.class);
 
         cont.run();
     }

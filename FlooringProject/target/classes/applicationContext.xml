@@ -17,24 +17,29 @@
     <!-- Bean definitions go here -->
     <!-- Event eventName  -->
     <!-- beans have two parts - Class type, var Name -->
-<!--<bean class="com.tsguild.petshelter.ui.ConsoleIO" id="console">    
-</bean>-->
+    <!--<bean class="com.tsguild.petshelter.ui.ConsoleIO" id="console">    
+    </bean>-->
+    
+    
+    
+    <bean class="com.tsguild.flooring.ui.ConsoleIO" id="consoleIO"> 
+    </bean>
 
-<bean class="com.tsguild.flooring.dao.OrderDaoImpl" id="orderDao">
+    <bean class="com.tsguild.flooring.dao.OrderDaoImpl" id="orderDao">
     
-</bean>
-<bean class="com.tsguild.flooring.dao.ProductDaoImpl" id="productDao">
+    </bean>
+    <bean class="com.tsguild.flooring.dao.ProductDaoImpl" id="productDao">
     
-</bean>
-<bean class="com.tsguild.flooring.dao.TaxesDaoImpl" id="taxesDao">
+    </bean>
+    <bean class="com.tsguild.flooring.dao.TaxesDaoImpl" id="taxesDao">
     
-</bean>
+    </bean>
 
-<bean class="com.tsguild.flooring.ops.Controller" id="controller">
-    <constructor-arg ref="dao"/>   if you're injecting through the constructor 
-    <constructor-arg ref="pdao"/>   if you're injecting through the constructor 
-    <constructor-arg ref="tdao"/>   if you're injecting through the constructor 
-    <property name="console" ref"consoleIO" />  if you're injecting thourgh the mutator -->
+    <bean class="com.tsguild.flooring.ops.Controller" id="controller">
+        <constructor-arg ref="orderDao"/>   <!-- if you're injecting through the constructor -->
+        <constructor-arg ref="productDao"/>  <!-- if you're injecting through the constructor -->
+        <constructor-arg ref="taxesDao"/>   <!--if you're injecting through the constructor -->
+        <property name="console" ref="consoleIO"/> <!-- if you're injecting thourgh the setter -->
     
-</bean>
+    </bean>
 </beans>

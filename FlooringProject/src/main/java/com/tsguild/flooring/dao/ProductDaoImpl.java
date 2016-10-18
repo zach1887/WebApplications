@@ -6,7 +6,7 @@
 package com.tsguild.flooring.dao;
 
 import com.tsguild.flooring.dto.Order;
-import com.tsguild.flooring.dto.Price;
+import com.tsguild.flooring.dto.Product;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,7 +28,7 @@ public class ProductDaoImpl implements ProductDao {
 
     private String FILE_NAME;
     private final String DELIMITER = ",";
-    private HashMap<String, Price> priceMap = new HashMap<>();
+    private HashMap<String, Product> priceMap = new HashMap<>();
     public boolean typeIncluded;
 
     public ProductDaoImpl() {
@@ -48,7 +48,7 @@ public class ProductDaoImpl implements ProductDao {
                 try {
                     Double materialCost = Double.parseDouble(priceProperties[1]);
                     Double laborCost = Double.parseDouble(priceProperties[2]);
-                    Price newPrice = new Price(materialCost, laborCost);
+                    Product newPrice = new Product(productType,materialCost, laborCost);
 
                     priceMap.put(priceProperties[0], newPrice);
                 } catch (NumberFormatException e) {
@@ -63,6 +63,12 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public String getMaterialName(String productType) {
+        if (!priceMap.containsKey(productType))
+            return null;
+        return priceMap.get(productType).getMaterialName();
+    }
+    @Override
     public double getMaterialCost(String productType) {
         return priceMap.get(productType).getMaterialCostPerSqFt();
     }
@@ -71,13 +77,9 @@ public class ProductDaoImpl implements ProductDao {
     public double getLaborCost(String productType) {
         return priceMap.get(productType).getLaborCostPerSqFt();
     }
-    
-    public boolean typeIncluded (String productType) {
-        return priceMap.keySet().contains(productType);
-        
-    }
 
-    public Set <String> listAllvalues() {
+    @Override    
+    public Set <String> listAllValues() {
         return priceMap.keySet();
     }
 

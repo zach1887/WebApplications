@@ -5,15 +5,21 @@
  */
 package com.tsguild.flooring.dao;
 
+import java.util.Set;
+
 /**
  *
  * @author apprentice
  */
 public interface ProductDao {
 
+    String getMaterialName (String productType);
+    
     double getLaborCost(String productType);
 
     double getMaterialCost(String productType);
+    
+    Set<String> listAllValues();
 
     void loadFromFile();
     

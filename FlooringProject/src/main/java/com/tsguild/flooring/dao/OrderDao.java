@@ -16,20 +16,16 @@ import java.util.Collection;
  */
 public interface OrderDao {
 
-    void addOrders(String fileIntro, Order order) throws IOException;
+    void addOrders(String dateTag, Order order) throws IOException;
 
-    Collection<Order> displayOrders(String fileIntro) throws IOException;
+    Collection<Order> displayOrders(String dateTag) throws IOException;
 
     void loadFromFile(String FILE_NAME) throws IOException;
 
-    void loadFromFileAdd(String FILE_NAME) throws IOException;
+    void removeOrder(String dateTag, int orderNum) throws IOException;
 
-    void removeOrder(String fileIntro, int orderNum) throws IOException;
-
-    Order retreiveEditOrder(String editDate, String fileIntro, String orderNum) throws IOException;
+    Order getOrder(String dateTag, int orderNum) throws IOException;
 
     void saveAllChanges() throws FileNotFoundException;
-
-    void switchOrder(Order editOrder, Order correctedOrder, String fileIntro, String newFileIntro) throws IOException;
-    
+  
 }

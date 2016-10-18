@@ -6,7 +6,6 @@
 package com.tsguild.flooring.dao;
 
 import com.tsguild.flooring.dto.Order;
-import com.tsguild.flooring.dto.OrderMap;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,11 +15,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  *
@@ -28,24 +22,22 @@ import java.util.Locale;
  */
 public class OrderDaoImpl implements OrderDao {
 
-    private String FILE_NAME;
+    private final String FILE_DIR;
     private final String DELIMITER = ",";
-//    private HashMap<String, Order> orderMap;
     HashMap<String, HashMap<String, Order>> megamap;
-//    private HashMap<String, Order> orderMap = new HashMap<>();
 
     public OrderDaoImpl() {
-//        orderMap = new HashMap<>();
         megamap = new HashMap<>();
-//        FILE_NAME = "Orders_TEST.txt";
+        FILE_DIR = "OrdersByDate/";
 
     }
 
     @Override
-    public void loadFromFile(String FILE_NAME) throws IOException {
-
+    public void loadFromFile(String dateTag) throws IOException {
+            String FILE_NAME;
         try {
-            Scanner sc = new Scanner(new BufferedReader(new FileReader(FILE_NAME)));
+            FILE_NAME = "Orders_" + dateTag + ".txt";
+            Scanner sc = new Scanner(new BufferedReader(new FileReader(FILE_DIR+FILE_NAME)));
             HashMap<String, Order> tempMap = new HashMap<>();
             while (sc.hasNextLine()) {
                 String orderLine = sc.nextLine();
@@ -74,37 +66,27 @@ public class OrderDaoImpl implements OrderDao {
                     oldOrder.setLaborCostPerSqFt(laborSqFt);
                     oldOrder.setSquareFT(sqFt);
                     oldOrder.setMaterialCost(materialCost);
-                    oldOrder.setMaterialCost(laborCost);
+                    oldOrder.setLaborCost(laborCost);
                     oldOrder.setCompTax(compTax);
                     oldOrder.setTotalAmt(compTotal);
                 } catch (NumberFormatException e) {
                     continue;
                 }
-                tempMap.put(FILE_NAME.substring(7, 15) + oldOrder.getOrderNumber(), oldOrder);
+                tempMap.put(dateTag + oldOrder.getOrderNumber(), oldOrder);
 
             }
-            megamap.put(FILE_NAME.substring(7, 15), tempMap);
+            megamap.put(dateTag, tempMap);
         } catch (FileNotFoundException ex) {
 
         }
     }
 
-    @Override
-    public void loadFromFileAdd(String FILE_NAME) throws IOException {
-        try {
-            loadFromFile(FILE_NAME);
-        } catch (FileNotFoundException e) {
-            new FileWriter(FILE_NAME);
-        }
-    }
 
     @Override
     public Collection<Order> displayOrders(String dateTag) {
 
-        String fileNameIfExists = "Orders_" + dateTag + ".txt";
-
         try {
-            loadFromFile(fileNameIfExists);
+            loadFromFile(dateTag);
         } catch (IOException ex) {
             return null;
         }
@@ -143,18 +125,13 @@ public class OrderDaoImpl implements OrderDao {
 
     }
 
-    @Override
-    public void switchOrder(Order editOrder, Order correctedOrder, String dateTag, String newDateTag) throws IOException {
-        removeOrder(dateTag, editOrder.getOrderNumber());
-        addOrders(newDateTag, correctedOrder);
-    }
 
     @Override
-    public Order retreiveEditOrder(String editDate, String dateTag, String orderNum) throws IOException {
+    public Order getOrder(String dateTag, int orderNum) throws IOException {
 
         String fileNameIfExists = "Orders_" + dateTag + ".txt";
         loadFromFile(fileNameIfExists);
-        if (megamap.isEmpty() || megamap.size() == 0) {
+        if (megamap.isEmpty() || megamap.isEmpty()) {
             return null;
         }
 
@@ -167,13 +144,6 @@ public class OrderDaoImpl implements OrderDao {
         return megamap.get(dateTag).get(dateTag + orderNum);
     }
 
-    public boolean isOrderNumberAvailable(String dateTag, int orderNum) {
-//        if (megamap.isEmpty()) return true;
-//        Collection<Order> ordersThatDay = megamap.get(dateTag).values();
-//        if (ordersThatDay.isEmpty()) return true;
-//        return (ordersThatDay.stream().filter(p -> p.getOrderNumber() == orderNum).count() == 0);
-     return true;
-    }
 
     @Override
     public void saveAllChanges() throws FileNotFoundException {
@@ -181,7 +151,7 @@ public class OrderDaoImpl implements OrderDao {
 
         for (String d : dates) {
             String FILE_NAME = "Orders_" + d + ".txt";
-            PrintWriter writer = new PrintWriter(FILE_NAME);
+            PrintWriter writer = new PrintWriter(FILE_DIR + FILE_NAME);
 //            Collection<String> orderNumbers = megamap.get(d).keySet();
             Collection<Order> orders = megamap.get(d).values();
 

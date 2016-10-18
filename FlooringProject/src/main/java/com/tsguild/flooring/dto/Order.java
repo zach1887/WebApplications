@@ -27,13 +27,29 @@ public class Order {
     public Order() {
 
     }
-
+    // constructor used for creating new orders
     public Order(String customerName, String stateAbbrev, String productType, double squareFT) {
         this.customerName = customerName;
         this.stateAbbrev = stateAbbrev;
         this.productType = productType;
         this.squareFT = squareFT;
     }
+    // all args constructor used only for testing.
+    public Order(int orderNumber, String customerName, String stateAbbrev, double taxRate, String productType, double squareFT, double materialCostPerSqFt, double laborCostPerSqFt, double materialCost, double laborCost, double compTax, double totalAmt) {
+        this.orderNumber = orderNumber;
+        this.customerName = customerName;
+        this.stateAbbrev = stateAbbrev;
+        this.taxRate = taxRate;
+        this.productType = productType;
+        this.squareFT = squareFT;
+        this.materialCostPerSqFt = materialCostPerSqFt;
+        this.laborCostPerSqFt = laborCostPerSqFt;
+        this.materialCost = materialCost;
+        this.laborCost = laborCost;
+        this.compTax = compTax;
+        this.totalAmt = totalAmt;
+    }
+    
 
     public String getCustomerName() {
         return customerName;

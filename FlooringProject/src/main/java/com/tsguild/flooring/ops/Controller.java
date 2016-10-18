@@ -11,12 +11,11 @@ import com.tsguild.flooring.dto.Order;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Random;
 
 /**
  *
@@ -24,19 +23,41 @@ import java.util.Set;
  */
 public class Controller {
 
-    ConsoleIO console = new ConsoleIO();
-    OrderDaoImpl dao = new OrderDaoImpl();
-    ProductDaoImpl pdao = new ProductDaoImpl();
-    TaxesDaoImpl tdao = new TaxesDaoImpl();
+    private ConsoleIO console;
+    private OrderDao dao;
+    private ProductDao pdao;
+    private TaxesDao tdao;
+
+    Random r = new Random();
+    DecimalFormat df = new DecimalFormat("#.00");
+
+    // For constructor injection
+    public Controller(OrderDao dao, ProductDao pdao, TaxesDao tdao) {
+        this.dao = dao;
+        this.pdao = pdao;
+        this.tdao = tdao;
+    }
+
+    // for setter injection
+    public void setConsole(ConsoleIO console) {
+        this.console = console;
+    }
 
     public void run() throws IOException, ParseException {
         boolean runMenu = true;
         pdao.loadFromFile();
         tdao.LoadFromFile();
 
+        boolean runTestMenu = testingMenu();
+
         int userChoice;
         while (runMenu) {
-            userChoice = startupMenu();
+            if (runTestMenu) {
+                userChoice = startupMenuTestMode();
+            } else {
+                userChoice = startupMenu();
+            }
+
             switch (userChoice) {
                 case 1:
                     displayMenu();
@@ -76,102 +97,104 @@ public class Controller {
         return userChoice;
     }
 
+    private int startupMenuTestMode() {
+        console.print("Flooring Mastery");
+        console.print("Select from the options below.");
+        console.print("1.  Display all orders on a given date.");
+        console.print("2.  Add a new order.");
+        console.print("3.  Edit an existing order.");
+        console.print("4.  Remove an existing order.");
+        console.print("5.  Save current work.  - DISABLED IN TEST MODE");
+        console.print("6.  Exit the database.");
+        int userChoice = console.readInt("Your selection", 1, 6);
+        while (userChoice == 5) {
+            console.print("Saving is not available in testing mode.");
+            userChoice = console.readInt("Your selection", 1, 6);
+        }
+        return userChoice;
+    }
+
+    private boolean testingMenu() {
+        console.print("Flooring Mastery Project");
+        console.print("Test mode (1) - saving work is disabled.");
+        console.print("Production mode (2).");
+        int userChoice = console.readInt("Your selection:  ");
+        return (userChoice == 1);
+    }
+
     private void displayMenu() throws IOException {
         String reqDate = console.readString("Enter a date to search (mm/dd/yyyy), including leading zeroes:  ");
         while (!isDateValid(reqDate)) {
             console.print("That date is invalid.  Please enter another date.");
             reqDate = console.readString("Enter a date to search (mm/dd/yyyy), including leading zeroes:  ");
         }
-        String fileIntro = reqDate.substring(0, 2) + reqDate.substring(3, 5) + reqDate.substring(6);
+        String dateTag = reqDate.substring(0, 2) + reqDate.substring(3, 5) + reqDate.substring(6);
 
-        Collection<Order> ordersThatDate = dao.displayOrders(fileIntro);
+        Collection<Order> ordersThatDate = dao.displayOrders(dateTag);
 
         if (ordersThatDate == null) {
             console.print("There are no orders in the database for " + reqDate + ".");
         } else {
-            ordersThatDate.stream().map((o) -> {
+            for (Order o : ordersThatDate) {
                 console.print("Customer Name:                              " + o.getCustomerName());
-                return o;
-            }).map((o) -> {
                 console.print("\nOrder Number:                             " + o.getOrderNumber());
-                return o;
-            }).map((o) -> {
                 console.print("\nState:                                    " + o.getStateAbbrev());
-                return o;
-            }).map((o) -> {
                 console.print("\nFlooring Type:                            " + o.getProductType());
-                return o;
-            }).map((o) -> {
                 console.print("\nSquare Footage of Order                   " + o.getSquareFT());
-                return o;
-            }).map((o) -> {
                 console.print("\nTotal Cost for Material                   " + o.getMaterialCost());
-                return o;
-            }).map((o) -> {
                 console.print("\nTotal Cost for Labor                      " + o.getLaborCost());
-                return o;
-            }).map((o) -> {
-                console.print("\nTotal Tax                                 " + o.getLaborCost());
-                return o;
-            }).forEach((o) -> {
-                console.print("\nTotal Cost \t \t" + o.getTotalAmt());
-            });
+                console.print("\nTotal Tax                                 " + o.getCompTax());
+                console.print("\nTotal Cost                                " + o.getTotalAmt());
+            }
         }
     }
 
     private void addMenu() throws IOException {
-        boolean returnToMain = false;
-        
-        while (!returnToMain) {
+
         String addDate = console.readString("Enter a date for the new order (mm/dd/yyyy), including leading zeroes:  ");
         while (!isDateValid(addDate)) {
             console.print("That date is invalid.  Please enter another date.");
             addDate = console.readString("Enter a date to search (mm/dd/yyyy), including leading zeroes:  ");
         }
-        String fileIntro = addDate.substring(0, 2) + addDate.substring(3, 5) + addDate.substring(6);
-        dao.loadFromFileAdd("Orders_" + fileIntro + ".txt");
-        int orderNum = console.readInt("Enter the order number:", 1, 10000000);
-        while (!dao.isOrderNumberAvailable(fileIntro, orderNum)) {
-            console.print("That order number is already taken for the date provided.");
-            orderNum = console.readInt("Enter the order number:", 1, 10000000);
-        }
+        String dateTag = addDate.substring(0, 2) + addDate.substring(3, 5) + addDate.substring(6);
+        dao.loadFromFile(dateTag);
+
         String custName = console.readString("Enter the name of the customer:  ");
         String stateAbbrev = console.readString("Enter the two-letter state abbreviation for the customer:  ");
 
-        boolean stateCont = true;
-        while (stateCont) {
-            while (!tdao.doesStateExist(stateAbbrev)) {
-                console.print("That abbreviation does not refer to a state.");
-                stateAbbrev = console.readString("Enter the two-letter state abbreviation for the customer:  ");
-            }
-            if (tdao.isStateListed(stateAbbrev)) {
-                stateCont = false;
-            } else {
-                int stateChoice = console.readInt("That state is not listed in the tax files.  Enter (0) to proceed with no tax rate or (1) to re-enter the state.", 0, 1);
-                if (stateChoice == 0) {
-                    stateCont = false;
-                }
-
-            }
+        while (!tdao.doesStateExist(stateAbbrev)) {
+            console.print("That abbreviation does not refer to a state.");
+            stateAbbrev = console.readString("Enter the two-letter state abbreviation for the customer:  ");
+        }
+        if (!tdao.isStateListed(stateAbbrev)) {
+            console.print("That state is not listed in the database.  The tax rate will be set to 0.");
         }
 
         String productType = console.readString("Enter the product type for the customer:  ");
-        while (!pdao.typeIncluded(productType)) {
-            console.print("That product type is not included in our files.  Please make another selection.");
+        String materialName = pdao.getMaterialName(productType);
+        while (materialName == null) {
+            console.print("There is no product type with that name in our files.Please make another selection.");
             console.print("Available choices are listed below.");
-            Set <String> prodList = pdao.listAllvalues();
-            for (String p : prodList) {
-                console.print (p + "\t");
-            }
-                productType = console.readString("Enter the product type for the customer:  ");
+            Set<String> prodList = pdao.listAllValues();
+            prodList.stream().forEach((p) -> {
+                console.print(p);
+            });
+            productType = console.readString("Enter the product type for the customer:  ");
+            materialName = pdao.getMaterialName(productType);
+        }
 
-            }
-       
         double sqFt = console.readDouble("Enter the square feet of flooring for the order (max 10,000 sq ft):  ", 1, 10000);
 
         Order newOrder = new Order();
         newOrder.setCustomerName(custName);
-        newOrder.setOrderNumber(orderNum);
+        int randOrder = r.nextInt(1000);
+        newOrder.setOrderNumber(r.nextInt(1000)); // need to auto-assign
+        Order chkOrder = dao.getOrder(dateTag, randOrder);
+        while (chkOrder != null) {  // if the Order number is already taken, select another number
+            randOrder = r.nextInt(1000);
+            newOrder.setOrderNumber(r.nextInt(1000));
+            chkOrder = dao.getOrder(dateTag, randOrder);
+        }
         newOrder.setProductType(productType);
         newOrder.setStateAbbrev(stateAbbrev);
         newOrder.setSquareFT(sqFt);
@@ -185,8 +208,7 @@ public class Controller {
         newOrder.setCompTax(sqFt * newOrder.getTaxRate() / 100);
         newOrder.setTotalAmt(newOrder.getLaborCost() + newOrder.getMaterialCost() + newOrder.getCompTax());
 
-        dao.addOrders(fileIntro, newOrder);
-    }
+        dao.addOrders(dateTag, newOrder);
     }
 
     private void removeMenu() throws IOException {
@@ -197,13 +219,12 @@ public class Controller {
         }
         int orderNum = console.readInt("Enter the order number that you would like to delete.", 0, 1000);
         String fileIntro = remDate.substring(0, 2) + remDate.substring(3, 5) + remDate.substring(6);
-        Order ord = dao.retreiveEditOrder(remDate, fileIntro, String.valueOf(orderNum));
-        if (ord == null) {
-            console.print("There is no order number of " + orderNum + " on the date requested.");
-        } else {
-            dao.removeOrder(fileIntro, orderNum);
-        }
 
+//        if (== null) {
+//            console.print("There is no order number of " + orderNum + " on the date requested.");
+//        } else {
+//            dao.removeOrder(dateTag, orderNum);
+//        }
     }
 
     private void editMenu() throws IOException {
@@ -214,9 +235,9 @@ public class Controller {
             editDate = console.readString("Enter a date for the order (mm/dd/yyyy), including leading zeroes:  ");
         }
         int orderNum = console.readInt("Enter the order number that you would like to edit.");
-        String fileIntro = editDate.substring(0, 2) + editDate.substring(3, 5) + editDate.substring(6);
+        String dateTag = editDate.substring(0, 2) + editDate.substring(3, 5) + editDate.substring(6);
 
-        Order editOrder = dao.retreiveEditOrder(editDate, fileIntro, String.valueOf(orderNum));
+        Order editOrder = dao.getOrder(dateTag, orderNum);
         if (editOrder == null) {
             console.print("There is no order number of " + orderNum + "on the date requested.");
         } else {
@@ -226,18 +247,15 @@ public class Controller {
             }
             String newFileIntro;
             if (newDate.equals(editDate) || newDate.isEmpty()) {
-                newFileIntro = fileIntro;
+                newFileIntro = dateTag;
             } else {
 
-                newFileIntro = fileIntro;
+                newFileIntro = dateTag;
                 changeDate = true;
             }
 
             Order correctedOrder = new Order();
             console.print("Enter new values or press ENTER to keep the old value.");
-
-            String stringOrder = console.readString("Order Number (" + editOrder.getOrderNumber() + "):  ");
-            updateOrderNumber(editOrder, correctedOrder, stringOrder);
 
             String custName = console.readString("Customer name (" + editOrder.getCustomerName() + "):  ");
             updateCustName(editOrder, correctedOrder, custName);
@@ -272,8 +290,7 @@ public class Controller {
             String Strtotal = console.readString("Total Cost of Order (" + editOrder.getLaborCost() + "):");
             updateTotal(editOrder, correctedOrder, Strtotal);
 
-            dao.switchOrder(editOrder, correctedOrder, fileIntro, newFileIntro);
-
+//            dao.switchOrder(editOrder, correctedOrder, dateTag, newFileIntro);
         }
     }
 
@@ -314,27 +331,6 @@ public class Controller {
 
     private void saveWork() throws FileNotFoundException {
         dao.saveAllChanges();
-    }
-
-    private void updateOrderNumber(Order editOrder, Order corrOrder, String strOrder) {
-        if (strOrder.isEmpty()) {
-            corrOrder.setOrderNumber(editOrder.getOrderNumber());
-        } else {
-            try {
-                int orderNumber = Integer.parseInt(strOrder);
-                corrOrder.setOrderNumber(orderNumber);
-
-            } catch (NumberFormatException e) {
-                console.print("Order number must be an integer.");
-                int orderNumber = console.readInt("Enter a valid order number or 0 to keep current value.", 0, 1000000);
-                if (orderNumber == 0) {
-                    corrOrder.setOrderNumber(editOrder.getOrderNumber());
-                } else {
-                    corrOrder.setOrderNumber(orderNumber);
-                }
-
-            }
-        }
     }
 
     private void updateCustName(Order editOrder, Order corrOrder, String strName) {
@@ -621,4 +617,5 @@ public class Controller {
             }
         }
     }
+
 }
