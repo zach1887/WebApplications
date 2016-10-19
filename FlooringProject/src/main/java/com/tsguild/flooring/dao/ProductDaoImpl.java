@@ -28,11 +28,11 @@ public class ProductDaoImpl implements ProductDao {
 
     private String FILE_NAME;
     private final String DELIMITER = ",";
-    private HashMap<String, Product> priceMap = new HashMap<>();
+    private HashMap<String, Product> productMap = new HashMap<>();
     public boolean typeIncluded;
 
     public ProductDaoImpl() {
-        priceMap = new HashMap<>();
+        productMap = new HashMap<>();
         FILE_NAME = "Data/Products.txt";
     }
 
@@ -50,7 +50,7 @@ public class ProductDaoImpl implements ProductDao {
                     Double laborCost = Double.parseDouble(priceProperties[2]);
                     Product newPrice = new Product(productType,materialCost, laborCost);
 
-                    priceMap.put(priceProperties[0], newPrice);
+                    productMap.put(priceProperties[0], newPrice);
                 } catch (NumberFormatException e) {
                     continue;
                 }
@@ -62,25 +62,16 @@ public class ProductDaoImpl implements ProductDao {
         }
     }
 
-    @Override
-    public String getMaterialName(String productType) {
-        if (!priceMap.containsKey(productType))
-            return null;
-        return priceMap.get(productType).getMaterialName();
-    }
-    @Override
-    public double getMaterialCost(String productType) {
-        return priceMap.get(productType).getMaterialCostPerSqFt();
-    }
 
-    @Override
-    public double getLaborCost(String productType) {
-        return priceMap.get(productType).getLaborCostPerSqFt();
+    
+    @Override 
+    public Product getProduct (String productType) {
+        return productMap.get(productType);
     }
 
     @Override    
     public Set <String> listAllValues() {
-        return priceMap.keySet();
+        return productMap.keySet();
     }
 
 }

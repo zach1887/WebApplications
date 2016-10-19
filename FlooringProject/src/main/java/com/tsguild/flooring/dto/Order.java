@@ -34,6 +34,7 @@ public class Order {
         this.productType = productType;
         this.squareFT = squareFT;
     }
+    
     // all args constructor used only for testing.
     public Order(int orderNumber, String customerName, String stateAbbrev, double taxRate, String productType, double squareFT, double materialCostPerSqFt, double laborCostPerSqFt, double materialCost, double laborCost, double compTax, double totalAmt) {
         this.orderNumber = orderNumber;

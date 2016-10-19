@@ -5,6 +5,7 @@
  */
 package com.tsguild.flooring.dao;
 
+import com.tsguild.flooring.dto.Product;
 import java.util.Set;
 
 /**
@@ -13,11 +14,8 @@ import java.util.Set;
  */
 public interface ProductDao {
 
-    String getMaterialName (String productType);
     
-    double getLaborCost(String productType);
-
-    double getMaterialCost(String productType);
+    Product getProduct (String productType);
     
     Set<String> listAllValues();
 

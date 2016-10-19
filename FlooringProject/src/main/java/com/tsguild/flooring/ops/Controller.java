@@ -8,6 +8,7 @@ package com.tsguild.flooring.ops;
 import com.tsguild.flooring.ui.ConsoleIO;
 import com.tsguild.flooring.dao.*;
 import com.tsguild.flooring.dto.Order;
+import com.tsguild.flooring.dto.Product;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,7 +47,7 @@ public class Controller {
     public void run() throws IOException, ParseException {
         boolean runMenu = true;
         pdao.loadFromFile();
-        tdao.LoadFromFile();
+        tdao.loadFromFile();
 
         boolean runTestMenu = testingMenu();
 
@@ -171,7 +172,8 @@ public class Controller {
         }
 
         String productType = console.readString("Enter the product type for the customer:  ");
-        String materialName = pdao.getMaterialName(productType);
+        Product prod = pdao.getProduct(productType);
+        String materialName = prod.getMaterialName();
         while (materialName == null) {
             console.print("There is no product type with that name in our files.Please make another selection.");
             console.print("Available choices are listed below.");
@@ -180,7 +182,8 @@ public class Controller {
                 console.print(p);
             });
             productType = console.readString("Enter the product type for the customer:  ");
-            materialName = pdao.getMaterialName(productType);
+            prod = pdao.getProduct(productType);
+            materialName = prod.getMaterialName();
         }
 
         double sqFt = console.readDouble("Enter the square feet of flooring for the order (max 10,000 sq ft):  ", 1, 10000);
@@ -200,8 +203,9 @@ public class Controller {
         newOrder.setSquareFT(sqFt);
 
         newOrder.setTaxRate(tdao.getTaxRate(stateAbbrev));
-        newOrder.setMaterialCostPerSqFt(pdao.getMaterialCost(productType));
-        newOrder.setLaborCostPerSqFt(pdao.getLaborCost(productType));
+//        Product prod = pdao.getProduct(productType);
+        newOrder.setMaterialCostPerSqFt(prod.getMaterialCostPerSqFt());
+        newOrder.setLaborCostPerSqFt(prod.getLaborCostPerSqFt());
 
         newOrder.setLaborCost(sqFt * newOrder.getLaborCostPerSqFt());
         newOrder.setMaterialCost(sqFt * newOrder.getMaterialCostPerSqFt());

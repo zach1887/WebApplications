@@ -7,6 +7,7 @@ package com.tsguild.flooring.dao;
  */
 import com.tsguild.flooring.dto.Order;
 import java.io.IOException;
+import java.util.Collection;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -69,11 +70,11 @@ public class OrderDaoTest {
     }
 
     @Test
-    public void addManyOrderTestAll() throws IOException {
+    public void getOrderTest() throws IOException {
         for (Order o : testOrdersAllArgs) {
             dao.addOrders("06302016", o);
         }
-        Assert.assertEquals(5,dao.displayOrders("06302016").size());
+        Assert.assertEquals(5, dao.displayOrders("06302016").size());
         Order output = dao.getOrder("06302016", 16);
         Assert.assertEquals(output, testOrdersAllArgs[0]);
         Order output1 = dao.getOrder("06302016", 18);
@@ -94,7 +95,19 @@ public class OrderDaoTest {
         Order drop16 = dao.getOrder("07302016", 16);
         dao.removeOrder("07302016", 16);
         Assert.assertNull(dao.getOrder("07302016", 16));
-        Assert.assertEquals(4,dao.displayOrders("06302016").size());
+        Assert.assertEquals(4, dao.displayOrders("07302016").size());
+    }
+
+    @Test
+    public void displayOrdersTest() throws IOException {
+        for (Order o : testOrdersAllArgs) {
+            dao.addOrders("08302016", o);
+        }
+        Collection<Order> coll = dao.displayOrders("08302016");
+        
+        Assert.assertEquals("Result not as expected",5,coll.size());
+        Assert.assertEquals("Result not as expected",3, coll.stream().filter(f -> f.getProductType().contains("Lam")).count());
+        Assert.assertEquals("Result not as expected",2, coll.stream().filter(f -> f.getStateAbbrev().contains("TN")).count());
     }
 
 }

@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public interface TaxesDao {
 
-    void LoadFromFile() throws IOException;
+    void loadFromFile() throws IOException;
 
     boolean doesStateExist(String stateAbbrev);
 

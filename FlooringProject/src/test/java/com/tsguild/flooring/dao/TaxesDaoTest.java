@@ -37,7 +37,7 @@ public class TaxesDaoTest {
     @Before
     public void setUp() throws IOException {
         testDao = new TaxesDaoImpl();
-        testDao.LoadFromFile();
+        testDao.loadFromFile();
     }
     
     @After
