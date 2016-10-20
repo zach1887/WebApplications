@@ -19,7 +19,7 @@ import java.text.ParseException;
  */
 public class FlooringApp {
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
 
         ApplicationContext springFactory = new ClassPathXmlApplicationContext("applicationContext.xml");
         Controller cont = springFactory.getBean("controller", Controller.class);

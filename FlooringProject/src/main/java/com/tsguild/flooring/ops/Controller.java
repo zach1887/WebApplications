@@ -44,7 +44,7 @@ public class Controller {
         this.console = console;
     }
 
-    public void run() throws IOException, ParseException {
+    public void run() throws IOException {
         boolean runMenu = true;
         pdao.loadFromFile();
         tdao.loadFromFile();
@@ -173,8 +173,8 @@ public class Controller {
 
         String productType = console.readString("Enter the product type for the customer:  ");
         Product prod = pdao.getProduct(productType);
-        String materialName = prod.getMaterialName();
-        while (materialName == null) {
+//        String materialName = prod.getMaterialName();
+        while (prod == null) {
             console.print("There is no product type with that name in our files.Please make another selection.");
             console.print("Available choices are listed below.");
             Set<String> prodList = pdao.listAllValues();
@@ -183,9 +183,9 @@ public class Controller {
             });
             productType = console.readString("Enter the product type for the customer:  ");
             prod = pdao.getProduct(productType);
-            materialName = prod.getMaterialName();
+            String materialName = prod.getMaterialName();
         }
-
+        String materialName = prod.getMaterialName();
         double sqFt = console.readDouble("Enter the square feet of flooring for the order (max 10,000 sq ft):  ", 1, 10000);
 
         Order newOrder = new Order();
@@ -212,7 +212,23 @@ public class Controller {
         newOrder.setCompTax(sqFt * newOrder.getTaxRate() / 100);
         newOrder.setTotalAmt(newOrder.getLaborCost() + newOrder.getMaterialCost() + newOrder.getCompTax());
 
-        dao.addOrders(dateTag, newOrder);
+        console.print("Customer Name:                              " + newOrder.getCustomerName());
+        console.print("\nOrder Number:                             " + newOrder.getOrderNumber());
+        console.print("\nState:                                    " + newOrder.getStateAbbrev());
+        console.print("\nState Tax Rate:                           " + newOrder.getTaxRate() + "%");
+        console.print("\nFlooring Type:                            " + newOrder.getProductType());
+        console.print("\nSquare Footage of Order                   " + newOrder.getSquareFT());
+        console.print("\nMaterial Cost per Square Foot             " + df.format(newOrder.getMaterialCostPerSqFt()));
+        console.print("\nLabor Cost per Square Foot                " + df.format(newOrder.getLaborCostPerSqFt()));
+        console.print("\nTotal Cost for Material                   " + df.format(newOrder.getMaterialCost()));
+        console.print("\nTotal Cost for Labor                      " + df.format(newOrder.getLaborCost()));
+        console.print("\nTotal Tax                                 " + df.format(newOrder.getCompTax()));
+        console.print("\nTotal Cost                                " + df.format(newOrder.getTotalAmt()));
+
+        int confirm = console.readInt("Select (1) to add this order and (2) to cancel the order.", 1, 2);
+        if (confirm == 1) {
+            dao.addOrders(dateTag, newOrder);
+        }
     }
 
     private void removeMenu() throws IOException {
