@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.factorizerapp_v2;
+package com.tsguild.rsvp_pretty;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Jesse
+ * @author apprentice
  */
-@WebServlet(name = "Factorize", urlPatterns = {"/Factors"})
-public class Factorize extends HttpServlet {
+@WebServlet(name = "RSVP", urlPatterns = {"/RSVP"})
+public class RSVP extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,23 +29,6 @@ public class Factorize extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Factorize</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Factorize at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -60,7 +41,7 @@ public class Factorize extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**
@@ -71,24 +52,32 @@ public class Factorize extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String givenNumber = request.getParameter("value");
-    ArrayList<Integer> factors = new ArrayList<>();
-        int valueInt = Integer.parseInt(givenNumber);
+        String whosComing;
+        String ifTheyreComing;
+        String llamasBeingBrought;  // will eventually be parsed as an integer
+        // then we need to GET the information from the parameters
 
-        for (int k = 1; k <= valueInt/2; k++) {  //no need to check factors greater than half the userInput
+        whosComing = request.getParameter("name");
+        ifTheyreComing = request.getParameter("RSVP");
+        llamasBeingBrought = request.getParameter("llamas");
 
-            if (valueInt % k == 0) {
-                factors.add(k);
-            }
+        //Don't trust user input or the process could explode
+        int llamasBrought = Integer.parseInt(llamasBeingBrought);
+
+        if (whosComing == null || whosComing.isEmpty()) {
+            request.setAttribute("msg", "No name, no confirmation, dawg.");
+        } else if (ifTheyreComing == null || ifTheyreComing.isEmpty()) {
+            request.setAttribute("msg", "Need an answer, dumbass.");
+        } else if("fosho".equals(ifTheyreComing)) {
+            request.setAttribute("msg", "Awesome... bring a 40.");
+        } else if("nah".equals(ifTheyreComing)) {
+            request.setAttribute("msg", "Whatever... you still owe me a 40.");
         }
-        request.setAttribute("providedNumber", valueInt);
-        request.setAttribute("listOfFactors", factors);
-
-        request.getRequestDispatcher("output.jsp").forward(request, response);
+        
+        request.getRequestDispatcher("response.jsp").forward(request, response);
 
     }
 

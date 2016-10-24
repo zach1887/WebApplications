@@ -1,7 +1,7 @@
 <%-- 
-    Document   : output.jsp
-    Created on : Oct 23, 2016, 10:17:22 PM
-    Author     : Jesse
+    Document   : response
+    Created on : Oct 21, 2016, 10:19:46 AM
+    Author     : apprentice
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,14 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Factors</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Factors of ${providedNumber} </h1>
-        <c:forEach items="${listOfFactors}" var="factor"> 
-            ${factor} 
-        </c:forEach>
-
+        <h1>Hello World!</h1>
     </body>
 </html>
-
