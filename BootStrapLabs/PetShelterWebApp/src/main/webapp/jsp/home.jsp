@@ -5,30 +5,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hello Controller Page</title>
+        <title>Pet Shelter Extraordinaire Web Application</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-
+        
         <!-- SWC Icon -->
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icon.png">
 
     </head>
     <body>
         <div class="container">
-            <h1>Spring MVC Application from Archetype</h1>
             <hr/>
             <div class="navbar">
-                 <ul class="nav nav-tabs">
-                 <li role="presentation"><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-                <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/hello/sayhi">Hello Controller</a></li>
-                </ul>   
-                
+                <ul class="nav nav-tabs">
+                	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/search">Search</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/stats">Stats</a></li>
+                </ul>    
             </div>
-            <h2>${message}</h2>
-            <h3><c:out "${LlamaName}" default ="No llamas here... MOVE ALONG"> </c:out>
+            <h2>Home Page</h2>
         </div>
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="${pageContext.request.contextPath}/js/jquery-3.0.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
     </body>
