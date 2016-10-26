@@ -14,9 +14,22 @@
     </head>
     <body>
         <h1>Factors of ${providedNumber} </h1>
+        <h2> "$numFactors}"
         <c:forEach items="${listOfFactors}" var="factor"> 
             ${factor} 
         </c:forEach>
+        <c:if test="${isPrime}">
+            <h1>   ${providedNumber} is a PRIME Number.
+        </c:if>
+        <c:if test="!${isPrime}">
+            <h1>   ${providedNumber} is not a Prime Number.
+        </c:if>
+        <c:if test="${isPerfect}">
+            <h1>   ${providedNumber} is a PERFECT Number.
+        </c:if>
+        <c:if test="!${isPerfect}">
+            <h1>   ${providedNumber} is not a perfect Number.
+        </c:if> 
 
     </body>
 </html>

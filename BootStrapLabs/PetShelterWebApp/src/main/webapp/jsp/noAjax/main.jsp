@@ -18,13 +18,16 @@
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
-                	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/ajaxFree/home">No Ajax Home</a></li>
                 	<li role="presentation"><a href="${pageContext.request.contextPath}/search">Search</a></li>
                 	<li role="presentation"><a href="${pageContext.request.contextPath}/stats">Stats</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/addPets">Add Random Pets</a></li>
+                         <li role="presentation"><a href="${pageContext.request.contextPath}/ajaxFree/add">Add A Pet</a></li>
                 </ul>    
             </div>
                         <c:forEach items="${petList}" var ="pet">
-                            ${pet.petName} - ${pet.petBreed} sdsdsd
+                            ${pet.petName} - ${pet.petBreed} 
                         </c:forEach>
             <h2>Home Page</h2>
         </div>

@@ -9,16 +9,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Factorizer</title>
+        <title>Lucky Sevens</title>
     </head>
     <body>
         <div class="container"> 
             <div class="col-sm-offset-2 col-sm-8">
-                <form class="form-horizontal" action="Factorizer" method="POST">
+                <form class="form-horizontal" action="LuckySevens" method="POST">
                     <div class="form-group"> 
-                        <label class="control-label col-sm-2" for="name">Select a number to factor</label>
+                        <label class="control-label col-sm-2" for="name">How much do you feel like risking?</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="input">
+                            <input type="number" class="form-control" name="input" min="1" max = "100000">
                         </div>
                     </div>
             </div>

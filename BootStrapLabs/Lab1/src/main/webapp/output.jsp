@@ -1,32 +1,37 @@
 <%-- 
-    Document   : output
-    Created on : Oct 25, 2016, 3:27:09 PM
-    Author     : apprentice
+    Document   : output.jsp
+    Created on : Oct 23, 2016, 10:17:22 PM
+    Author     : Jesse
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" 
-           uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <!-- 2.2.4 compiled and minified jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <title>JSP Page</title>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Factors</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        ${msg}
+        <h1>Factors of ${providedNumber} </h1>
+        <h2> This number has ${numFactors} factors, not including itself.</h2>
+        <c:forEach items="${listOfFactors}" var="factor"> 
+            ${factor} 
+        </c:forEach>
+        <c:if test="${primeNumber}">
+            <h1>   ${providedNumber} is a PRIME Number.
+        </c:if>
+        <c:if test= "${!primeNumber}">
+            <h1>   ${providedNumber} is not a Prime Number.
+        </c:if>
+        <c:if test="${perfectNumber}">
+            <h1>   ${providedNumber} is a PERFECT Number.
+        </c:if>
+        <c:if test="${!perfectNumber}">
+            <h1>   ${providedNumber} is not a perfect Number.
+        </c:if> 
+
     </body>
 </html>
+
