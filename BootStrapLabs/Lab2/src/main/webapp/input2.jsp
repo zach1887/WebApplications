@@ -21,6 +21,7 @@
                             <input type="number" class="form-control" name="input" min="1" max = "100000">
                         </div>
                     </div>
+                </form>
             </div>
         </div>
     </body>
