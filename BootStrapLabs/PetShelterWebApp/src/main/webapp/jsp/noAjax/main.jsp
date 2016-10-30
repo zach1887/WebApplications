@@ -27,7 +27,17 @@
                 </ul>    
             </div>
                         <c:forEach items="${petList}" var ="pet">
-                            ${pet.petName} - ${pet.petBreed} 
+                            <s:url value="/ajaxFree/edit" var="editPetLink">
+                                <s:param name="petId" value="${pet.petId}"></s:param>
+                            </s:url>
+                            
+                            <s:url value="/ajaxFree/adopt" var="adoptPetLink">
+                                <s:param name="petId" value="${pet.petId}"></s:param>
+                            </s:url>
+                            
+                            ${pet.petName} - ${pet.petBreed} - <a href="${editPetLink}">Edit Pet</a>
+                            - <a href="${adoptPetLink}">Adopt Pet</a> <br/>
+                                
                         </c:forEach>
             <h2>Home Page</h2>
         </div>

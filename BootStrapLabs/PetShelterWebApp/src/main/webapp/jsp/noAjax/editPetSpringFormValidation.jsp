@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -26,23 +27,25 @@
                     <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/ajaxFree/add">Add A Pet</a></li>
                 </ul>    
             </div>
-            <div class="col-lg-offset-3 col-lg-6">
-                <h1> Add a new pet to our records: </h1>
-                <form action ="" method="POST">
-                    <input  type="text" name="petName" /><br/>
-                    <input  type="text" name="petBreed" /><br/>
-                    <input  type="text" name="petDisp" /><br>
-                    <input  type="radio" name="vaccinated" value="si" /> Yes
-                    <input  type="radio" name="vaccinated" value="no" /> No
-                    <input type="submit" value="Add Pet" /> 
-                </form>
+            <div class ="col-lg-offset-3 col-lg-6">
+                <h1>Edit Pet Record:</h1>
+                <sf:form modelAttribute="editThisPet" action ="/PetShelterWebApp/ajaxFree/editWithSpring" method="POST">
+                    Name:<sf:input type = "text" path="petName" placeholder="PetName"></sf:input><br/>
+                    <sf:errors path="petName"> </sf:errors><br/>
+                    Breed:<sf:input type = "text" path="petBreed" placeholder="Pet Breed"></sf:input><br/>
+                    <sf:errors path="petBreed"> </sf:errors><br/>
+                    Disposition:<sf:input type = "text" path="disposition" placeholder="Disposition"></sf:input><br/>
+                    <sf:errors path="disposition"> </sf:errors><br/>
+                    Vaccinated?<sf:checkbox path="vaccinated" /><br/>
+                    <sf:errors path="vaccinated"> </sf:errors><br/>
+                    <sf:hidden path="petId" />
+                    <button type="submit">Edit Pet</button>
+                </sf:form>
+                </div>
+                <!-- Placed at the end of the document so the pages load faster -->
+                <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
+                <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
-            </div>
-        </div>
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-
-    </body>
-</html>
+        </body>
+    </html>
 

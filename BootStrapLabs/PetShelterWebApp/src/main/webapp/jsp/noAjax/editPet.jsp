@@ -26,15 +26,18 @@
                     <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/ajaxFree/add">Add A Pet</a></li>
                 </ul>    
             </div>
-            <div class="col-lg-offset-3 col-lg-6">
-                <h1> Add a new pet to our records: </h1>
-                <form action ="" method="POST">
-                    <input  type="text" name="petName" /><br/>
-                    <input  type="text" name="petBreed" /><br/>
-                    <input  type="text" name="petDisp" /><br>
-                    <input  type="radio" name="vaccinated" value="si" /> Yes
-                    <input  type="radio" name="vaccinated" value="no" /> No
-                    <input type="submit" value="Add Pet" /> 
+            <div class=""col-lg-offset-3 col-lg-6>
+                <h1> Edit Pet</h1>
+                <form action ="/PetShelterWebApp/ajaxFree/edit" method="POST">
+                    <input name = "petId" type="hidden" value ="${editThisPet.petId}" /><br/>
+                    <input  type="text" name="petName" value="${editThisPet.petName}" /><br/>
+                    <input  type="text" name="petBreed" value="${editThisPet.petBreed}" /><br/>
+                    <input  type="text" name="petDisp" value="${editThisPet.disposition}" /><br>
+                    <input  type="radio" name="vacc" value="si"
+                            <c:if test="${editThisPet.vaccinated}"> checked="checked" </c:if> >Yes
+                            <input  type="radio" name="vacc" value="no"
+                            <c:if test="${!editThisPet.vaccinated}"> checked="checked" </c:if>> No
+                    <input type="submit" value="Edit Pet" /> 
                 </form>
 
             </div>

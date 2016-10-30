@@ -14,10 +14,10 @@
     </head>
     <body>
         Principal:  "${Principal}"
-        <c:forEach var="i" begin = "0" end="5">
-            Year: <c:out value="{YearNumber{i)}"></c:out>
-            Amount: <c:out value="{EndOfYearAmount(i)}"></c:out>
-            Interest: <c:out value="{YearlyInterest(i)}"></c:out>
+        <c:forEach items="${YearNumber}" begin = "0" end="5">
+            Year: <c:out value="${YearNumber}"></c:out>
+            Amount: <c:out value="${EndOfYearAmount}"></c:out>
+            Interest: <c:out value="${YearlyInterest}"></c:out>
         </c:forEach>
     </body>
 </html>

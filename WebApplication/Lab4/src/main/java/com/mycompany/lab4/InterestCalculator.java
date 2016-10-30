@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 public class InterestCalculator extends HttpServlet {
 
     DecimalFormat df = new DecimalFormat("#.00");
-    ArrayList<Integer> yearNumber = new ArrayList();
-    ArrayList<Double> endYearTotal = new ArrayList();
-    ArrayList<Double> yearlyInterest = new ArrayList();
+//    ArrayList<Integer> yearNumber = new ArrayList();
+//    ArrayList<Double> endYearTotal = new ArrayList();
+//    ArrayList<Double> yearlyInterest = new ArrayList();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -93,22 +93,27 @@ public class InterestCalculator extends HttpServlet {
         double runningAmt = principal;
         double interest = 0;
 
+        ArrayList<Year> yearsRecords = new ArrayList<>();
+        
         for (int i = 1; i <= numCompounds * years; i++) {
             interest += runningAmt * (rate / (numCompounds * 100));
             runningAmt = runningAmt * (1 + rate / (numCompounds * 100));
             if (i % numCompounds == 0) {
-                yearNumber.add(i/numCompounds);
-                endYearTotal.add(runningAmt);
-                yearlyInterest.add(interest);
+                Year temp = new Year();
+                temp.setYearEndAmt(i/numCompounds);
+                temp.setYearEndAmt(runningAmt);
+                temp.setYearlyInterest(interest);
                 interest = 0;
+                
+                yearsRecords.add(temp);
             }
         }
         request.setAttribute("Principal", df.format(principal));
         request.setAttribute("NumYears", years);
         request.setAttribute("InterestRate", rate);
-        request.setAttribute("YearNumber", yearNumber);
-        request.setAttribute("EndOfYearAmt", endYearTotal);
-        request.setAttribute("YearlyInterest", yearlyInterest);
+//        request.setAttribute("YearNumber", yearNumber);
+//        request.setAttribute("EndOfYearAmt", endYearTotal);
+//        request.setAttribute("YearlyInterest", yearlyInterest);
         request.getRequestDispatcher("output.jsp").forward(request, response);
 
     }
