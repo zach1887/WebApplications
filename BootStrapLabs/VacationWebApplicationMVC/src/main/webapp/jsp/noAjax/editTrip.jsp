@@ -26,15 +26,15 @@
                     <li role="presentation"><a href="${pageContext.request.contextPath}/ajaxFree/home">Display</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/search">Search</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/stats">Stats</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/stats">Add Test Data</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/add">Add New Trip</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/addTest">Add Test Data</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/ajaxFree/add">Add New Trip</a></li>
                 </ul>    
             </div>
         </div>
         <div class="col-lg-offset-3 col-lg-6">
             <h1> Add a new trip to the records:</h1>
-            <form action ="" method="POST">
-                <input type="text" type = "hidden" name="tripID" value ="${editThisTrip.tripID}"/> <br/>
+            <form action ="ajaxFree/edit" method="POST">
+              <input type = "hidden" name="tripId" value ="${editThisTrip.tripId}"/> <br/>
                 <label for="tripMonth"> Month of Trip </label>
                 <input type="text" name="tripMonth" value ="${editThisTrip.monthOfTrip}"/> <br/>
                 <label for="tripYear"> Year of Trip </label>
@@ -44,7 +44,7 @@
                 <label for="destCountry"> Country of Destination </label>
                 <input type="text" name="destCountry" value ="${editThisTrip.destCountry}" /> <br/>
                 <label for="length"> Length in Days </label>
-                <input type="text" name="length" value ="${editThisTrip.dlengthDays}"/> <br/>
+                <input type="text" name="length" value ="${editThisTrip.lengthDays}"/> <br/>
 
                 <label for="overseas"> Was this trip overseas? </label>
                 <input  type="radio" name="overseas" value="si" 

@@ -27,7 +27,7 @@
                     <li role="presentation"><a href="${pageContext.request.contextPath}/search">Search</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/stats">Stats</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/addTest">Add Test Data</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/add">Add New Trip</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/ajaxFree/add">Add New Trip</a></li>
                 </ul>    
             </div>
         </div>
@@ -46,10 +46,11 @@
                 <input type="text" name="length" /> <br/>
                 <label for="overseas"> Was this trip overseas? </label>
                 <input  type="radio" name="overseas" value="si" /> Yes
-                <input  type="radio" name="overseas" value="no" /> No
-                                <label for="length"> Other cities visited</label>
-                <input type="text" name="otherCities" /> <br/>
+                <input  type="radio" name="overseas" value="no" /> No <br/>
+                <label for="length"> Other cities visited</label>
+                <input type="text" name="otherCities" /> <br/> 
+                <input type="submit" value="Add Trip" /> 
             </form>
-                <h1>Add Record Page</h1>
-                </body>
-                </html>
+            <h1>Add Record Page</h1>
+    </body>
+</html>
