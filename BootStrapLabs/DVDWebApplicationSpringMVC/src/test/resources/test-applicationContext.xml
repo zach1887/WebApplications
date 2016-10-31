@@ -16,6 +16,6 @@
 
     <!-- Bean definitions go here -->
    <bean id="DVDLibraryDao"
-        class = "com.tsguild.dvdwebapplicationspringmvc.dao.DVDLibraryImpl;>
+        class = "com.tsguild.dvdwebapplicationspringmvc.dao.DVDLibraryImpl">
    </bean>
 </beans>

@@ -71,7 +71,7 @@ public class Trip {
         return destCountry;
     }
 
-    public void setDestCounrty(String destCounrty) {
+    public void setDestCountry(String destCounrty) {
         this.destCountry = destCountry;
     }
 

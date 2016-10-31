@@ -23,11 +23,11 @@
             <div class="navbar">
                 <ul class="nav nav-tabs">
                     <li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/home">Display</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/ajaxFree/home">Display</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/search">Search</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/stats">Stats</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/stats">Add Test Data</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/stats">Add New Trip</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/addTest">Add Test Data</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/add">Add New Trip</a></li>
                 </ul>    
             </div>
         </div>
