@@ -51,6 +51,5 @@
                 <input type="text" name="otherCities" /> <br/> 
                 <input type="submit" value="Add Trip" /> 
             </form>
-            <h1>Add Record Page</h1>
     </body>
 </html>

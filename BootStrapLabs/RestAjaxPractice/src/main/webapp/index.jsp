@@ -26,12 +26,19 @@
             <h1 id=""llama">filler</h1>
             <input type="text" id="llamaName" />
             <button id="makeLlama">Make Llama </button>
-
+            
+            <br/>
+            
+            <button id="getAllLlamas">GET DA LLAMAS</button>
+            <div id="llamaHerd"></div>
         </div>
+        
+        
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/sandbox.js"></script>
+        <script src="${pageContext.request.contextPath}/js/PlayPen.js"></script>
     </body>
 </body>
 </html>

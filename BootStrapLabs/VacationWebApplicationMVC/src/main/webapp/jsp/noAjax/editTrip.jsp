@@ -32,8 +32,8 @@
             </div>
         </div>
         <div class="col-lg-offset-3 col-lg-6">
-            <h1> Add a new trip to the records:</h1>
-            <form action ="ajaxFree/edit" method="POST">
+            <h1> Edit an existing record:</h1>
+            <form action ="/VacationWebApplicationMVC/ajaxFree/edit" method="POST">
               <input type = "hidden" name="tripId" value ="${editThisTrip.tripId}"/> <br/>
                 <label for="tripMonth"> Month of Trip </label>
                 <input type="text" name="tripMonth" value ="${editThisTrip.monthOfTrip}"/> <br/>
@@ -61,6 +61,5 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-            <h1>Add Record Page</h1>
     </body>
 </html>

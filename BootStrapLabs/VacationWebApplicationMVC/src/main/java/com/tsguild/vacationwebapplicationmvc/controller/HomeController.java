@@ -43,7 +43,7 @@ public class HomeController {
         model.addAttribute("tripList", dao.getAllTrips());
         return "noAjax/main";
     }
-    
+
     @RequestMapping(value = "/ajaxFree/add", method = RequestMethod.GET)
     public String displayAddForm() {
         return "noAjax/addTrip";
@@ -51,24 +51,24 @@ public class HomeController {
 
     @RequestMapping(value = "/ajaxFree/add", method = RequestMethod.POST)
     public String processAddForm(HttpServletRequest request) {
-        String monthTrip = request.getParameter("monthOfTrip");
-        String year = request.getParameter("yearOfTrip");
+        String monthTrip = request.getParameter("tripMonth");
+        String year = request.getParameter("tripYear");
         String destCity = request.getParameter("destCity");
         String destCountry = request.getParameter("destCountry");
-        String length = request.getParameter("lengthDays");
-        String overseas = request.getParameter("tripOverseas");
-        String otherCities = request.getParameter("otherCitiesVisited");
+        String length = request.getParameter("length");
+        String overseas = request.getParameter("overseas");
+        String otherCities = request.getParameter("otherCities");
 
-        try {
-            int yearTrip = Integer.parseInt(year);
-            int lengthTrip = Integer.parseInt(length);
+        if (!monthTrip.isEmpty() && monthTrip != null
+                && !year.isEmpty() && year != null
+                && !destCity.isEmpty() && destCity != null
+                && !destCountry.isEmpty() && destCountry != null
+                && !length.isEmpty() && length != null
+                && !overseas.isEmpty() && overseas != null) {
 
-            if (!monthTrip.isEmpty() && monthTrip != null
-                    && !year.isEmpty() && year != null
-                    && !destCity.isEmpty() && destCity != null
-                    && !destCountry.isEmpty() && destCountry != null
-                    && !length.isEmpty() && length != null
-                    && !overseas.isEmpty() && overseas != null) {
+            try {
+                int yearTrip = Integer.parseInt(year);
+                int lengthTrip = Integer.parseInt(length);
 
                 Trip newTrip;
                 if ("si".equals(overseas)) {
@@ -78,57 +78,56 @@ public class HomeController {
                 }
                 dao.addTrip(newTrip);
                 return "redirect:/home";
+            } catch (NumberFormatException e) {
+                return "home";
             }
-        } catch (NumberFormatException e) {
-            return "noAjax/addTrip";
+        } else {
+            return "redirect:/home";
         }
-
-        return "redirect:/home";
     }
-    
+
     @RequestMapping(value = "ajaxFree/remove", method = RequestMethod.GET)
     public String removeTrip(HttpServletRequest request) {
         String tripIdString = request.getParameter("tripId");
-         int id = Integer.parseInt(tripIdString);
-         dao.removeTrip(id);
-         return "redirect:/ajaxFree/home";     
+        int id = Integer.parseInt(tripIdString);
+        dao.removeTrip(id);
+        return "redirect:/ajaxFree/home";
     }
 
-    @RequestMapping(value = "/ajaxFree/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "ajaxFree/edit", method = RequestMethod.GET)
     public String displayEditForm(Model model, HttpServletRequest request) {
         String tripToEditId = request.getParameter("tripId");
         int tripId = Integer.parseInt(tripToEditId);
         Trip tr = dao.getTripById(tripId);
-        model.addAttribute("editThisTrip",tr);
+        model.addAttribute("editThisTrip", tr);
         return "noAjax/editTrip";
     }
-    
-    @RequestMapping(value = "/ajaxFree/edit", method = RequestMethod.POST)
+
+    @RequestMapping(value = "ajaxFree/edit", method = RequestMethod.POST)
     public String processEditForm(Model model, HttpServletRequest request) {
         String stringId = request.getParameter("tripId");
-        String stringMonth = request.getParameter("monthOfTrip");
-        String stringYear = request.getParameter("yearOfTrip");
+        String stringMonth = request.getParameter("tripMonth");
+        String stringYear = request.getParameter("tripYear");
         String stringCity = request.getParameter("destCity");
-        String stringLength = request.getParameter("daysLength");
+        String stringLength = request.getParameter("length");
         String stringCountry = request.getParameter("destCountry");
-        String otherCities = request.getParameter("otherCitiesVisited");
-        
+        String otherCities = request.getParameter("otherCities");
+
         int tripId = Integer.parseInt(stringId);
         int days = Integer.parseInt(stringLength);
         int Year = Integer.parseInt(stringYear);
-        
+
         boolean overseas = "si".equals(request.getParameter("overseas"));
-        
+
         if (overseas) {
-        Trip editTr = new Trip(tripId, stringMonth, Year, stringCity, stringCountry, days, true, otherCities);
-        dao.updateTrip(editTr);
-        }
-        else {
-        Trip editTr = new Trip(tripId, stringMonth, Year, stringCity, stringCountry, days, false, otherCities);
-        dao.updateTrip(editTr);
+            Trip editTr = new Trip(tripId, stringMonth, Year, stringCity, stringCountry, days, true, otherCities);
+            dao.updateTrip(editTr);
+        } else {
+            Trip editTr = new Trip(tripId, stringMonth, Year, stringCity, stringCountry, days, false, otherCities);
+            dao.updateTrip(editTr);
         }
         return "redirect:/ajaxFree/home";
- 
+
     }
 
     @RequestMapping(value = "/addTest", method = RequestMethod.GET)
@@ -142,7 +141,7 @@ public class HomeController {
         tr.setOtherCitiesVisited("Guayaquil, Cuenca");
         tr.setTripOverseas(true);
         dao.addTrip(tr);
-        model.addAttribute("petList", dao.getAllTrips());
+        model.addAttribute("tripList", dao.getAllTrips());
         return "noAjax/main";
     }
 }

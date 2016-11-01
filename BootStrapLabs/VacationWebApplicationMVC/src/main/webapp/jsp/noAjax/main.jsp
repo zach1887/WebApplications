@@ -32,11 +32,16 @@
             </div>
 
             <c:forEach items="${tripList}" var="trip">
-                <s:url value="edit" var="editTripLink">
+                <s:url value="/ajaxFree/edit" var="editTripLink">
                     <s:param name="tripId" value="${trip.tripId}"></s:param>
                 </s:url>
 
-                ${trip.yearOfTrip} - ${trip.destCountry} - <a href="${editTripLink}">Edit Trip</a> <br/>
+                <s:url value="/ajaxFree/remove" var="deleteTripLink">
+                    <s:param name="tripId" value="${trip.tripId}"></s:param>
+                </s:url>
+
+                ${trip.yearOfTrip} - ${trip.destCountry} - <a href="${editTripLink}">Edit Trip</a> 
+                - <a href="${deleteTripLink}">Remove Trip</a> <br/>
             </c:forEach>
         </div>
     </body>

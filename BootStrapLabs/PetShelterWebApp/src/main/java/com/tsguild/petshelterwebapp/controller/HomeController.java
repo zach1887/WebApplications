@@ -5,20 +5,68 @@
  */
 package com.tsguild.petshelterwebapp.controller;
 
+import com.tsguild.petshelterwebapp.dao.PetShelterDao;
+import com.tsguild.petshelterwebapp.dto.Pet;
+import java.util.List;
+import javax.inject.Inject;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
  * @author apprentice
  */
-
 @Controller
-public class HomeController {   
-    @RequestMapping(value={"/","/home"}, method=RequestMethod.GET)
+public class HomeController {
+
+    private PetShelterDao dao;
+
+    @Inject
+    public HomeController(PetShelterDao dao) {
+        this.dao = dao;
+    }
+
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String displayHomePage() {
         return "home";
     }
-       
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @RequestMapping(value = "/pet", method = RequestMethod.POST)
+    public Pet createPet(Pet incomingPet) {
+        dao.addPet(incomingPet);
+        return incomingPet;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/pets", method = RequestMethod.GET)
+    public List<Pet> getallPets() {
+        return dao.getAllPets();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/pet/{petId}", method = RequestMethod.GET)
+    public Pet getPetById(@PathVariable("petId")int petId) {
+        return dao.getPetByID(petId);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/pet/{petId}", method = RequestMethod.PUT)
+    public void updatePet(@PathVariable int petId, @RequestBody Pet updatedPet) {
+        updatedPet.setPetId(petId);
+        dao.updatePet(updatedPet);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/pet/{petId}", method = RequestMethod.DELETE)
+    public void adoptPet(@PathVariable int petId) {
+        dao.removePet(petId);
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package com.tsguild.restajaxpractice;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LlamaController {
 
     Map<String, Llama> llamaMap = new HashMap<>();
-    
-    @ResponseBody  
+
+    @ResponseBody
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public Llama testLlama() {
         return new Llama("Fred the Fourth");
     }
+
     @ResponseBody  // This is the annotation that declares .jsp not necessary
     @RequestMapping(value = "/fred", method = RequestMethod.GET)
     public Llama getFred() {
@@ -62,34 +64,39 @@ public class LlamaController {
         } else {
             foundLlama = llamaMap.get(llamaName);
         }
-    return foundLlama ;
-}
+        return foundLlama;
+    }
+
     @ResponseBody
-    @RequestMapping(value="makeLlama/{llamaName}", method=RequestMethod.GET)
+    @RequestMapping(value = "makeLlama/{llamaName}", method = RequestMethod.POST)
     public Llama makeNewLlamaWithPathVariables(@PathVariable String llamaName) {
         if (llamaName == null || llamaName.isEmpty()) {
             llamaName = "Billbo";
         }
-        
+
         Llama aLlama = new Llama(llamaName);
         llamaMap.put(llamaName, aLlama);
         return aLlama;
- 
+
     }
+
     @ResponseBody
-    @RequestMapping(value="getLlama/{llamaName}", method=RequestMethod.GET)
+    @RequestMapping(value = "getLlama/{llamaName}", method = RequestMethod.GET)
     public Llama getLlamaWithPathVariables(@PathVariable String llamaName) {
         Llama foundLlama;
         if (llamaName == null || llamaName.isEmpty()) {
             foundLlama = new Llama("Billbo");
-        }
-        else {
+        } else {
             foundLlama = llamaMap.get(llamaName);
         }
 
         return foundLlama;
- 
     }
-    
+
+    @ResponseBody
+    @RequestMapping(value = "/allLlamas", method = RequestMethod.GET)
+    public Collection<Llama> getAllLlamas() {
+        return llamaMap.values();
+    }
 
 }
