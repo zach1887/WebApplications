@@ -23,14 +23,14 @@
     </head>
     <body>
         ${msg}
-        <c:if test="{!badInput}">
-            Area:  ${Area}  <br> 
+            <div class="container">
+                
+            Area:  ${Area}  square feet <br/> 
             <fmt:setLocale value="en_US"/>  
-            <fmt:formatNumber type="currency" value ="${MaterialCost}" /> <br>
-            <fmt:formatNumber type="currency" value ="${LaborCost}" /> <br>
-            <fmt:formatNumber type="currency" value ="${TotalCost}" /> <br>
+            Material Cost:  <fmt:formatNumber type="currency" value ="${MaterialCost}" /> <br>
+            Labor Cost:  <fmt:formatNumber type="currency" value ="${LaborCost}" /> <br>
+            Total Cost <fmt:formatNumber type="currency" value ="${TotalCost}" /> <br>
+            </div>
 
-
-        </c:if>
     </body>
 </html>

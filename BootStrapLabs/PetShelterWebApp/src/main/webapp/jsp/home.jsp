@@ -42,25 +42,25 @@
                             <div class="form-group">
                                 <label for="add-pet-name" class="col-md-4 control-label">Pet Name: </label>
                                 <div class="col-md-8">
-                                    <input id=add-pet-name" name="petName" type="text" class="form-control" placeholder="PetName"/>
+                                    <input id="add-pet-name" name="petName" type="text" class="form-control" placeholder="PetName"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="add-pet-breed " class="col-md-4 control-label">Pet Breed: </label>
                                 <div class="col-md-8">
-                                    <input id=add-pet-breed" name="petBreed" type="text" class="form-control" placeholder="PetBreed"/>
+                                    <input id="add-pet-breed" name="petBreed" type="text" class="form-control" placeholder="PetBreed"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="add-pet-disp " class="col-md-4 control-label">Pet Disposition: </label>
                                 <div class="col-md-8">
-                                    <input id=add-pet-disp" name="petDisp" type="text" class="form-control" placeholder="PetDisp"/>
+                                    <input id="add-pet-disp" name="petDisp" type="text" class="form-control" placeholder="PetDisp"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="add-pet-vaccinated " class="col-md-4 control-label">Pet Vaccinated: </label>
                                 <div class="col-md-8">
-                                    <input id=add-pet-vaccinated" name="petVacc" type="checkbox" class="form-control" />
+                                    <input id="add-pet-vaccinated" name="petVacc" type="checkbox" class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -86,7 +86,7 @@
 
                         </div>   
                         <div class="modal-body">
-                            <h3 id=""pet-id"></h3>
+                            <h3 id=""pet-detail-id"></h3>
                             <table id="pet-details-table">
                                 <tr>
                                     <th>Pet Name:</th>

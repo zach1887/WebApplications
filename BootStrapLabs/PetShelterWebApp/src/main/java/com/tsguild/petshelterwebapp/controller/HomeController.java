@@ -36,14 +36,17 @@ public class HomeController {
     public String displayHomePage() {
         return "home";
     }
+    
+    // Create a pet (/pet, POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @RequestMapping(value = "/pet", method = RequestMethod.POST)
-    public Pet createPet(Pet incomingPet) {
+    public Pet createPet(@RequestBody Pet incomingPet) {
         dao.addPet(incomingPet);
         return incomingPet;
     }
 
+    // Create a pet (/pet, POST)
     @ResponseBody
     @RequestMapping(value = "/pets", method = RequestMethod.GET)
     public List<Pet> getallPets() {
