@@ -26,6 +26,7 @@ public class InterestCalculator extends HttpServlet {
 //    ArrayList<Integer> yearNumber = new ArrayList();
 //    ArrayList<Double> endYearTotal = new ArrayList();
 //    ArrayList<Double> yearlyInterest = new ArrayList();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,43 +78,50 @@ public class InterestCalculator extends HttpServlet {
         double rate = Double.parseDouble(strRate);
         double years = Double.parseDouble(strYears);
 
-        int numCompounds;
+        int numCompounds = 1;
 
-        if ("year".equals(strCompounds)) {
-            numCompounds = 1;
-        } else if ("quarter".equals(strCompounds)) {
-            numCompounds = 4;
-        } else if ("month".equals(strCompounds)) {
-            numCompounds = 12;
-        } else if ("day".equals(strCompounds)) {
-            numCompounds = 365;
-        } else {
-            numCompounds = 0;  // this will cause an error in the calculations
+        if (null != strCompounds) {
+            switch (strCompounds) {
+                case "year":
+                    numCompounds = 1;
+                    break;
+                case "quarter":
+                    numCompounds = 4;
+                    break;
+                case "month":
+                    numCompounds = 12;
+                    break;
+                case "day":
+                    numCompounds = 365;
+                    break;
+                default:
+                    numCompounds = 0;  // this will cause an error in the calculations
+                    break;
+            }
         }
         double runningAmt = principal;
         double interest = 0;
 
         ArrayList<Year> yearsRecords = new ArrayList<>();
-        
+
         for (int i = 1; i <= numCompounds * years; i++) {
             interest += runningAmt * (rate / (numCompounds * 100));
             runningAmt = runningAmt * (1 + rate / (numCompounds * 100));
             if (i % numCompounds == 0) {
                 Year temp = new Year();
-                temp.setYearEndAmt(i/numCompounds);
+                temp.setYearNumber(i / numCompounds);
                 temp.setYearEndAmt(runningAmt);
                 temp.setYearlyInterest(interest);
                 interest = 0;
-                
                 yearsRecords.add(temp);
             }
         }
         request.setAttribute("Principal", df.format(principal));
         request.setAttribute("NumYears", years);
         request.setAttribute("InterestRate", rate);
-//        request.setAttribute("YearNumber", yearNumber);
-//        request.setAttribute("EndOfYearAmt", endYearTotal);
-//        request.setAttribute("YearlyInterest", yearlyInterest);
+        request.setAttribute("YearArray", yearsRecords);
+//        request.setAttribute("EndOfYearAmt");
+//        request.setAttribute("YearlyInterest");
         request.getRequestDispatcher("output.jsp").forward(request, response);
 
     }

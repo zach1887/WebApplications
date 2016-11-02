@@ -1,6 +1,6 @@
 <%-- 
     Document   : output
-    Created on : Oct 27, 2016, 9:28:10 PM
+    Created on : Nov 1, 2016, 10:37:53 PM
     Author     : Jesse
 --%>
 
@@ -19,24 +19,18 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <title>Interest Calculator</title>
+        <title>Flooring Calculator</title>
     </head>
     <body>
-        Principal:  "${Principal}" <br/>
+        ${msg}
+        <c:if test="{!badInput}">
+            Area:  ${Area}  <br> 
+            <fmt:setLocale value="en_US"/>  
+            <fmt:formatNumber type="currency" value ="${MaterialCost}" /> <br>
+            <fmt:formatNumber type="currency" value ="${LaborCost}" /> <br>
+            <fmt:formatNumber type="currency" value ="${TotalCost}" /> <br>
 
-        <c:forEach items="${YearArray}" var = "data">
-            <div class="col-sm-4">      
-                ${data.yearNumber}
-            </div>
-            <div class="col-sm-4">
-                <fmt:setLocale value="en_US"/>  
-                <fmt:formatNumber type="currency" value ="${data.yearEndAmt}" />
-            </div>
-            <div class="col-sm-4">
-                <fmt:setLocale value="en_US"/>  
-                <fmt:formatNumber type="currency" value ="${data.yearlyInterest}" /> <br>
-            </div>
-        </c:forEach>
-    </div>
-</body>
+
+        </c:if>
+    </body>
 </html>

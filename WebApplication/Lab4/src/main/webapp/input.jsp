@@ -26,7 +26,7 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" name="years"> 
                 </div>
-                <label class ="col-sm-2-offset col-sm-4" for="compounds">Number of Years</label>
+                <label class ="col-sm-2-offset col-sm-4" for="compounds">Number of Compounds</label>
                 <div class="col-sm-4">
                     <select if="compounds" class="form-control" name="compounds">
                     <option value="year"> Yearly</option>
