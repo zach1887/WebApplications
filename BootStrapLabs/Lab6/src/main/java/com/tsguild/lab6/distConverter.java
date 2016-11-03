@@ -73,24 +73,63 @@ public class distConverter extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String stringDistance = request.getParameter("distInput");
-        String distFrom = request.getParameter("DistFrom");
-        String distTo = request.getParameter("DistTo");
+        String distFrom = request.getParameter("distFrom");
+        String distTo = request.getParameter("distTo");
+        final double CONV_FT_TO_IN = 12;
+        final double CONV_IN_TO_CM = 2.54;
+        final double CONV_CM_TO_M = 100;
+        final double CONV_IN_T0_M = CONV_CM_TO_M / (CONV_FT_TO_IN * CONV_IN_TO_CM);
+        final double CONV_FT_T0_M = CONV_CM_TO_M / CONV_IN_TO_CM;
+        final double CONV_FT_T0_CM = CONV_FT_TO_IN * CONV_IN_TO_CM;
 
         int distInput = Integer.parseInt(stringDistance);
         double distOutput;
+        String outputField = "distance";
 
         if (distFrom.equals(distTo)) {
             distOutput = distInput;
-        } else if (distFrom.equals("meter") && distTo.equals("centimeter")) {
-            distOutput = 100 * distInput;
-        } else if (distFrom.equals("meter") && distTo.equals("feet")) {
-            distOutput = distInput;
-        } else if (distFrom.equals("meter") && distTo.equals("inches")) {
-            distOutput = 100 * distInput;
+        } else if (distFrom.equals("Meter") && distTo.equals("Centimeter")) {
+            distOutput = CONV_CM_TO_M * distInput;
+        } else if (distFrom.equals("Centimeter") && distTo.equals("Meter")) {
+            distOutput = distInput / CONV_CM_TO_M;
+
+        } else if (distFrom.equals("Meter") && distTo.equals("Feet")) {
+            distOutput = distInput / CONV_FT_T0_M;
+        } else if (distFrom.equals("Feet") && distTo.equals("Meter")) {
+            distOutput = CONV_FT_T0_M * distInput;
+
+        } else if (distFrom.equals("Meter") && distTo.equals("Inches")) {
+            distOutput = distInput / CONV_IN_T0_M;
+        } else if (distFrom.equals("Inches") && distTo.equals("Meter")) {
+            distOutput = CONV_IN_T0_M * distInput;
+
+        } else if (distFrom.equals("Feet") && distTo.equals("Inches")) {
+            distOutput = distInput * CONV_FT_TO_IN;
+        } else if (distFrom.equals("Inches") && distTo.equals("Feet")) {
+            distOutput = distInput / CONV_FT_TO_IN;
+
+        } else if (distFrom.equals("Centimeter") && distTo.equals("Inches")) {
+            distOutput = distInput / CONV_IN_TO_CM;
+        } else if (distFrom.equals("Inches") && distTo.equals("Centimeter")) {
+            distOutput = distInput * CONV_IN_TO_CM;
+
+        } else if (distFrom.equals("Centimeter") && distTo.equals("Feet")) {
+            distOutput = distInput / CONV_FT_T0_CM;
+        } else if (distFrom.equals("Feet") && distTo.equals("Centimeter")) {
+            distOutput = distInput * CONV_FT_T0_CM;
+        } else {
+            distOutput = 0;
         }
 
+        request.setAttribute("OutputField", outputField);
+        request.setAttribute("FromField", distFrom);
+        request.setAttribute("ToField", distTo);
+        request.setAttribute("initialValue", distInput);
+        request.setAttribute("convertedValue", distOutput);
+        request.getRequestDispatcher("output.jsp").forward(request, response);
     }
-}
+
+
 
 /**
  * Returns a short description of the servlet.

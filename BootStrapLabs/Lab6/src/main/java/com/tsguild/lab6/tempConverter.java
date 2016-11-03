@@ -72,9 +72,9 @@ public class tempConverter extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String stringInput = request.getParameter("TempInput");
-        String TempFrom = request.getParameter("TempFrom");
-        String TempTo = request.getParameter("TempTo");
+        String stringInput = request.getParameter("tempInput");
+        String TempFrom = request.getParameter("tempFrom");
+        String TempTo = request.getParameter("tempTo");
 
         int tempInput = Integer.parseInt(stringInput);
 
@@ -83,9 +83,9 @@ public class tempConverter extends HttpServlet {
         if (TempFrom.equals(TempTo)) {
             tempOutput = tempInput;
         } else if (TempFrom.equals("Fahrenheit") && TempTo.equals("Celsius")) {
-            tempOutput = (tempInput - 32) * (5 / 9);
+            tempOutput = (tempInput - 32.0) * (5 / 9);
         } else if (TempFrom.equals("Fahrenheit") && TempTo.equals("Kelvin")) {
-            tempOutput = (tempInput - 32) * (5 / 9) + 273.14;
+            tempOutput = (tempInput - 32.0) * (5 / 9) + 273.14;
         } else if (TempFrom.equals("Kelvin") && TempTo.equals("Celsius")) {
             tempOutput = (tempInput - 273.14);
         } else if (TempFrom.equals("Kelvin") && TempTo.equals("Fahrenheit")) {
@@ -93,9 +93,9 @@ public class tempConverter extends HttpServlet {
         } else if (TempFrom.equals("Celsius") && TempTo.equals("Kelvin")) {
             tempOutput = (tempInput + 273.14);
         } else if (TempFrom.equals("Celsius") && TempTo.equals("Fahrenheit")) {
-            tempOutput = (tempInput + 32) * 9 / 5;
+            tempOutput = (tempInput* 9) / 5 + 32;
         }
-        else tempOutput=0;
+        else tempOutput=-555;
         request.setAttribute("OutputField", outputField);
         request.setAttribute("FromField", TempFrom);
         request.setAttribute("ToField", TempTo);

@@ -27,15 +27,7 @@
                 <div class="row">
                     <!-- pet Display table -->
                     <div class="col-md-6">
-                        <table id="petTable" class="table table-hover">
-                            <tr>
-                                <th width="40%">Pet Name</th>
-                                <th width="30%">Pet Breed</th>
-                                <th width = "15%"></th>
-                                <th width = "15%"></th>
-                            </tr>
-                            <tbody id="petRows"></tbody>
-                        </table>
+                        <%@include file="petTableFragment.jsp" %>
                     </div>
                     <div class="col-md-6">
                         <form class="form-horizontal" role="form"> 
@@ -76,46 +68,8 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="pet-details-modal" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                &times;
-                            </button>
-
-                        </div>   
-                        <div class="modal-body">
-                            <h3 id=""pet-detail-id"></h3>
-                            <table id="pet-details-table">
-                                <tr>
-                                    <th>Pet Name:</th>
-                                    <td id="pet-detail-name"></td>
-                                </tr>
-                                <tr>
-                                    <th>Pet Breed:</th>
-                                    <td id="pet-detail-breed"></td>
-                                </tr>
-                                <tr>
-                                    <th>Disposition:</th>
-                                    <td id="pet-detail-disp"></td>
-                                </tr>
-                                <tr>
-                                    <th>Vaccinated:</th>
-                                    <td id="pet-detail-vacc"></td>
-                                </tr>
-
-                            </table>
-                        </div>
-                        <div type="button" class="close" data-dismiss="modal">
-                            <button type="button" class="close" data-dismiss="modal">
-                                Close
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <%@include file="detailModalFragment.jsp" %>
+                    <%@include file="editModalFragment.jsp" %>
 
 
 

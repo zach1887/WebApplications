@@ -6,10 +6,20 @@ $(document).ready(function () {
         addPet();
     });
     
+    $("#edit-button").click(function (event) {
+        event.preventDefault();
+        editPet();
+    });
+    
     $("#pet-details-modal").on('show.bs.modal',function(event){
         var element = $(event.relatedTarget);
         var petId = element.data('pet-id');
         petDetails(petId);
+    });
+    $("#pet-edit-modal").on('show.bs.modal',function(event){
+        var element = $(event.relatedTarget);
+        var petId = element.data('pet-id');
+        petEditDetails(petId);
     });
     
     
@@ -98,6 +108,33 @@ function addPet() {
         $("#add-pet-disp").val('');
         $("#add-pet-vaccinated").prop('checked',false);
     });
+    }
+    
+    function editPet() {
+
+    var petId = $("#edit-pet-id").text();
+    var petName = $("#edit-pet-name").val();
+    var petBreed = $("#edit-pet-breed").val();
+    var petDisp = $("#edit-pet-disp").val();
+    var petVacc = $("#edit-pet-vaccinated").prop('checked');
+    $.ajax({
+        url: 'pet/' + petId,
+        type: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        'dataType': 'json', // data Type
+
+        data: JSON.stringify({
+            petName: petName,
+            petBreed: petBreed,
+            disposition: petDisp,
+            vaccinated: petVacc
+        })
+    }).success(function (data) {
+        loadPets();
+    });
+    }
     
     function adoptPet(id) {
         $.ajax({
@@ -107,7 +144,7 @@ function addPet() {
             loadPets();
         });
     }
-}
+
 
 function petDetails(id){
     $.ajax({
@@ -124,22 +161,22 @@ function petDetails(id){
         $("#pet-detail-disp").text(pet.disposition);
         $("#pet-detail-vacc").text(pet.vaccinated);
     });
+    }
     
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function petEditDetails(id){
+    $.ajax({
+       url: 'pet/' + id ,
+       type: 'GET',
+       headers:{
+           'Accept': 'application/json'
+        }
+        
+    }).success(function(pet){
+        $("#pet-edit-id").text(pet.petID);
+        $("#edit-pet-name").val(pet.petName);
+        $("#edit-pet-breed").val(pet.petBreed);
+        $("#edit-pet-disp").val(pet.disposition);
+        $("#edit-pet-vaccinated").prop("checked",pet.vaccinated);
+    });
+    }
+    

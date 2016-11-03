@@ -21,6 +21,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>${OutputField}</h1>
+        <h1>${FromField}</h1>
+        <h1>${ToField}</h1>
+        <h1>${initialValue}</h1>
+        <h1>${convertedValue}</h1>
     </body>
 </html>
