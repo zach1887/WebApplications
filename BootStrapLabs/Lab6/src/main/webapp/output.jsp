@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,10 +23,25 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>${OutputField}</h1>
-        <h1>${FromField}</h1>
-        <h1>${ToField}</h1>
-        <h1>${initialValue}</h1>
-        <h1>${convertedValue}</h1>
+        <h2> <c:if test= "${OutputField == 'Temperature'}">
+           ${initialValue} degrees ${FromField} 
+           is equivalent to <fmt:formatNumber pattern="##.##" value = "${convertedValue}" /> degrees ${ToField}.
+            </c:if></h2>
+           
+        <h2> <c:if test= "${OutputField == 'Weight'}">
+           ${initialValue} ${FromField} 
+           is equivalent to <fmt:formatNumber pattern="##.##" value = "${convertedValue}" />  ${ToField}.
+            </c:if></h2>
+           
+        <h2><c:if test= "${OutputField == 'Currency'}">
+           ${initialValue} ${FromField} 
+           is equivalent to <fmt:formatNumber pattern="##.##" value = "${convertedValue}" />  ${ToField}.
+        </c:if></h2>
+           
+        <h2><c:if test= "${OutputField == 'Distance'}">
+           ${initialValue} ${FromField} 
+           is equivalent to <fmt:formatNumber pattern="##.##" value = "${convertedValue}" />  ${ToField}.
+        </c:if></h2>
+           
     </body>
 </html>

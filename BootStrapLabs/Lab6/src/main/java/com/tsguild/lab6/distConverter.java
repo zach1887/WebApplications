@@ -77,21 +77,21 @@ public class distConverter extends HttpServlet {
         String distTo = request.getParameter("distTo");
         final double CONV_FT_TO_IN = 12;
         final double CONV_IN_TO_CM = 2.54;
-        final double CONV_CM_TO_M = 100;
-        final double CONV_IN_T0_M = CONV_CM_TO_M / (CONV_FT_TO_IN * CONV_IN_TO_CM);
-        final double CONV_FT_T0_M = CONV_CM_TO_M / CONV_IN_TO_CM;
-        final double CONV_FT_T0_CM = CONV_FT_TO_IN * CONV_IN_TO_CM;
+        final double CONV_M_TO_CM = 100;
+        final double CONV_IN_T0_M = CONV_IN_TO_CM/CONV_M_TO_CM;
+        final double CONV_FT_T0_M = CONV_FT_TO_IN*CONV_IN_T0_M;
+        final double CONV_FT_T0_CM = CONV_FT_T0_M*CONV_M_TO_CM;
 
         int distInput = Integer.parseInt(stringDistance);
         double distOutput;
-        String outputField = "distance";
+        String outputField = "Distance";
 
         if (distFrom.equals(distTo)) {
             distOutput = distInput;
         } else if (distFrom.equals("Meter") && distTo.equals("Centimeter")) {
-            distOutput = CONV_CM_TO_M * distInput;
+            distOutput = CONV_M_TO_CM * distInput;
         } else if (distFrom.equals("Centimeter") && distTo.equals("Meter")) {
-            distOutput = distInput / CONV_CM_TO_M;
+            distOutput = distInput / CONV_M_TO_CM;
 
         } else if (distFrom.equals("Meter") && distTo.equals("Feet")) {
             distOutput = distInput / CONV_FT_T0_M;

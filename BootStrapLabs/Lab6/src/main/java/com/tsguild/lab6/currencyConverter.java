@@ -78,7 +78,7 @@ public class currencyConverter extends HttpServlet {
 
         int currencyInput = Integer.parseInt(stringCurrency);
         double currencyOutput;
-        String outputField = "currency";
+        String outputField = "Currency";
         if (currencyFrom.equals(currencyTo)) {
             currencyOutput = currencyInput;
         } else if (currencyFrom.equals("USDollar") && currencyTo.equals("Euro")) {

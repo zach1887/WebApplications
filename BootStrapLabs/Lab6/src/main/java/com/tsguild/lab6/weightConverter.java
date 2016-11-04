@@ -78,21 +78,21 @@ public class weightConverter extends HttpServlet {
 
         int weightInput = Integer.parseInt(stringWeight);
         double weightOutput;
-        String outputField = "weight";
+        String outputField = "Weight";
         if (weightFrom.equals(weightTo)) {
             weightOutput = weightInput;
         } else if (weightFrom.equals("Kilogram") && weightTo.equals("Gram")) {
             weightOutput = 1000 * weightInput;
         } else if (weightFrom.equals("Kilogram") && weightTo.equals("Pound")) {
-            weightOutput = (1000 / 454) * weightInput;
+            weightOutput = (1000.0 / 454.0) * weightInput;
         } else if (weightFrom.equals("Kilogram") && weightTo.equals("Ounce")) {
-            weightOutput = (1000 * 16 / 454) * weightInput;
+            weightOutput = (1000 * 16.0 / 454.0) * weightInput;
         } else if (weightFrom.equals("Gram") && weightTo.equals("Kilogram")) {
-            weightOutput = weightInput / 1000;
+            weightOutput = weightInput / 1000.0;
         } else if (weightFrom.equals("Gram") && weightTo.equals("Pound")) {
-            weightOutput = weightInput / 454;
+            weightOutput = weightInput / 454.0;
         } else if (weightFrom.equals("Gram") && weightTo.equals("Ounce")) {
-            weightOutput = 16 * weightInput / 454;
+            weightOutput = 16 * weightInput / 454.0;
         } else {
             weightOutput = 0;
         }
