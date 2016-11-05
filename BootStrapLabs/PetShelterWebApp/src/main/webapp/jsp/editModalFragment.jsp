@@ -10,7 +10,7 @@
 
             </div>   
             <div class="modal-body">
-                <h3 id=""pet-edit-id">Pet ID Goes Here </h3>
+                <h3 id="edit-pet-id">Pet ID Goes Here </h3>
 
                 <form class="form-horizontal" role="form"> 
                     <div class="form-group">

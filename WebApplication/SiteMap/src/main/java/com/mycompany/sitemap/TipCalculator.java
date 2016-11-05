@@ -7,8 +7,7 @@ package com.mycompany.sitemap;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-@WebServlet(name = "Factorizer", urlPatterns = {"/factorizer"})
-public class Factorizer extends HttpServlet {
+@WebServlet(name = "TipCalculator", urlPatterns = {"/tipCalc"})
+public class TipCalculator extends HttpServlet {
+
+    DecimalFormat df = new DecimalFormat("#.00");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class Factorizer extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Factorizer</title>");
+            out.println("<title>Servlet TipCalculator</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Factorizer at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TipCalculator at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +61,7 @@ public class Factorizer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("factorizer.jsp").forward(request, response);
+        request.getRequestDispatcher("tipCalc.jsp").forward(request, response);
     }
 
     /**
@@ -74,38 +75,33 @@ public class Factorizer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String givenNumber = request.getParameter("input");
-        String msg = "";
-        ArrayList<Integer> factors = new ArrayList<>();
+        String bill = request.getParameter("input");
+        String tip = request.getParameter("tipPct");
         boolean badInput;
-        int numFactors = 0;
-        int sumFactors = 0;
-        boolean isPrime, isPerfect;
-        try {
-            int valueInt = Integer.parseInt(givenNumber);
-            for (int k = 1; k <= valueInt / 2; k++) {  //no need to check factors greater than half the userInput
+        String msg = "";
+        double billAmt = 0, tipPct = 0, tipAmt = 0, totalAmt = 0;
 
-                if (valueInt % k == 0) {
-                    factors.add(k);
-                    numFactors++;
-                    sumFactors += k;
-                }
-            }
-            isPrime = (numFactors == 1);
-            isPerfect = (sumFactors == valueInt);
-            request.setAttribute("providedNumber", valueInt);
-            request.setAttribute("listOfFactors", factors);
-            request.setAttribute("perfectNumber", isPerfect);
-            request.setAttribute("primeNumber", isPrime);
-            request.setAttribute("numFactors", numFactors);
-            request.setAttribute("badInput", "all set");
+        try {
+            billAmt = Double.parseDouble(bill);
+            tipPct = Double.parseDouble(tip);
+
+            tipAmt = (billAmt * tipPct) / 100;
+            totalAmt = tipAmt + billAmt;
+
         } catch (NumberFormatException e) {
-            request.setAttribute("badInput", true);
-            request.setAttribute("msg", "Can't understand that input.");
+            badInput = true;
+            msg = "We had some problems with your input";
         }
 
-        request.getRequestDispatcher("output/factorizerOut.jsp").forward(request, response);
-
+        request.setAttribute(
+                "BillPreTip", df.format(billAmt));
+        request.setAttribute(
+                "TipPercent", df.format(tipPct));
+        request.setAttribute(
+                "TipAmount", df.format(tipAmt));
+        request.setAttribute(
+                "TotalAmount", df.format(totalAmt));
+         request.getRequestDispatcher("output/tipCalcOut.jsp").forward(request, response);
     }
 
     /**
@@ -116,6 +112,6 @@ public class Factorizer extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

@@ -52,7 +52,7 @@ public class PetShelterDaoImpl implements PetShelterDao {
 
     @Override
     public List<Pet> searchPet(Map<SearchTerm, String> criteria) {
-        return null;  // will be written over later
+        return null; // not supported
    }
 
     @Override

@@ -7,8 +7,6 @@ package com.mycompany.sitemap;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-@WebServlet(name = "Factorizer", urlPatterns = {"/factorizer"})
-public class Factorizer extends HttpServlet {
+@WebServlet(name = "weightConverter", urlPatterns = {"/convertWeight"})
+public class weightConverter extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +37,10 @@ public class Factorizer extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Factorizer</title>");
+            out.println("<title>Servlet weightConverter</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Factorizer at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet weightConverter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +58,7 @@ public class Factorizer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("factorizer.jsp").forward(request, response);
+        request.getRequestDispatcher("unitConverter.jsp").forward(request, response);
     }
 
     /**
@@ -74,38 +72,37 @@ public class Factorizer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String givenNumber = request.getParameter("input");
-        String msg = "";
-        ArrayList<Integer> factors = new ArrayList<>();
-        boolean badInput;
-        int numFactors = 0;
-        int sumFactors = 0;
-        boolean isPrime, isPerfect;
-        try {
-            int valueInt = Integer.parseInt(givenNumber);
-            for (int k = 1; k <= valueInt / 2; k++) {  //no need to check factors greater than half the userInput
+        String stringWeight = request.getParameter("weightInput");
+        String weightFrom = request.getParameter("weightFrom");
+        String weightTo = request.getParameter("weightTo");
 
-                if (valueInt % k == 0) {
-                    factors.add(k);
-                    numFactors++;
-                    sumFactors += k;
-                }
-            }
-            isPrime = (numFactors == 1);
-            isPerfect = (sumFactors == valueInt);
-            request.setAttribute("providedNumber", valueInt);
-            request.setAttribute("listOfFactors", factors);
-            request.setAttribute("perfectNumber", isPerfect);
-            request.setAttribute("primeNumber", isPrime);
-            request.setAttribute("numFactors", numFactors);
-            request.setAttribute("badInput", "all set");
-        } catch (NumberFormatException e) {
-            request.setAttribute("badInput", true);
-            request.setAttribute("msg", "Can't understand that input.");
+        int weightInput = Integer.parseInt(stringWeight);
+        double weightOutput;
+        String outputField = "Weight";
+        if (weightFrom.equals(weightTo)) {
+            weightOutput = weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Gram")) {
+            weightOutput = 1000 * weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Pound")) {
+            weightOutput = (1000.0 / 454.0) * weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Ounce")) {
+            weightOutput = (1000 * 16.0 / 454.0) * weightInput;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Kilogram")) {
+            weightOutput = weightInput / 1000.0;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Pound")) {
+            weightOutput = weightInput / 454.0;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Ounce")) {
+            weightOutput = 16 * weightInput / 454.0;
+        } else {
+            weightOutput = 0;
         }
 
-        request.getRequestDispatcher("output/factorizerOut.jsp").forward(request, response);
-
+        request.setAttribute("OutputField", outputField);
+        request.setAttribute("FromField", weightFrom);
+        request.setAttribute("ToField", weightTo);
+        request.setAttribute("initialValue", weightInput);
+        request.setAttribute("convertedValue", weightOutput);
+        request.getRequestDispatcher("output/unitConverterOut.jsp").forward(request, response);
     }
 
     /**
@@ -116,6 +113,6 @@ public class Factorizer extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

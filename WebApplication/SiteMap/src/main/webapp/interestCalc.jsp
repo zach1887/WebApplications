@@ -22,18 +22,18 @@
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/home">Home</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/factorizer">Factorizer</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/luckySevens">Lucky Sevens</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/tipCalc">Tip Calculator</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/jsp/interestCalc">Interest Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/flooringCalc">Flooring Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/unitConverter">UnitConverter</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/tipCalc">Tip Calculator</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/interestCalc">Interest Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/flooringCalc">Flooring Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/unitConverter">UnitConverter</a></li>
                 </ul>    
             </div>
         </div>
-        <div class="container">
-            <form class="form-horizontal" action="InterestCalculator" method="POST">
+            <form class="form-horizontal" action="interestCalc" method="POST">
+                        <div class="container">
                 <div class="form-group"> 
                     <label class ="col-sm-2-offset col-sm-4" for="principal">Principal</label>
                     <div class="col-sm-6">
@@ -53,7 +53,7 @@
                     </div>
                     <label class ="col-sm-2-offset col-sm-4" for="compounds">Number of Compounds</label>
                 </div>
-        </div>
+     
 
         <div class="col-sm-6">
             <select if="compounds" class="form-control" name="compounds">
@@ -63,11 +63,10 @@
                 <option value="day"> Daily</option>
             </select>
         </div>
-        <input type="submit" value="Calculate">
-
+                            
+        <input type="submit" value="Calculate" />
     </div>
-
-</form>
+            </form>
 <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>

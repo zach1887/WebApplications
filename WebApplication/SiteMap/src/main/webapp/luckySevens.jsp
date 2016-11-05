@@ -16,24 +16,25 @@
         <title>Lucky Sevens</title>
     </head>
     <body>
+               <h1> Software Guild Site Map</h1>
         <div class="container">
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/home">Home</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/factorizer">Factorizer</a></li>
-                    <li role="presentation"  class="active"><a href="${pageContext.request.contextPath}/jsp/luckySevens">Lucky Sevens</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/tipCalc">Tip Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/interestCalc">Interest Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/flooringCalc">Flooring Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/unitConverter">UnitConverter</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
+                    <li role="presentation"  class="active"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/tipCalc">Tip Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/interestCalc">Interest Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/flooringCalc">Flooring Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/unitConverter">UnitConverter</a></li>
                 </ul>    
             </div>
         </div>
 
         <div class="container"> 
             <div class="col-sm-offset-2 col-sm-8">
-                <form class="form-horizontal" action="LuckySevens" method="POST">
+                <form class="form-horizontal" action="luckySevens" method="POST">
                     <div class="form-group"> 
                         <label class="control-label col-sm-2" for="name">How much do you feel like risking?</label>
                         <div class="col-sm-10">

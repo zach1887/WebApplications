@@ -23,18 +23,18 @@
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/home">Home</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/factorizer">Factorizer</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/luckySevens">Lucky Sevens</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/tipCalc">Tip Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/interestCalc">Interest Calculator</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/jsp/flooringCalc">Flooring Calculator</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/jsp/unitConverter">UnitConverter</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/tipCalc">Tip Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/interestCalc">Interest Calculator</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/flooringCalc">Flooring Calculator</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/unitConverter">UnitConverter</a></li>
                 </ul>    
             </div>
         </div>
         <div class="container">
-            <form class="form-horizontal" action="FlooringCalculator" method="POST">
+            <form class="form-horizontal" action="flooringCalc" method="POST">
                 <div class="form-group"> 
                     <label class ="col-sm-2-offset col-sm-4" for="length">Length (in feet</label>
                     <div class="col-sm-6">

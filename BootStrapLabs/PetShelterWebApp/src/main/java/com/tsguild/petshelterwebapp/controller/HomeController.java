@@ -9,6 +9,7 @@ import com.tsguild.petshelterwebapp.dao.PetShelterDao;
 import com.tsguild.petshelterwebapp.dto.Pet;
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,7 @@ public class HomeController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     @RequestMapping(value = "/pet", method = RequestMethod.POST)
-    public Pet createPet(@RequestBody Pet incomingPet) {
+    public Pet createPet(@Valid @RequestBody Pet incomingPet) {
         dao.addPet(incomingPet);
         return incomingPet;
     }

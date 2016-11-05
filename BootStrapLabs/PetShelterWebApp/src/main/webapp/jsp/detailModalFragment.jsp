@@ -10,7 +10,7 @@
 
             </div>   
             <div class="modal-body">
-                <h3 id=""pet-detail-id"></h3>
+                <h3 id="pet-detail-id">Something should be here</h3>
                 <table id="pet-details-table">
                     <tr>
                         <th>Pet Name:</th>

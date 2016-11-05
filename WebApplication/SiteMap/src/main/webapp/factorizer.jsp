@@ -39,7 +39,7 @@
         </div>
         <div class="container"> 
             <div class="col-sm-offset-2 col-sm-8">
-                <form class="form-horizontal" action="Factorizer" method="POST">
+                <form class="form-horizontal" action="factorizer" method="POST">
                     <div class="form-group"> 
                         <label class="control-label col-sm-2" for="name">Select a number to factor</label>
                         <div class="col-sm-10">

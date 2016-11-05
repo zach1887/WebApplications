@@ -19,12 +19,12 @@
             <div class="navbar">
                 <ul class="nav nav-tabs">
                 	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                	<li role="presentation"><a href="${pageContext.request.contextPath}/Factorizer">Factorizer</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
                 	<li role="presentation"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
                 	<li role="presentation"><a href="${pageContext.request.contextPath}/tipCalc">Tip Calculator</a></li>
-                	<li role="presentation"><a href="${pageContext.request.contextPath}/jsp/interestCalc">Interest Calculator</a></li>
-                	<li role="presentation"><a href="${pageContext.request.contextPath}/jsp/flooringCalc">Flooring Calculator</a></li>
-                	<li role="presentation"><a href="${pageContext.request.contextPath}/jsp/unitConverter">UnitConverter</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/interestCalc">Interest Calculator</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/flooringCalc">Flooring Calculator</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/unitConverter">UnitConverter</a></li>
                 </ul>    
             </div>
         </div>

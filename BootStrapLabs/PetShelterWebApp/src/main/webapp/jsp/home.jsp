@@ -60,25 +60,27 @@
                                     <button type="submit" id="add-button" class="btn btn-default"> Add Pet Record </button>
                                 </div>
                             </div>
-
                         </form>
-
-
+                        <div id="validationErrors" class = "alert alert-danger" style="display:none"</div>
                     </div>
                 </div>
+
+
             </div>
-
-                    <%@include file="detailModalFragment.jsp" %>
-                    <%@include file="editModalFragment.jsp" %>
-
-
-
         </div>
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/petShelter.js"></script>
+    </div>
 
-    </body>
+    <%@include file="detailModalFragment.jsp" %>
+    <%@include file="editModalFragment.jsp" %>
+
+
+
+</div>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/petShelter.js"></script>
+
+</body>
 </html>
 
