@@ -6,17 +6,35 @@
 package com.tsguild.vacationwebapplicationmvc.dto;
 
 import java.util.Objects;
+import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
  * @author apprentice
  */
 public class Trip {
+
     private int tripId;
+    
+//    @NotEmpty(message="Please enter a month as a word, not a number")
+//    @Length(min=3, max=12, message="Please enter a month as a word, not a number")
     private String monthOfTrip;
+    
+//    @NotEmpty(message="Please enter a four-digit year")
+//    @Length(min=4, max=4, message="Please enter a four-digit year")  
     private int yearOfTrip;
+    
+//    @NotEmpty(message="City cannot be blank.")
+//    @Length(min=3, max=25, message="City cannot be blank or too long")  
     private String destCity;
+//    
+//    @NotEmpty(message="Country cannot be blank. Write USA is domestic")
+//    @Length(min=3, max=25, message="Country cannot be blank or too long") 
     private String destCountry;
+    
+//    @NotEmpty(message="Length must be entered as s number") 
     private int lengthDays;
     private boolean tripOverseas;
     private String otherCitiesVisited;
@@ -147,7 +165,5 @@ public class Trip {
         }
         return true;
     }
-    
-    
-    
+
 }
