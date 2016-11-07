@@ -53,25 +53,13 @@ public class SearchController {
             vacations = vacations.stream()
                     //                    .filter( p -> p.getName().contains(petNameString) )
                     .filter((Trip t) -> {
-                        String monthName = t.getMonthOfTrip().toLowerCase();
-                        String monthSearch = monthString.toLowerCase();
-                        return monthName.contains(monthSearch);
+                        String monthName = t.getMonthOfTrip();
+                        return monthName.equalsIgnoreCase(monthString);
                     })
                     //                    .filter((Pet p) -> {return p.getName().toLowerCase().contains(petNameString.toLowerCase());})
                     .collect(Collectors.toList());
         }
-//        if (yearString != null && !yearString.isEmpty()) {
-//            vacations = vacations.stream()
-//                    //                    .filter( p -> p.getName().contains(petNameString) )
-//                    .filter((Trip t) -> {
-//                        int yearInput = Integer.parseInt(yearString);
-//                        return
-//                    })
-//                    //                    .filter((Pet p) -> {return p.getName().toLowerCase().contains(petNameString.toLowerCase());})
-//                    .collect(Collectors.toList());
-//        }
 
-        // TODO: fix Vacc search
         return vacations;
     }
 }

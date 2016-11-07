@@ -18,12 +18,12 @@ public class Trip {
 
     private int tripId;
     
-//    @NotEmpty(message="Please enter a month as a word, not a number")
-//    @Length(min=3, max=12, message="Please enter a month as a word, not a number")
+    @NotEmpty(message="You must enter a value.")
+    @Length(min=3, max=12, message="Please enter a month as a word, not a number")
     private String monthOfTrip;
     
 //    @NotEmpty(message="Please enter a four-digit year")
-//    @Length(min=4, max=4, message="Please enter a four-digit year")  
+//    @Length(min=4, max=5, message="Please enter a four-digit year")  
     private int yearOfTrip;
     
 //    @NotEmpty(message="City cannot be blank.")
@@ -36,6 +36,7 @@ public class Trip {
     
 //    @NotEmpty(message="Length must be entered as s number") 
     private int lengthDays;
+    
     private boolean tripOverseas;
     private String otherCitiesVisited;
 
