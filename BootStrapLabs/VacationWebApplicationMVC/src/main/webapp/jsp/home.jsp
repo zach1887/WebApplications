@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="vacc-add-daysLength" class="col-md-4 control-label">Destination Country</label>
+                            <label for="vacc-add-daysLength" class="col-md-4 control-label">Length in Days</label>
                             <div class="col-md-8">
                                 <input id="vacc-add-daysLength" name="daysLength" type="text" class="form-control" placeholder="Length(Days)" />
                             </div>

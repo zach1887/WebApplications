@@ -6,7 +6,6 @@
 package com.tsguild.vacationwebapplicationmvc.dto;
 
 import java.util.Objects;
-import java.util.Objects;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,12 +25,12 @@ public class Trip {
 //    @Length(min=4, max=5, message="Please enter a four-digit year")  
     private int yearOfTrip;
     
-//    @NotEmpty(message="City cannot be blank.")
-//    @Length(min=3, max=25, message="City cannot be blank or too long")  
+    @NotEmpty(message="City cannot be blank.")
+    @Length(min=3, max=25, message="City cannot be blank or too long")  
     private String destCity;
 //    
-//    @NotEmpty(message="Country cannot be blank. Write USA is domestic")
-//    @Length(min=3, max=25, message="Country cannot be blank or too long") 
+    @NotEmpty(message="Country cannot be blank. Write USA is domestic")
+    @Length(min=3, max=25, message="Country cannot be blank or too long") 
     private String destCountry;
     
 //    @NotEmpty(message="Length must be entered as s number") 

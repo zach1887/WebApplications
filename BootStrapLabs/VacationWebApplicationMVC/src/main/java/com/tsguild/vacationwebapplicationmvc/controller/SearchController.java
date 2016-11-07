@@ -43,11 +43,11 @@ public class SearchController {
     public List<Trip> searchVacc(@RequestBody Map<String, String> searchMap) {
         List<Trip> vacations = dao.getAllTrips();
 
-        String monthString = searchMap.get("tripMonth");
-        String yearString = searchMap.get("tripYear");
-        String cityString = searchMap.get("tripDestCity");
-        String countryString = searchMap.get("tripDestCountry");
-        String daysLengthString = searchMap.get("tripDaysLength");
+        String monthString = searchMap.get("monthOfTrip");
+        String yearString = searchMap.get("yearOfTrip");
+        String cityString = searchMap.get("destCity");
+        String countryString = searchMap.get("destCountry");
+        String daysLengthString = searchMap.get("daysLength");
 
         if (monthString != null && !monthString.isEmpty()) {
             vacations = vacations.stream()

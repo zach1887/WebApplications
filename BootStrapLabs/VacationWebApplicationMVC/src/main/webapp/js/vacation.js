@@ -308,7 +308,7 @@ function searchVacc() {
     var tripDestCity = $("#vacc-search-destCity").val();
     var tripDestCountry = $("#vacc-search-destCountry").val();
     var tripDaysLength = $("#vacc-search-daysLength").val();
-    var tripOverseas = $("#search-pet-tripOverseas").prop('checked');
+    var tripOverseas = $("#vacc-search-tripOverseas").prop('checked');
     var tripOtherCities = $("#vacc-search-otherCities").val();
 
 
