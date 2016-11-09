@@ -47,7 +47,7 @@ public class SearchController {
         String yearString = searchMap.get("yearOfTrip");
         String cityString = searchMap.get("destCity");
         String countryString = searchMap.get("destCountry");
-        String daysLengthString = searchMap.get("daysLength");
+        String daysLengthString = searchMap.get("lengthDays");
 
         if (monthString != null && !monthString.isEmpty()) {
             vacations = vacations.stream()
@@ -57,6 +57,36 @@ public class SearchController {
                         return monthName.equalsIgnoreCase(monthString);
                     })
                     //                    .filter((Pet p) -> {return p.getName().toLowerCase().contains(petNameString.toLowerCase());})
+                    .collect(Collectors.toList());
+        }
+
+        if (yearString != null && !yearString.isEmpty()) {
+            vacations = vacations.stream()
+                    .filter(t -> t.getYearOfTrip() == Integer.parseInt(yearString))
+                    .collect(Collectors.toList());
+        }
+
+        if (cityString != null && !cityString.isEmpty()) {
+            vacations = vacations.stream()
+                    .filter((Trip t) -> {
+                        String cityName = t.getDestCity();
+                        return cityName.equalsIgnoreCase(cityString);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        if (countryString != null && !countryString.isEmpty()) {
+            vacations = vacations.stream()
+                    .filter((Trip t) -> {
+                        String countryName = t.getDestCountry();
+                        return countryName.equalsIgnoreCase(countryString);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        if (daysLengthString != null && !daysLengthString.isEmpty()) {
+            vacations = vacations.stream()
+                    .filter(t -> t.getLengthDays() == Integer.parseInt(daysLengthString))
                     .collect(Collectors.toList());
         }
 
