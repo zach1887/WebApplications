@@ -12,18 +12,18 @@ CREATE TABLE Pets (
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Breeds`(
-  `key` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE Breeds(
+  `Bkey` INT NOT NULL AUTO_INCREMENT,
   `breed` VARCHAR(50) UNIQUE NOT NULL,
-  PRIMARY KEY(`key`)
+  PRIMARY KEY(`Bkey`)
 );
 
-ALTER TABLE `Pets`
+ALTER TABLE Pets
 	ADD CONSTRAINT `pets_fk_breedKey`
     FOREIGN KEY (`breedKEY`)
-    REFERENCES Breeds(`KEY`);
+    REFERENCES Breeds(`Bkey`);
 
-INSERT INTO `Breeds` (`key`, `breedKEY`)
+INSERT INTO `Breeds` (`Bkey`, `breed`)
 			   VALUES  (1, "Dog"),
 						(2, "Mammoth"),
 						(3, "Ostrich"),						
@@ -37,7 +37,8 @@ INSERT INTO `Breeds` (`key`, `breedKEY`)
 						(11, "Dolphin"),						
 						(12, "Blue Whale");
 
-INSERT INTO `Pets` (`id`, `name`,`disposition`,`breedKEY`,`vaccinated`)
+
+INSERT INTO Pets (`id`, `name`,`disposition`,`breedKEY`,`vaccinated`)
        VALUES (1, "Bandit", "deceased",1,true),
               (2, "Linklater","extinct",2,false),
 			  (3, "Mr Verde", "flavorful", 7, false);
