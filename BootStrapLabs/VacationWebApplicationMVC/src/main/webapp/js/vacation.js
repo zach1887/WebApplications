@@ -258,7 +258,7 @@ function editVacc() {
     var tripDestCity = $("#vacc-edit-destCity").val();
     var tripDestCountry = $("#vacc-edit-destCountry").val();
     var tripDaysLength = $("#vacc-edit-daysLength").val();
-    var tripOverseas = $("#edit-vacc-tripOverseas").prop('checked');
+    var tripOverseas = $("#vacc-edit-tripOverseas").prop('checked');
     var tripOtherCities = $("#vacc-edit-otherCities").val();
 
     // Generate a REQUEST to submit the PET to our REST endpoint

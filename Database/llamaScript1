@@ -1,0 +1,2 @@
+SELECT * FROM `Llamas`;
+SELECT llama_name FROM Llamas;

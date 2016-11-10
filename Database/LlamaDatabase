@@ -1,0 +1,24 @@
+
+-- Create a database to store our tables
+DROP DATABASE IF EXISTS LlamaHerd;
+CREATE DATABASE LlamaHerd;  -- Makes a database.
+
+USE LlamaHerd;
+
+-- describe the table
+CREATE TABLE `Llamas` (
+  `llama_id` INT NOT NULL AUTO_INCREMENT,
+    `llama_name` VARCHAR(30) NOT NULL UNIQUE,
+    `personality` VARCHAR(100),
+    `hungry` BOOLEAN, 
+   `time_fed` TIMESTAMP,
+   `worth` DECIMAL, 
+    PRIMARY KEY(`llama_id`) -- define a primary key
+);
+
+INSERT INTO `Llamas`(`llama_name`)
+			VALUES("Doctor Who");
+
+INSERT INTO `Llamas` (`llama_id`, `llama_name`, `personality`, `hungry`, `time_fed`, `worth`)
+               VALUES(2, "Redd", "Very llama llike", true, NOW(), 20.00);
+

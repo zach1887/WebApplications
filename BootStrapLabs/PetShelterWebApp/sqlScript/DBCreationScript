@@ -1,0 +1,43 @@
+DROP DATABASE IF EXISTS PetShelter;
+CREATE DATABASE PetShelter;
+
+USE PetShelter;
+
+CREATE TABLE Pets (
+   `id` INT NOT NULL AUTO_INCREMENT,
+   `name` VARCHAR(50) NOT NULL,
+   `disposition` VARCHAR(250),
+   `breedKEY` INT NOT NULL,
+   `vaccinated` BOOLEAN,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `Breeds`(
+  `key` INT NOT NULL AUTO_INCREMENT,
+  `breed` VARCHAR(50) UNIQUE NOT NULL,
+  PRIMARY KEY(`key`)
+);
+
+ALTER TABLE `Pets`
+	ADD CONSTRAINT `pets_fk_breedKey`
+    FOREIGN KEY (`breedKEY`)
+    REFERENCES Breeds(`KEY`);
+
+INSERT INTO `Breeds` (`key`, `breedKEY`)
+			   VALUES  (1, "Dog"),
+						(2, "Mammoth"),
+						(3, "Ostrich"),						
+						(4, "Cat"),						
+					    (5, "Ferret"),						
+                        (6, "Beefalo"),						
+						(7, "Kumquat"),						
+						(8, "Kiwi"),						
+						(9, "Emu"),
+						(10, "Wren"),						
+						(11, "Dolphin"),						
+						(12, "Blue Whale");
+
+INSERT INTO `Pets` (`id`, `name`,`disposition`,`breedKEY`,`vaccinated`)
+       VALUES (1, "Bandit", "deceased",1,true),
+              (2, "Linklater","extinct",2,false),
+			  (3, "Mr Verde", "flavorful", 7, false);

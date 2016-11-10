@@ -1,0 +1,5 @@
+USE PetShelter;
+
+SELECT * FROM Petets
+SELECT * FROM Pets
+   LEFT JOIN Breeds ON Pets.breedKEY = Breeds.Key;
