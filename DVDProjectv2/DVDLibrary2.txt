@@ -1,3 +1,3 @@
-Casablanca::1942::NR::Micheal Curtiz::Warner Brothers::[[[[[[Second favorite movie of all time,]]]]]]
-Before Sunrise::1995::R::Richard Linklater::Castle Rock::[[[[[[Favorite film of all time, Masterpiece of a film: Went to Vienna because of this movie]]]]]]
-The Seven Samurai::1954::NR::Akira Kurosawa::Toho Company::[[[[[[Much better than The Magnificent Seven.]]]]]]
+Casablanca::1942::NR::Micheal Curtiz::Warner Brothers::[[[[[[[[Second favorite movie of all time,]]]]]]]]
+Before Sunrise::1995::R::Richard Linklater::Castle Rock::[[[[[[[[Favorite film of all time, Masterpiece of a film: Went to Vienna because of this movie]]]]]]]]
+The Seven Samurai::1954::NR::Akira Kurosawa::Toho Company::[[[[[[[[Much better than The Magnificent Seven.]]]]]]]]

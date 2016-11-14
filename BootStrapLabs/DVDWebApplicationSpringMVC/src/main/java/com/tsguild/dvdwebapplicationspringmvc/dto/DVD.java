@@ -7,6 +7,8 @@ package com.tsguild.dvdwebapplicationspringmvc.dto;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -15,21 +17,36 @@ import java.util.Objects;
 public class DVD {
 
     private int idDVD;
+
+    @NotEmpty(message = "A DVD has to have a name.")
+    @Length(max = 80, message = "No DVD title is that long!")
     private String title;
+
     private int releaseYear;
-    private String MPAArating;
+    
+    @NotEmpty(message = "Whatever.")
+    @Length(max = 80, message = "Whatever.")
+    private String mPAArating;
+
+    @NotEmpty(message = "A DVD needs a director.  Enter 'unknown' if not known")
+    @Length(max = 80, message = "No director name is that long")
     private String director;
+
+    @NotEmpty(message = "A DVD needs a studio.  Enter 'unknown' if not known")
+    @Length(max = 80, message = "No studio name is that long")
     private String Studio;
-    private ArrayList<String> comments;
+
+//    private ArrayList<String> comments;
+    private String comments;
 
     public DVD() {
     }
 
-    public DVD(int ID, String title, int releaseYear, String MPAArating, String director, String Studio, ArrayList comments) {
+    public DVD(int ID, String title, int releaseYear, String MPAArating, String director, String Studio, String comments) {
         this.idDVD = ID;
         this.title = title;
         this.releaseYear = releaseYear;
-        this.MPAArating = MPAArating;
+        this.mPAArating = MPAArating;
         this.director = director;
         this.Studio = Studio;
         this.comments = comments;
@@ -59,12 +76,12 @@ public class DVD {
         this.releaseYear = releaseYear;
     }
 
-    public String getMPAArating() {
-        return MPAArating;
+    public String getmPAArating() {
+        return mPAArating;
     }
 
-    public void setMPAArating(String MPAArating) {
-        this.MPAArating = MPAArating;
+    public void setmPAArating(String mPAArating) {
+        this.mPAArating = mPAArating;
     }
 
     public String getDirector() {
@@ -83,11 +100,11 @@ public class DVD {
         this.Studio = Studio;
     }
 
-    public ArrayList<String> getComments() {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 
@@ -97,7 +114,7 @@ public class DVD {
         hash = 79 * hash + this.idDVD;
         hash = 79 * hash + Objects.hashCode(this.title);
         hash = 79 * hash + this.releaseYear;
-        hash = 79 * hash + Objects.hashCode(this.MPAArating);
+        hash = 79 * hash + Objects.hashCode(this.mPAArating);
         hash = 79 * hash + Objects.hashCode(this.director);
         hash = 79 * hash + Objects.hashCode(this.Studio);
         hash = 79 * hash + Objects.hashCode(this.comments);
@@ -125,7 +142,7 @@ public class DVD {
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        if (!Objects.equals(this.MPAArating, other.MPAArating)) {
+        if (!Objects.equals(this.mPAArating, other.mPAArating)) {
             return false;
         }
         if (!Objects.equals(this.director, other.director)) {
@@ -139,9 +156,5 @@ public class DVD {
         }
         return true;
     }
-
-
-
-
 
 }

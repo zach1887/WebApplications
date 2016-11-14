@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class DVDLibraryImpl implements DVDLibraryDao {
 
-    private HashMap<Integer, DVD> dvdMap;
+    private Map<Integer, DVD> dvdMap = new HashMap<>();
     private static int idCounter = 0;
 
 
@@ -85,7 +85,7 @@ public class DVDLibraryImpl implements DVDLibraryDao {
         yearMatches = (yearCriteria == 0) ? truePredicate : (c) -> c.getReleaseYear() == yearCriteria;
                 
         ratingMatches = (ratingCriteria == null || ratingCriteria.isEmpty()) 
-                ? truePredicate : (c) -> c.getMPAArating().equals(ratingCriteria);
+                ? truePredicate : (c) -> c.getmPAArating().equals(ratingCriteria);
         
         directorMatches = (directorCriteria == null || directorCriteria.isEmpty()) 
                 ? truePredicate : (c) -> c.getDirector().equals(directorCriteria);
