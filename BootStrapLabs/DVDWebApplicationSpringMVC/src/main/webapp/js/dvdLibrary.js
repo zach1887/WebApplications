@@ -254,7 +254,7 @@ function editDVD() {
     var dvdRating = $("#dvd-edit-rating").val();
     var dvdDirector = $("#dvd-edit-director").val();
     var dvdStudio = $("#dvd-edit-studio").val();
-    var dvdComments = $("#add-edit-comments").val();
+    var dvdComments = $("#dvd-edit-comments").val();
 
     // Generate a REQUEST to submit the PET to our REST endpoint
     // Endpoint details: PUT @ localhost:8080/PetShelterWebApp/pet/{petId}
@@ -281,9 +281,9 @@ function editDVD() {
             // If they don't match expected, there can be EXPLOSIONS
             title: dvdTitle,
             releaseYear: dvdYear,
-            MPAArating: dvdRating,
+            mPAArating: dvdRating,
             director: dvdDirector,
-            Studio: dvdStudio,
+            studio: dvdStudio,
             comments: dvdComments
         })
     }).success(function (data) { // Register a PROMISE function to be called on response success
@@ -295,11 +295,11 @@ function editDVD() {
 function searchDVD() {
     // GO FIND THE FORM INFO ON THE PAGE AND STORE IN A TEMP VARIABLE
     // TO USE LATER IN YOUR AJAX REQUEST
-    var dvdTitleVal = $("dvd-search-title").val();
-    var dvdYearVal = $("dvd-search-year").val();
-    var dvdRatingVal = $("dvd-search-rating").val();
-    var dvdDirectorVal = $("dvd-search-director").val();
-    var dvdStudioVal = $("dvd-search-studio").val();
+    var dvdTitleVal = $("#dvd-search-title").val();
+    var dvdYearVal = $("#dvd-search-year").val();
+    var dvdRatingVal = $("#dvd-search-rating").val();
+    var dvdDirectorVal = $("#dvd-search-director").val();
+    var dvdStudioVal = $("#dvd-search-studio").val();
 
     // Generate a REQUEST to submit the SEARCH OF PETS to our REST endpoint
     // Endpoint details: POST @ localhost:8080/PetShelterWebApp/search/pets
@@ -328,7 +328,7 @@ function searchDVD() {
             // If they don't match expected, there can be EXPLOSIONS
             title: dvdTitleVal,
             releaseYear: dvdYearVal,
-            MPAArating: dvdRatingVal,
+            mPAArating: dvdRatingVal,
             director: dvdDirectorVal,
             Studio: dvdStudioVal
         })

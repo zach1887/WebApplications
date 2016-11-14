@@ -49,8 +49,8 @@ public class SearchController {
         String titleCriteria = searchMap.get("title");
         String yearCriteria = searchMap.get("releaseYear");
         String ratingCriteria = searchMap.get("mPAArating");
-        String directorCriteria = searchMap.get("comments");
-        String studioCriteria = searchMap.get("studio");
+        String directorCriteria = searchMap.get("director");
+        String studioCriteria = searchMap.get("Studio");
 
         if (titleCriteria != null && !titleCriteria.isEmpty()) {
             dvds = dvds.stream()

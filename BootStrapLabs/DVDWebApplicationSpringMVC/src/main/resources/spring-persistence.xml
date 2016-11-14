@@ -19,9 +19,10 @@
     <!-- #2 Define Data Source -->
     <bean id="dataSourceBean" class="org.apache.commons.dbcp2.BasicDataSource">
         <!-- the next part describes your database location, and login info! -->
-        <property name="url" value="jdbc:mysql://localhost:3306/dvdlibrary" />
+        <property name="url" value="jdbc:mysql://localhost:3306/DVDLibrary" />
         <property name="username" value="root" />
-        <property name="password" value="apprentice2016" />
+     <!--   <property name="password" value="apprentice2016" /> -->
+        <property name="password" value="apprentice" /> 
         <!-- this describes WHAT KIND of db you're connecting too -->
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <!-- define the basics of the connection pool -->

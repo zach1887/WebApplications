@@ -3,3 +3,10 @@ USE PetShelter;
 SELECT * FROM Pets;
 SELECT * FROM Pets
 	LEFT JOIN Breeds ON Pets.breedKEY = Breeds.Bkey;
+
+INSERT INTO Pets (name, disposition, breedKEY, vaccinated)
+    VALUES("Fluffy","Mean",2,true);
+--  for Java
+UPDATE Pets SET name = ?, breedKEY = ?, disposition =?,
+vaccinated = ?WHERE Pets.id = ?;
+ 

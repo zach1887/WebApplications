@@ -92,7 +92,7 @@ public class DVDLibraryJdbcImpl implements DVDLibraryDao {
     }
 
     private static final String SQL_SELECT_DVD_BY_ID
-            = "SELECT * FROM DVDs WHERE Dvds.id = ?";
+            = "SELECT * FROM Dvds WHERE Dvds.id = ?";
 
     @Override
     public DVD getDVDbyID(int idDVD) {
