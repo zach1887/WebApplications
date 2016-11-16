@@ -25,9 +25,11 @@ public class DaoJdbcImpl implements ItemDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public DaoJdbcImpl(JdbcTemplate jdbcTemplate) {
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+
 
     private static final String SQL_GET_ALL_ITEMS = "SELECT * FROM ItemsDetail";
 

@@ -9,5 +9,5 @@
                         </tr>
                         <!-- define a placeholder to be replaced
                             w/ content dynamically w/ jQuery -->
-                        <tbody id="dvdRows"></tbody>
+                        <tbody id="itemRows"></tbody>
                     </table>

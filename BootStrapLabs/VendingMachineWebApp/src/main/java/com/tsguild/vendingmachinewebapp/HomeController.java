@@ -1,20 +1,34 @@
 package com.tsguild.vendingmachinewebapp;
 
+import com.tsguild.vendingmachinewebapp.dao.ItemDao;
+import com.tsguild.vendingmachinewebapp.dto.Item;
+import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping({"/hello"})
 public class HomeController {
-        
-    public HomeController() {
+
+    private ItemDao dao;
+
+    @Inject
+    public HomeController(ItemDao dao) {
+        this.dao = dao;
+    }
+
+    @RequestMapping(value = {"/home", "/"}, method = RequestMethod.GET)
+    public String displayHomePage() {
+        return "home";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/items", method = RequestMethod.GET)
+    public List<Item> displayAllItems() {
+        return dao.getAllItems();
     }
     
-    @RequestMapping(value={"/sayhi","/"}, method=RequestMethod.GET)
-    public String sayHi(Map<String, Object> model) {
-        model.put("message", "Hello from the controller" );
-        return "hello";
-    }
 }

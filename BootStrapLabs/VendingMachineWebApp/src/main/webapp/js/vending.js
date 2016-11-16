@@ -47,13 +47,13 @@ function processItemList(items) {
         // <td><a data-toggle="modal" data-target="#pet-details-modal" data-pet-id="0">Fido</a></td>
         nameField.append(item.itemName);
         
-        priceField.append(item.itemPrice);
+        priceField.append(item.itemPrice.toFixed(2));
         
         var vendLink = $("<a>");
         vendLink.attr({
             'on-click': 'vendItem(' + item.itemId + ')'
         });
-        vendField.text("Buy");
+        vendLink.text("Buy");
         vendField.append(vendLink);
 
         // <td><a onclick="adoptPet(0)">Adopt</a></td>
@@ -76,5 +76,13 @@ function processItemList(items) {
 
 }
 
+function loadItems() {
+
+$.ajax({
+    url: 'items',
+    type:'GET'
+}).success(function(data){
+    processItemList(data);
+});
 
 }
