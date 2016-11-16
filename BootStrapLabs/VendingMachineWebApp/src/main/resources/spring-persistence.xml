@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-              xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/mvc
@@ -14,6 +14,36 @@
                            http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"> 
 
+    <tx:annotation-driven />
+    
+    <!-- #2 Define Data Source -->
+    <bean id="dataSourceBean" class="org.apache.commons.dbcp2.BasicDataSource">
+        <!-- the next part describes your database location, and login info! -->
+        <property name="url" value="jdbc:mysql://localhost:3306/VendingMachineApp" />
+        <property name="username" value="root" />
+        <property name="password" value="apprentice2016" /> 
+        <!--        <property name="password" value="apprentice" />  -->
+        <!-- this describes WHAT KIND of db you're connecting too -->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <!-- define the basics of the connection pool -->
+        <property name="initialSize" value="5" /> <!-- this describes our db cxn pool size -->
+        <property name="maxTotal" value="20" /> <!-- so does this -->
+    </bean>
+    
+    <!-- #3 Define Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceBean" />
+    </bean>
+    
+    <!-- #4 defining jdbcTemplate -->
+    <bean id="jdbcTemplateBean" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSourceBean" />
+    </bean>
+    
+    <!-- #5 last step initializing your dao! -->
+    <bean id="jdbcDao" class="com.tsguild.vendingmachinewebapp.dao.DaoJdbcImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplateBean" />
+    </bean>
     <!-- Bean definitions go here -->
     
 </beans>

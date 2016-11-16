@@ -16,5 +16,6 @@ PRIMARY KEY(`id`)
 
 INSERT INTO `Dvds` (`id`, `title`,`rating`, `year`, `director`,`studio`,`comments`)
 		VALUES(1, "Before Sunrise", "R", 1995, "Richard Linklater", "Castle Rock", "Favorite Movie Ever!"),
-        (2, "Casablanca", "NR", 1942, "Michael Curtiz", "Warner Brothers", "Favorite classic movie.");
+        (2, "Casablanca", "NR", 1942, "Michael Curtiz", "Warner Brothers", "Favorite classic movie."),
+        (3, "Enchanted", "G", 2007,"Kevin Lima", "Disney","Amy Adams is terrific.");
  
