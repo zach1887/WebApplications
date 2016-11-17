@@ -31,4 +31,16 @@ public class HomeController {
         return dao.getAllItems();
     }
     
+    @ResponseBody
+    @RequestMapping(value = "/{item}", method = RequestMethod.PUT)
+    public void vendItem(Item item) {
+        dao.vendItem(item);
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/item", method = RequestMethod.PUT)
+    public void restockItem(Item item, int qty) {
+        dao.restockItem(item, qty);
+    }
+    
 }

@@ -42,7 +42,6 @@ function processItemList(items) {
         var nameField = $("<td>");
         var priceField = $("<td>");
         var vendField = $("<td>");
-        var restockField = $("<td>");
 
         // <td><a data-toggle="modal" data-target="#pet-details-modal" data-pet-id="0">Fido</a></td>
         nameField.append(item.itemName);
@@ -56,19 +55,11 @@ function processItemList(items) {
         vendLink.text("Buy");
         vendField.append(vendLink);
 
-        // <td><a onclick="adoptPet(0)">Adopt</a></td>
-        var restockLink = $("<a>");
-        restockLink.attr({
-            'onclick': 'restock(' + item.itemId + ')'
-        });
-        restockLink.text("Restock");
-        restockField.append(restockLink);
 
         var itemRow = $("<tr>");
         itemRow.append(nameField);
         itemRow.append(priceField);
         itemRow.append(vendField);
-        itemRow.append(restockField);
 
 
         itemRows.append(itemRow);
@@ -86,3 +77,4 @@ $.ajax({
 });
 
 }
+
