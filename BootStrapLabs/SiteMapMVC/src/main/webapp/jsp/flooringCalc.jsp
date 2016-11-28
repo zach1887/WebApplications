@@ -49,7 +49,7 @@
                         <input type="text" class="form-control" name="matCost"> 
                     </div>
                 </div>
-       
+        
         <div>
             <input type="submit" value="Calculate">
         </div>

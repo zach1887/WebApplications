@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.lab2;
+package com.tsguild.sitemapmvc.applet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author apprentice
  */
-@WebServlet(name = "LuckySevens", urlPatterns = {"/", "/luckySevens"})
+@WebServlet(name = "LuckySevens", urlPatterns = {"/luckySevens"})
 public class LuckySevens extends HttpServlet {
 
     Random rand = new Random();
@@ -61,7 +61,7 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("input2.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/luckySevens.jsp").forward(request, response);
     }
 
     /**
@@ -108,7 +108,7 @@ public class LuckySevens extends HttpServlet {
         request.setAttribute("rollsAtHighest", maxRolls);
         request.setAttribute("startingBet", startingBet);
         request.setAttribute("maximumAmountWon", maxAmt);
-        request.getRequestDispatcher("output2.jsp").forward(request, response);
+        request.getRequestDispatcher("output/luckySevensOut.jsp").forward(request, response);
 
     }
 

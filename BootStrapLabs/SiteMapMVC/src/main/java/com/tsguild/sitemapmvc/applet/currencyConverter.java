@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.lab2;
+package com.tsguild.sitemapmvc.applet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-@WebServlet(name = "LuckySevens", urlPatterns = {"/", "/luckySevens"})
-public class LuckySevens extends HttpServlet {
-
-    Random rand = new Random();
+@WebServlet(name = "currencyConverter", urlPatterns = {"/convertCurrency"})
+public class currencyConverter extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +37,10 @@ public class LuckySevens extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LuckySevens</title>");
+            out.println("<title>Servlet currencyConverter</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LuckySevens at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet currencyConverter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +58,7 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("input2.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/unitConverter.jsp").forward(request, response);
     }
 
     /**
@@ -75,41 +72,38 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String input = request.getParameter("input");
-        boolean badInput;
-        int numRolls = 0;
-        int maxRolls = 0;
-        int dieSum;
-        int startingBet = 0;
-        int maxAmt = 0;
-        String msg = "";
-        try {
-            startingBet = Integer.parseInt(input);
-            int currentAmt = startingBet;
-            maxAmt = startingBet;
-            while (currentAmt >= 1) {
-                numRolls++;
-                dieSum = rand.nextInt(6) + rand.nextInt(6) + 2;
-                if (dieSum == 7) {
-                    currentAmt += 4;
-                    if (currentAmt > maxAmt) {
-                        maxAmt = currentAmt;
-                        maxRolls = numRolls;
-                    }
-                } else {
-                    currentAmt--;
-                }
-            }
-        } catch (NumberFormatException e) {
-            badInput = true;
-            msg = "Can't work with that value.";
-        }
-        request.setAttribute("rollsUntilBroke", numRolls);
-        request.setAttribute("rollsAtHighest", maxRolls);
-        request.setAttribute("startingBet", startingBet);
-        request.setAttribute("maximumAmountWon", maxAmt);
-        request.getRequestDispatcher("output2.jsp").forward(request, response);
+        String stringCurrency = request.getParameter("currencyInput");
+        String currencyFrom = request.getParameter("currencyFrom");
+        String currencyTo = request.getParameter("currencyTo");
 
+        int currencyInput = Integer.parseInt(stringCurrency);
+        double currencyOutput;
+        String outputField = "Currency";
+        if (currencyFrom.equals(currencyTo)) {
+            currencyOutput = currencyInput;
+        } else if (currencyFrom.equals("USDollar") && currencyTo.equals("Euro")) {
+            currencyOutput = currencyInput * 0.90;
+        } else if (currencyFrom.equals("USDollar") && currencyTo.equals("Yen")) {
+            currencyOutput = 103.4 * currencyInput;
+        } else if (currencyFrom.equals("Euro") && currencyTo.equals("USDollar")) {
+            currencyOutput = currencyInput / 0.90;
+        } else if (currencyFrom.equals("Euro") && currencyTo.equals("Yen")) {
+            currencyOutput = currencyInput * 114.76;
+        } else if (currencyFrom.equals("Yen") && currencyTo.equals("USDollar")) {
+            currencyOutput = currencyInput / 103.4;
+        } else if (currencyFrom.equals("Yen") && currencyTo.equals("Euro")) {
+            currencyOutput = currencyInput / 114.76;
+
+        } else {
+            currencyOutput = 0;
+        }
+
+        request.setAttribute("OutputField", outputField);
+        request.setAttribute("FromField", currencyFrom);
+        request.setAttribute("ToField", currencyTo);
+        request.setAttribute("initialValue", currencyInput);
+        request.setAttribute("convertedValue", currencyOutput);
+        request.getRequestDispatcher("output/unitConverterOut.jsp").forward(request, response);
     }
 
     /**

@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.lab2;
+package com.tsguild.sitemapmvc.applet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-@WebServlet(name = "LuckySevens", urlPatterns = {"/", "/luckySevens"})
-public class LuckySevens extends HttpServlet {
-
-    Random rand = new Random();
+@WebServlet(name = "weightConverter", urlPatterns = {"/convertWeight"})
+public class weightConverter extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +37,10 @@ public class LuckySevens extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LuckySevens</title>");
+            out.println("<title>Servlet weightConverter</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LuckySevens at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet weightConverter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +58,7 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("input2.jsp").forward(request, response);
+        request.getRequestDispatcher("unitConverter.jsp").forward(request, response);
     }
 
     /**
@@ -75,41 +72,37 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String input = request.getParameter("input");
-        boolean badInput;
-        int numRolls = 0;
-        int maxRolls = 0;
-        int dieSum;
-        int startingBet = 0;
-        int maxAmt = 0;
-        String msg = "";
-        try {
-            startingBet = Integer.parseInt(input);
-            int currentAmt = startingBet;
-            maxAmt = startingBet;
-            while (currentAmt >= 1) {
-                numRolls++;
-                dieSum = rand.nextInt(6) + rand.nextInt(6) + 2;
-                if (dieSum == 7) {
-                    currentAmt += 4;
-                    if (currentAmt > maxAmt) {
-                        maxAmt = currentAmt;
-                        maxRolls = numRolls;
-                    }
-                } else {
-                    currentAmt--;
-                }
-            }
-        } catch (NumberFormatException e) {
-            badInput = true;
-            msg = "Can't work with that value.";
-        }
-        request.setAttribute("rollsUntilBroke", numRolls);
-        request.setAttribute("rollsAtHighest", maxRolls);
-        request.setAttribute("startingBet", startingBet);
-        request.setAttribute("maximumAmountWon", maxAmt);
-        request.getRequestDispatcher("output2.jsp").forward(request, response);
+        String stringWeight = request.getParameter("weightInput");
+        String weightFrom = request.getParameter("weightFrom");
+        String weightTo = request.getParameter("weightTo");
 
+        int weightInput = Integer.parseInt(stringWeight);
+        double weightOutput;
+        String outputField = "Weight";
+        if (weightFrom.equals(weightTo)) {
+            weightOutput = weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Gram")) {
+            weightOutput = 1000 * weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Pound")) {
+            weightOutput = (1000.0 / 454.0) * weightInput;
+        } else if (weightFrom.equals("Kilogram") && weightTo.equals("Ounce")) {
+            weightOutput = (1000 * 16.0 / 454.0) * weightInput;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Kilogram")) {
+            weightOutput = weightInput / 1000.0;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Pound")) {
+            weightOutput = weightInput / 454.0;
+        } else if (weightFrom.equals("Gram") && weightTo.equals("Ounce")) {
+            weightOutput = 16 * weightInput / 454.0;
+        } else {
+            weightOutput = 0;
+        }
+
+        request.setAttribute("OutputField", outputField);
+        request.setAttribute("FromField", weightFrom);
+        request.setAttribute("ToField", weightTo);
+        request.setAttribute("initialValue", weightInput);
+        request.setAttribute("convertedValue", weightOutput);
+        request.getRequestDispatcher("output/unitConverterOut.jsp").forward(request, response);
     }
 
     /**

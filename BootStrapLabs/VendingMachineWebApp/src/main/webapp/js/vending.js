@@ -78,3 +78,7 @@ $.ajax({
 
 }
 
+function vendItem(id) {
+    var amtEntered = $('#moneyInput');
+}
+

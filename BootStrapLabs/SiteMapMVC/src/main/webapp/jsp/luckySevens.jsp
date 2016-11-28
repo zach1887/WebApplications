@@ -6,8 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,21 +13,17 @@
 
         <!-- SWC Icon -->
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/img/icon.png">
-        <!-- 2.2.4 compiled and minified jQuery -->
-        <title>Factorizer</title>
+        <title>Lucky Sevens</title>
     </head>
-
-
     <body>
-
-        <h1> Software Guild Site Map</h1>
+               <h1> Software Guild Site Map</h1>
         <div class="container">
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
                     <li role="presentation"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
-                    <li role="presentation"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/factorizer">Factorizer</a></li>
+                    <li role="presentation"  class="active"><a href="${pageContext.request.contextPath}/luckySevens">Lucky Sevens</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/tipCalc">Tip Calculator</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/interestCalc">Interest Calculator</a></li>
                     <li role="presentation"><a href="${pageContext.request.contextPath}/flooringCalc">Flooring Calculator</a></li>
@@ -37,18 +31,17 @@
                 </ul>    
             </div>
         </div>
+
         <div class="container"> 
             <div class="col-sm-offset-2 col-sm-8">
-                <form class="form-horizontal" action="factorizer" method="POST">
+                <form class="form-horizontal" action="luckySevens" method="POST">
                     <div class="form-group"> 
-                        <label class="control-label col-sm-2" for="name">Select a number to factor</label>
+                        <label class="control-label col-sm-2" for="name">How much do you feel like risking?</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="input">
+                            <input type="number" class="form-control" name="input" min="1" max = "100000">
                         </div>
-                        <input type ="submit" value="Factor!"></button>
                     </div>
-                    </form>
-
+                </form>
             </div>
         </div>
         <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>

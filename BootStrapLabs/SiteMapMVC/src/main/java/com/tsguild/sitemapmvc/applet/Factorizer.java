@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.lab2;
+package com.tsguild.sitemapmvc.applet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
+import java.text.ParseException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author apprentice
  */
-@WebServlet(name = "LuckySevens", urlPatterns = {"/", "/luckySevens"})
-public class LuckySevens extends HttpServlet {
-
-    Random rand = new Random();
+@WebServlet(name = "Factorizer", urlPatterns = {"/factorizer"})
+public class Factorizer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class LuckySevens extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LuckySevens</title>");
+            out.println("<title>Servlet Factorizer</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LuckySevens at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Factorizer at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +60,7 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("input2.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/factorizer.jsp").forward(request, response);
     }
 
     /**
@@ -75,40 +74,37 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String input = request.getParameter("input");
-        boolean badInput;
-        int numRolls = 0;
-        int maxRolls = 0;
-        int dieSum;
-        int startingBet = 0;
-        int maxAmt = 0;
+        String givenNumber = request.getParameter("input");
         String msg = "";
+        ArrayList<Integer> factors = new ArrayList<>();
+        boolean badInput;
+        int numFactors = 0;
+        int sumFactors = 0;
+        boolean isPrime, isPerfect;
         try {
-            startingBet = Integer.parseInt(input);
-            int currentAmt = startingBet;
-            maxAmt = startingBet;
-            while (currentAmt >= 1) {
-                numRolls++;
-                dieSum = rand.nextInt(6) + rand.nextInt(6) + 2;
-                if (dieSum == 7) {
-                    currentAmt += 4;
-                    if (currentAmt > maxAmt) {
-                        maxAmt = currentAmt;
-                        maxRolls = numRolls;
-                    }
-                } else {
-                    currentAmt--;
+            int valueInt = Integer.parseInt(givenNumber);
+            for (int k = 1; k <= valueInt / 2; k++) {  //no need to check factors greater than half the userInput
+
+                if (valueInt % k == 0) {
+                    factors.add(k);
+                    numFactors++;
+                    sumFactors += k;
                 }
             }
+            isPrime = (numFactors == 1);
+            isPerfect = (sumFactors == valueInt);
+            request.setAttribute("providedNumber", valueInt);
+            request.setAttribute("listOfFactors", factors);
+            request.setAttribute("perfectNumber", isPerfect);
+            request.setAttribute("primeNumber", isPrime);
+            request.setAttribute("numFactors", numFactors);
+            request.setAttribute("badInput", "all set");
         } catch (NumberFormatException e) {
-            badInput = true;
-            msg = "Can't work with that value.";
+            request.setAttribute("badInput", true);
+            request.setAttribute("msg", "Can't understand that input.");
         }
-        request.setAttribute("rollsUntilBroke", numRolls);
-        request.setAttribute("rollsAtHighest", maxRolls);
-        request.setAttribute("startingBet", startingBet);
-        request.setAttribute("maximumAmountWon", maxAmt);
-        request.getRequestDispatcher("output2.jsp").forward(request, response);
+
+        request.getRequestDispatcher("output/factorizerOut.jsp").forward(request, response);
 
     }
 
@@ -120,6 +116,6 @@ public class LuckySevens extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

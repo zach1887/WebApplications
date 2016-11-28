@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.lab2;
+package com.tsguild.sitemapmvc.applet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author apprentice
+ * @author Jesse
  */
-@WebServlet(name = "LuckySevens", urlPatterns = {"/", "/luckySevens"})
-public class LuckySevens extends HttpServlet {
-
-    Random rand = new Random();
+@WebServlet(name = "tempConverter", urlPatterns = {"/convertTemp"})
+public class tempConverter extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +37,10 @@ public class LuckySevens extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LuckySevens</title>");
+            out.println("<title>Servlet tempConverter</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LuckySevens at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet tempConverter at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +58,7 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("input2.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/unitConverter.jsp").forward(request, response);
     }
 
     /**
@@ -75,40 +72,36 @@ public class LuckySevens extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String input = request.getParameter("input");
-        boolean badInput;
-        int numRolls = 0;
-        int maxRolls = 0;
-        int dieSum;
-        int startingBet = 0;
-        int maxAmt = 0;
-        String msg = "";
-        try {
-            startingBet = Integer.parseInt(input);
-            int currentAmt = startingBet;
-            maxAmt = startingBet;
-            while (currentAmt >= 1) {
-                numRolls++;
-                dieSum = rand.nextInt(6) + rand.nextInt(6) + 2;
-                if (dieSum == 7) {
-                    currentAmt += 4;
-                    if (currentAmt > maxAmt) {
-                        maxAmt = currentAmt;
-                        maxRolls = numRolls;
-                    }
-                } else {
-                    currentAmt--;
-                }
-            }
-        } catch (NumberFormatException e) {
-            badInput = true;
-            msg = "Can't work with that value.";
+        String stringInput = request.getParameter("tempInput");
+        String TempFrom = request.getParameter("tempFrom");
+        String TempTo = request.getParameter("tempTo");
+
+        int tempInput = Integer.parseInt(stringInput);
+
+        double tempOutput;
+        String outputField = "Temperature";
+        if (TempFrom.equals(TempTo)) {
+            tempOutput = tempInput;
+        } else if (TempFrom.equals("Fahrenheit") && TempTo.equals("Celsius")) {
+            tempOutput = (tempInput - 32.0) * (5.0 / 9.0);
+        } else if (TempFrom.equals("Fahrenheit") && TempTo.equals("Kelvin")) {
+            tempOutput = (tempInput - 32.0) * (5.0 / 9.0) + 273.14;
+        } else if (TempFrom.equals("Kelvin") && TempTo.equals("Celsius")) {
+            tempOutput = (tempInput - 273.14);
+        } else if (TempFrom.equals("Kelvin") && TempTo.equals("Fahrenheit")) {
+            tempOutput = (tempInput - 273.14) * 9.0 / 5.0 + 32;
+        } else if (TempFrom.equals("Celsius") && TempTo.equals("Kelvin")) {
+            tempOutput = (tempInput + 273.14);
+        } else if (TempFrom.equals("Celsius") && TempTo.equals("Fahrenheit")) {
+            tempOutput = (tempInput* 9.0) / 5.0 + 32;
         }
-        request.setAttribute("rollsUntilBroke", numRolls);
-        request.setAttribute("rollsAtHighest", maxRolls);
-        request.setAttribute("startingBet", startingBet);
-        request.setAttribute("maximumAmountWon", maxAmt);
-        request.getRequestDispatcher("output2.jsp").forward(request, response);
+        else tempOutput=-555;
+        request.setAttribute("OutputField", outputField);
+        request.setAttribute("FromField", TempFrom);
+        request.setAttribute("ToField", TempTo);
+        request.setAttribute("initialValue", tempInput);
+        request.setAttribute("convertedValue", tempOutput);
+        request.getRequestDispatcher("output/unitConverterOut.jsp").forward(request, response);
 
     }
 

@@ -22,7 +22,7 @@
             <div class="col-md-4">
                 <input id="moneyInput" />
             </div>
-            <button type="submit" class=""btn btn-default"> Add Money</button>
+            <button type="submit" class="btn btn-default"> Add Money</button>
             <div class="col-md-4">
                 <label for="currentTotal"> Current Total</label> 
             </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="col-md-4" id="changeReturn" />
         </div> 
-        <button type="submit" class=""btn btn-default">Return Change</button>
+        <button type="submit" class="btn btn-default">Return Change</button>
 
     </div>
     <!-- Placed at the end of the document so the pages load faster -->

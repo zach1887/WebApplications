@@ -45,7 +45,7 @@
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="input">
                         </div>
-                        <input type ="submit" value="Factor!"></button>
+                        <input  type ="submit" value="Factor" />
                     </div>
                     </form>
 
