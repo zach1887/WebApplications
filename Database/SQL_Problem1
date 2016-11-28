@@ -1,0 +1,27 @@
+
+1.  Changing employee 11's last name
+SELECT * FROM Employee
+  WHERE EmpID = 11;
+
+UPDATE Employee 
+  SET `LastName` = "Green"
+  WHERE EmpID = 11;
+
+SELECT * FROM Employee
+  WHERE EmpID = 11;
+
+
+2. Changing all Spokane employees to contract
+
+SELECT * FROM Employee 
+  LEFT JOIN Location On Employee.LocationID = Location.LocationID
+  WHERE Location.City = "Spokane";
+
+UPDATE Employee as a
+  LEFT JOIN Location AS b On a.LocationID = b.LocationID
+  SET a.Status = "External"
+  WHERE b.City = "Spokane";
+
+ SELECT * FROM Employee 
+  LEFT JOIN Location On Employee.LocationID = Location.LocationID
+  WHERE Location.City = "Spokane";

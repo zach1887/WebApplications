@@ -23,7 +23,7 @@ PRIMARY KEY(`transId`)
 
 -- Establish any FK constraints
 ALTER TABLE `TransactionalData`
-	ADD CONSTRAINT `pets_fk_breedId` 
+	ADD CONSTRAINT `trans_fk_itemID` 
     FOREIGN KEY (`itemId`) 
     REFERENCES `ItemsDetail` 
     (`id`); 

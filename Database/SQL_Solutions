@@ -1,0 +1,76 @@
+
+1.  Changing employee 11's last name
+SELECT * FROM Employee
+  WHERE EmpID = 11;
+
+UPDATE Employee 
+  SET `LastName` = "Green"
+  WHERE EmpID = 11;
+
+SELECT * FROM Employee
+  WHERE EmpID = 11;
+
+
+2. Changing all Spokane employees to contract
+
+SELECT * FROM Employee 
+  LEFT JOIN Location On Employee.LocationID = Location.LocationID
+  WHERE Location.City = "Spokane";
+
+UPDATE Employee as a
+  LEFT JOIN Location AS b On a.LocationID = b.LocationID
+  SET a.Status = "External"
+  WHERE b.City = "Spokane";
+
+ SELECT * FROM Employee 
+  LEFT JOIN Location On Employee.LocationID = Location.LocationID
+  WHERE Location.City = "Spokane";
+
+3. Changing street address of Seattle location
+
+UPDATE Location
+  SET `Street` = "111 1st Avenue"
+  WHERE `City` = "Seattle";
+
+SELECT * FROM Location 
+  WHERE `City` = "Seattle";
+
+4.  Changing all Boston grants to $20,000
+
+USE SWCCorp;
+
+SELECT * from `Grant`;
+
+UPDATE `Grant` AS g
+  LEFT JOIN Employee AS e ON g.EmpID = e.EmpId
+  LEFT JOIN Location AS loc ON e.LocationId = loc.LocationID
+  SET g.Amount = 20000
+  WHERE loc.City = "Boston";
+
+SELECT * from `Grant`
+   WHERE Amount = 20000;
+
+5.  Delete all Management Courses longer than 20 hours
+
+USE SWCCorp;
+
+SELECT * from `MgmtTraining`;
+
+DELETE FROM `MgmtTraining`
+  WHERE ClassDurationHours > 20;
+
+SELECT * from `MgmtTraining`;
+
+MovieCatalog - Remove all G movies
+
+Use MovieCatalog;
+
+SELECT * FROM Movie;
+
+DELETE FROM Movie
+  WHERE Rating = 'G';
+
+SELECT * FROM Movie;
+
+
+

@@ -1,0 +1,18 @@
+1.  List of all employees and their territories
+
+USE Northwind;
+
+SELECT emp.FirstName, emp.LastName, emp.EmployeeId, terr.territoryID, terr.territoryDescription
+  FROM Employees AS emp
+  JOIN EmployeeTerritories AS et ON emp.EmployeeID = et.EmployeeID
+  JOIN Territories AS terr ON et.TerritoryID = terr.TerritoryID;
+  
+2.List product name for all USA customers  
+
+USE Northwind;
+
+SELECT cust.CompanyName, cust.Country, ord.OrderID, Products.ProductName from Customers AS cust
+  JOIN Orders AS ord ON cust.customerID = ord.customerID
+  JOIN Order_Details AS detail ON ord.orderID = detail.orderID
+  JOIN Products ON detail.ProductID = Products.ProductID
+  WHERE cust.country = "USA";

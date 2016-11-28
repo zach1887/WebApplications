@@ -1,0 +1,20 @@
+1.  Create a listing of all possible combinations of employee and location.
+
+USE SWCCorp;
+
+SELECT * FROM Employee
+CROSS JOIN Location
+ORDER BY Employee.EmpID, Location.LocationID;
+
+2. List employees who have never received a grant.  
+
+USE SWCCorp;
+
+SELECT * FROM `Grant`;
+
+
+SELECT emp.FirstName, emp.LastName, emp.EmpId, COUNT(gr.GrantID) AS NumberOfGrants
+  FROM Employee AS emp
+  LEFT JOIN `Grant` AS gr ON emp.EmpID = gr.EmpID
+  GROUP BY emp.EmpId
+  HAVING NumberOfGrants = 0;
