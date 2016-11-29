@@ -32,7 +32,7 @@ public class HomeController {
     }
     
     @ResponseBody
-    @RequestMapping(value = "/{item}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/vend/{item}", method = RequestMethod.PUT)
     public void vendItem(Item item) {
         dao.vendItem(item);
     }

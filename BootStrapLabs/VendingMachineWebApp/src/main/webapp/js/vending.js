@@ -9,8 +9,17 @@ $(document).ready(function () {
     loadItems();
 
 
+    $("#add-money-button").click(function (event) {
+        event.preventDefault();
+        addMoney();
+    });
+    
+    $("#return-change-button").click(function(event) {
+        event.preventDefault();
+        returnChange();
+    });
+    
     $("#add-button").click(function (event) {
-        // Stop the button, if it is trying to submit, from submitting
         event.preventDefault();
         addItem(); // Then do OUR thing.
     });
@@ -29,6 +38,12 @@ $(document).ready(function () {
 
 function clearItemTable() {
     $('#itemRows').empty();
+}
+
+function addMoney() {
+    var amtEntered = $('#moneyInput').val();
+    var currentMoney = $('#currentTotal').val();
+    $('#currentTotal').val(currentMoney+amtEntered);
 }
 
 function processItemList(items) {
@@ -79,6 +94,13 @@ $.ajax({
 }
 
 function vendItem(id) {
-    var amtEntered = $('#moneyInput');
+    
+    $.ajax({
+    url: 'items',
+    type:'GET'
+}).success(function(data){
+    processItemList(data);
+});
+
 }
 
