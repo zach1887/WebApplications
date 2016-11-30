@@ -21,12 +21,29 @@ CREATE TABLE `TransactionalData` (
 PRIMARY KEY(`transId`)
 );
 
--- Establish any FK constraints
-ALTER TABLE `TransactionalData`
-	ADD CONSTRAINT `trans_fk_itemID` 
-    FOREIGN KEY (`itemId`) 
-    REFERENCES `ItemsDetail` 
-    (`id`); 
 
-INSERT INTO `TransactionalData`(`transId`, `itemId`, `price`)
-    VALUES(1, 2, 0.70), (2, 2, 0.70), (3,1, 0.80), (4,4,0.25);
+CREATE TABLE `EditHistory` (
+`editId` INT AUTO_INCREMENT NOT NULL, 
+`itemId` INT NOT NULL,
+`oldName` VARCHAR(50),
+`newName` VARCHAR(50),
+`oldPrice` FLOAT4,
+`newPrice` FLOAT4,
+`oldQty` INT,
+`newQty` INT,
+PRIMARY KEY(`editId`)
+);
+
+CREATE TABLE `DeletedItems` ( 
+`itemId` INT NOT NULL,
+`finalName` VARCHAR(50),
+`finalPrice` FLOAT4,
+`finalQty` INT,
+PRIMARY KEY(`itemId`)
+);
+
+CREATE TABLE `RestockHistory` (
+`itemId` INT NOT NULL,
+`addedQty` INT,
+PRIMARY KEY(`itemId`)
+);

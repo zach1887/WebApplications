@@ -43,18 +43,7 @@
                             <input id="vacc-edit-daysLength" name="daysLength" type="text" class="form-control" placeholder="Days"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="vacc-edit-tripOverseas" class="col-md-4 control-label">Trip Overseas? </label>
-                        <div class="col-md-8">
-                            <input id="vacc-edit-tripOverseas" name="tripOverseas" type="checkbox" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="vacc-edit-otherCities" class="col-md-4 control-label">Other Cities: </label>
-                        <div class="col-md-8">
-                            <input id="vacc-edit-otherCities" name="otherCities" type="text" class="form-control" placeholder="Days"/>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
                             <button type="submit" id="edit-button" class="btn btn-default" data-dismiss="modal"> Update Record </button>

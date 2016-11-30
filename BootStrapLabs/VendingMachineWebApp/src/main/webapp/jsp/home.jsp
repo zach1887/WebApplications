@@ -16,11 +16,18 @@
     <body>
         <div class="container">
             <h1>Vending Machine</h1>
+            <hr/>
+            <div class="navbar">
+                <ul class="nav nav-tabs">
+                	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                	<li role="presentation"><a href="${pageContext.request.contextPath}/manage">Management Page</a></li>
+                </ul>    
+            </div>
             <div class="col-md-4">
                 <label for="moneyInput"> Insert Money</label> 
             </div>
             <div class="col-md-4">
-                <input id="moneyInput" />
+                <input id="moneyInput" type = "number" />
             </div>
             <button id = "add-money-button" class="btn btn-default"> Add Money</button>
             <div class="col-md-4">
@@ -28,7 +35,7 @@
             </div>
             <div class="col-md-4">
                 
-            <input id="currentTotal" placeholder = "0.00" />
+                <input id="currentTotal" />
         </div> 
 
             <hr/>
@@ -36,7 +43,7 @@
             <div class="col-md-4">
                 <label for="changeReturn">Change</label> 
             </div>
-            <div class="col-md-4" id="changeReturn" />
+            <div class="col-md-4"> <input id="changeReturn" />
         </div> 
         <button id = "return-change-button" class="btn btn-default">Return Change</button>
 
