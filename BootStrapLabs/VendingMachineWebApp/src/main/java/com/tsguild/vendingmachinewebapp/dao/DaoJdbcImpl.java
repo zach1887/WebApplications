@@ -41,11 +41,14 @@ public class DaoJdbcImpl implements ItemDao {
     }
 
     private static final String SQL_VEND_ITEM = "UPDATE ItemsDetail SET Qty = ? WHERE id = ?";
+    private static final String SQL_ADD_TRANS = "INSERT INTO TransactionalData(`itemID`,`price`)" 
+                                                     + " VALUES (?,?)";
 
     @Override
     public void vendItem(Item item) {
 
         jdbcTemplate.update(SQL_VEND_ITEM, item.getItemQty() - 1, item.getItemID());
+        jdbcTemplate.update(SQL_ADD_TRANS, item.getItemID(), item.getItemPrice());
     }
 
     private static final String SQL_RESTOCK_ITEM = "UPDATE ItemsDetail SET Qty = ? WHERE id = ?";

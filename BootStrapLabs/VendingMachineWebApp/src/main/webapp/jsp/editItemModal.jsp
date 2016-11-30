@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="vacc-edit-modal" role="dialog">
+<div class="modal fade" id="item-edit-modal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,39 +10,28 @@
 
             </div>   
             <div class="modal-body">
-                <h3 id="vacc-edit-tripId">Trip ID </h3>
+                <h3 id="item-edit-itemId">Item ID </h3>
 
                 <form class="form-horizontal" role="form"> 
                     <div class="form-group">
-                        <label for="vacc-edit-tripMonth" class="col-md-4 control-label">Trip Month: </label>
+                        <label for="item-edit-itemName" class="col-md-4 control-label">Name: </label>
                         <div class="col-md-8">
-                            <input id="vacc-edit-tripMonth" name="tripMonth" type="text" class="form-control" placeholder="Month"/>
+                            <input id="item-edit-itemName" name="itemName" type="text" class="form-control" placeholder="Month"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="vacc-edit-tripYear" class="col-md-4 control-label">Trip Year: </label>
+                        <label for="item-edit-itemPrice" class="col-md-4 control-label">Item Price: </label>
                         <div class="col-md-8">
-                            <input id="vacc-edit-tripYear" name="petBreed" type="text" class="form-control" placeholder="Year"/>
+                            <input id="item-edit-itemPrice" name="itemPrice" type="number" min = 0 max = 10 class="form-control" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="vacc-edit-destCity" class="col-md-4 control-label">Destination City: </label>
+                        <label for="item-edit-itemQty" class="col-md-4 control-label">Item Qty: </label>
                         <div class="col-md-8">
-                            <input id="vacc-edit-destCity" name="destCity" type="text" class="form-control" placeholder="City"/>
+                            <input id="item-edit-itemQty" name="itemQty" type="number" min = 0 max = 100 class="form-control" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="vacc-edit-destCountry" class="col-md-4 control-label">Destination Country: </label>
-                        <div class="col-md-8">
-                            <input id="vacc-edit-destCountry" name="destCountry" type="text" class="form-control" placeholder="Country"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="vacc-edit-daysLength" class="col-md-4 control-label">Days Length: </label>
-                        <div class="col-md-8">
-                            <input id="vacc-edit-daysLength" name="daysLength" type="text" class="form-control" placeholder="Days"/>
-                        </div>
-                    </div>
+
 
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">

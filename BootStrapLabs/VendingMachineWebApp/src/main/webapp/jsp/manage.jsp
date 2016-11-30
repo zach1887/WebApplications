@@ -54,7 +54,7 @@
                         </div>                        
                     </form>
              
-             Sales Repost By Item <br>
+             Sales Report By Item <br>
              Sales Report By Transaction <br>
 
     </div>

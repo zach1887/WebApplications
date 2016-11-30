@@ -19,8 +19,8 @@
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
-                	<li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                	<li role="presentation"><a href="${pageContext.request.contextPath}/manage">Management Page</a></li>
+                    <li role="presentation" class="active"><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                    <li role="presentation"><a href="${pageContext.request.contextPath}/manage">Management Page</a></li>
                 </ul>    
             </div>
             <div class="col-md-4">
@@ -29,30 +29,34 @@
             <div class="col-md-4">
                 <input id="moneyInput" type = "number" />
             </div>
-            <button id = "add-money-button" class="btn btn-default"> Add Money</button>
+            <div class="col-md-4">
+                <button id = "add-money-button" class="btn btn-default"> Add Money</button>
+            </div>
             <div class="col-md-4">
                 <label for="currentTotal"> Current Total</label> 
             </div>
+
+            <div class="col-md-4" ><input id="currentTotal" type = "number" readonly /></div> 
+
             <div class="col-md-4">
-                
-                <input id="currentTotal" />
-        </div> 
+
+            </div>
 
             <hr/>
             <%@include file="itemFragment.jsp" %>
             <div class="col-md-4">
                 <label for="changeReturn">Change</label> 
             </div>
-            <div class="col-md-4"> <input id="changeReturn" />
-        </div> 
-        <button id = "return-change-button" class="btn btn-default">Return Change</button>
+            <div class="col-md-4"> <input id="changeReturn" readonly />
+            </div> 
+            <button id = "return-change-button" class="btn btn-default">Return Change</button>
 
-    </div>
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/vending.js"></script>
+        </div>
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/vending.js"></script>
 
-</body>
+    </body>
 </html>
 
