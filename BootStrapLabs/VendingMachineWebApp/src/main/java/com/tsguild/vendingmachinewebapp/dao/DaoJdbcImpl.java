@@ -28,8 +28,17 @@ public class DaoJdbcImpl implements ItemDao {
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-
+ 
+    private static final String SQL_GET_ITEM_BY_ID = "SELECT * FROM ItemsDetail WHERE id = ?";
+    
+    @Override  
+    public Item getItemById(int id) {
+        try {
+            return jdbcTemplate.queryForObject(SQL_GET_ITEM_BY_ID, new ItemMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
     private static final String SQL_GET_ALL_ITEMS = "SELECT * FROM ItemsDetail";
 
@@ -41,21 +50,22 @@ public class DaoJdbcImpl implements ItemDao {
     }
 
     private static final String SQL_VEND_ITEM = "UPDATE ItemsDetail SET Qty = ? WHERE id = ?";
-    private static final String SQL_ADD_TRANS = "INSERT INTO TransactionalData(`itemID`,`price`)" 
-                                                     + " VALUES (?,?)";
+    private static final String SQL_ADD_TRANS = "INSERT INTO TransactionalData(`itemID`,`price`)"
+            + " VALUES (?,?)";
 
     @Override
-    public void vendItem(Item item) {
-
-        jdbcTemplate.update(SQL_VEND_ITEM, item.getItemQty() - 1, item.getItemID());
-        jdbcTemplate.update(SQL_ADD_TRANS, item.getItemID(), item.getItemPrice());
+    public void vendItem(int itemId) {
+        Item returnItem = getItemById(itemId);
+        jdbcTemplate.update(SQL_VEND_ITEM, returnItem.getItemQty() - 1, returnItem.getItemID());
+        jdbcTemplate.update(SQL_ADD_TRANS, returnItem.getItemID(), returnItem.getItemPrice());
     }
 
     private static final String SQL_RESTOCK_ITEM = "UPDATE ItemsDetail SET Qty = ? WHERE id = ?";
 
     @Override
-    public void restockItem(Item item, int newQty) {
-        jdbcTemplate.update(SQL_RESTOCK_ITEM, item.getItemQty() + newQty, item.getItemID());
+    public void restockItem(int itemId, int newQty) {
+        Item returnItem = getItemById(itemId);
+        jdbcTemplate.update(SQL_RESTOCK_ITEM, returnItem.getItemQty() + newQty, returnItem.getItemID());
     }
 
     private static final String SQL_ADD_NEW_ITEM = "INSERT INTO ItemsDetail(`name`,`price`,`qty`)"
@@ -72,10 +82,11 @@ public class DaoJdbcImpl implements ItemDao {
 
     private static final String SQL_EDIT_ITEM = "UPDATE ItemsDetail SET name = ?,  price = ?, "
             + " qty = ?,WHERE id = ?";
+
     @Override
     public void editItem(Item changeItem) {
-      jdbcTemplate.update(SQL_EDIT_ITEM, changeItem.getItemName(), changeItem.getItemPrice(), 
-                          changeItem.getItemQty(), changeItem.getItemID());
+        jdbcTemplate.update(SQL_EDIT_ITEM, changeItem.getItemName(), changeItem.getItemPrice(),
+                changeItem.getItemQty(), changeItem.getItemID());
     }
 
     private static final String SQL_DELETE_ITEM = "DELETE FROM ItemsDetails WHERE id = ?";

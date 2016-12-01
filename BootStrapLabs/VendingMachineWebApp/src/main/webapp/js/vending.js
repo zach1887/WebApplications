@@ -61,11 +61,13 @@ function clearMgmtTable() {
 function addMoney() {
     var amtEntered = parseFloat($('#moneyInput').val());
     var currentMoney = parseFloat($('#currentTotal').val());
+
     if (!currentMoney)
         $("#currentTotal").val(amtEntered);
     else
         $("#currentTotal").val(currentMoney + amtEntered);
     $("#moneyInput").val("0.00");
+    $("#changeReturn").val("0.00");
 }
 
 
@@ -102,7 +104,7 @@ function processItemList(items) {
 
         var vendLink = $("<a>");
         vendLink.attr({
-            'on-click': 'vendItem(' + item + ')'
+            'onclick': 'vendItem(' + item.itemID + ')'
         });
         vendLink.text("Buy");
         vendField.append(vendLink);
@@ -120,23 +122,28 @@ function processItemList(items) {
 
 }
 
-function vendItem(item) {
+
+function vendItem(itemId) {
+    $.ajax({
+        url: 'item/' + itemId,
+        type: 'GET'
+    }).success(function (item) {
+  
     var currentMoney = parseFloat($('#currentTotal').val());
-    if (!currentMoney)
-        alert("You have to put money in first!");
-    else if (currentMoney < item.itemPrice)
-        alert("You have not entered enough to purchase this item.");
-    else
-        $.ajax({
-            url: 'vend/' + item.itemId,
-            type: 'PUT'
-        }).success(function (data) {
+    if (currentMoney < item.itemPrice)
+        alert("You have not entered enough money to purchase that item.");
+    else {
+       $.ajax({
+        url: 'vend/' + itemId,
+        type: 'PUT'
+    }).success(function() {
+        $('#currentTotal').val((currentMoney - item.itemPrice).toFixed(2));
         loadItems();
-        });
-
-
-
+    });
+    }
+    });
 }
+
 function processMgmtList(items) {
     clearMgmtTable();
 
@@ -161,21 +168,21 @@ function processMgmtList(items) {
 
         var restockLink = $("<a>");
         restockLink.attr({
-            'on-click': 'restock(' + item.itemId + ')'
+            'onclick': 'restock(' + item.itemId + ')'
         });
         restockLink.text("Restock");
         restockField.append(restockLink);
 
         var editLink = $("<a>");
         editLink.attr({
-            'on-click': 'edit(' + item.itemId + ')'
+            'onclick': 'edit(' + item.itemId + ')'
         });
         editLink.text("Edit");
         editField.append(editLink);
 
         var deleteLink = $("<a>");
         deleteLink.attr({
-            'on-click': 'delete(' + item.itemId + ')'
+            'onclick': 'delete(' + item.itemId + ')'
         });
         deleteLink.text("Delete");
         deleteField.append(deleteLink);
@@ -205,5 +212,73 @@ function loadItems() {
         processMgmtList(data);
     });
 
+}
+
+function restockItem(itemid, qty) {
+
+    $.ajax({
+        url: 'items',
+        type: 'GET'
+    }).success(function (data) {
+
+    });
+
+}
+
+function addItem() {
+    var itemName = $("#item-add-name").val();
+    var itemPrice = $("#item-add-price").val();
+    var itemQty = $("#item-add-qty").val();
+
+
+    $.ajax({
+        url: 'item',
+        type: 'POST',
+        headers: {
+            'Accept': 'application/json', //Whatcha want back
+            'Content-Type': 'application/json' // Whatcha sending
+        },
+        'dataType': 'json', // Whatcha sending, data type
+
+        data: JSON.stringify({
+            // These key/value pairs need to match the propertyName/Values
+            // of your Java DTO if that is what you are sending.
+            // this is because Spring/Jaxson will try and use 
+            // use getters and setters etc to try to translate JSON -> Java
+            // If they don't match expected, there can be EXPLOSIONS
+            itemName: itemName,
+            itemPrice: itemPrice,
+            itemQty: itemQty,
+        })
+    }).success(function (data) { // Register a PROMISE function to be called on response success
+        $("#validationErrors").hide();
+        loadItems();
+        $("#item-add-name").val('');
+        $("#item-add-price").val('');
+        $("#item-add-qty").val('');
+    }
+            ).error(function (data, status) {
+        // Find the error div in the DOM
+        var errorDiv = $("#validationErrors");
+        errorDiv.empty();
+        errorDiv.show();
+        // the data, should be our field errors
+        // which have a message, and a field error
+        $.each(data.responseJSON.fieldErrors, function (index, validationError) {
+            errorDiv.append(validationError.message);
+            errorDiv.append("<br>");
+        });
+
+    });
+}
+function deleteItem(id) {
+
+    $.ajax({
+        url: 'items',
+        type: 'GET'
+    }).success(function (data) {
+        processItemList(data);
+        processMgmtList(data);
+    });
 }
 

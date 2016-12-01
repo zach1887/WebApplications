@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface ItemDao {
 
+    public Item getItemById(int id);
+    
     Item addNewItem(Item item);
 
     void deleteItem(int itemId);
@@ -22,8 +24,8 @@ public interface ItemDao {
 
     List<Item> getAllItems();
 
-    void restockItem(Item item, int newQty);
+    void restockItem(int itemId, int newQty);
 
-    void vendItem(Item item);
+    void vendItem(int itemId);
     
 }

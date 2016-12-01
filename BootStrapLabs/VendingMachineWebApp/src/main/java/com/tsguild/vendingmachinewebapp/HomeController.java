@@ -29,6 +29,12 @@ public class HomeController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/item/{itemId}", method = RequestMethod.GET)
+    public Item getItemById(@PathVariable int itemId) {
+        return dao.getItemById(itemId);
+    }
+    
+    @ResponseBody
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     public List<Item> displayAllItems() {
         return dao.getAllItems();
@@ -36,9 +42,9 @@ public class HomeController {
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
-    @RequestMapping(value = "/vend/{item}", method = RequestMethod.PUT)
-    public void vendItem(@PathVariable Item item) {
-        dao.vendItem(item);
+    @RequestMapping(value = "/vend/{itemId}", method = RequestMethod.PUT)
+    public void vendItem(@PathVariable int itemId) {
+        dao.vendItem(itemId);
     }
     
 }

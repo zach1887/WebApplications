@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label for="item-add-qty" class="col-md-4 control-label">Item Quantity</label>
                             <div class="col-md-8">
-                                <input id="item-add-price" name="itemName" type="number" class="form-control" placeholder="Qty" />
+                                <input id="item-add-qty" name="itemName" type="number" class="form-control" placeholder="Qty" />
                             </div>
                         </div>
                         <div class="form-group">
