@@ -56,7 +56,9 @@
              
              Sales Report By Item <br>
              Sales Report By Transaction <br>
-
+       <%@include file="editItemModal.jsp" %>
+       <%@include file="restockModal.jsp" %>
+       <%@include file="deleteConfirmation.jsp" %>
     </div>
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="${pageContext.request.contextPath}/js/jquery-2.2.4.min.js"></script>

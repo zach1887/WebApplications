@@ -36,7 +36,7 @@
                 <label for="currentTotal"> Current Total</label> 
             </div>
 
-            <div class="col-md-4" ><input id="currentTotal" type = "number" readonly /></div> 
+                <div class="col-md-4" ><span id="currentTotal"></span> </div> 
 
             <div class="col-md-4">
 
@@ -47,7 +47,7 @@
             <div class="col-md-4">
                 <label for="changeReturn">Change</label> 
             </div>
-            <div class="col-md-4"> <input id="changeReturn" readonly />
+            <div class="col-md-4"> <span id="changeReturn"></span>
             </div> 
             <button id = "return-change-button" class="btn btn-default">Return Change</button>
 

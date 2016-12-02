@@ -24,8 +24,6 @@ public interface ItemDao {
 
     List<Item> getAllItems();
 
-    void restockItem(int itemId, int newQty);
-
     void vendItem(int itemId);
     
 }

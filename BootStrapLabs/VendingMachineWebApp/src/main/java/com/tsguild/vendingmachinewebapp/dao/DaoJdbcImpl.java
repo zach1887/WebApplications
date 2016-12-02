@@ -28,10 +28,10 @@ public class DaoJdbcImpl implements ItemDao {
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
- 
+
     private static final String SQL_GET_ITEM_BY_ID = "SELECT * FROM ItemsDetail WHERE id = ?";
-    
-    @Override  
+
+    @Override
     public Item getItemById(int id) {
         try {
             return jdbcTemplate.queryForObject(SQL_GET_ITEM_BY_ID, new ItemMapper(), id);
@@ -60,15 +60,7 @@ public class DaoJdbcImpl implements ItemDao {
         jdbcTemplate.update(SQL_ADD_TRANS, returnItem.getItemID(), returnItem.getItemPrice());
     }
 
-    private static final String SQL_RESTOCK_ITEM = "UPDATE ItemsDetail SET Qty = ? WHERE id = ?";
-
-    @Override
-    public void restockItem(int itemId, int newQty) {
-        Item returnItem = getItemById(itemId);
-        jdbcTemplate.update(SQL_RESTOCK_ITEM, returnItem.getItemQty() + newQty, returnItem.getItemID());
-    }
-
-    private static final String SQL_ADD_NEW_ITEM = "INSERT INTO ItemsDetail(`name`,`price`,`qty`)"
+    private static final String SQL_ADD_NEW_ITEM = "INSERT INTO ItemsDetail(name,price,qty)"
             + " VALUES(?,?,?)";
 
     @Override
@@ -81,18 +73,26 @@ public class DaoJdbcImpl implements ItemDao {
     }
 
     private static final String SQL_EDIT_ITEM = "UPDATE ItemsDetail SET name = ?,  price = ?, "
-            + " qty = ?,WHERE id = ?";
+            + " qty = ? WHERE id = ?";
+    private static final String SQL_LOG_CHANGED_ITEM = "INSERT INTO EditHistory(itemId, oldName,oldPrice,oldQty)"
+            + "VALUES(?,?,?,?)";
 
     @Override
     public void editItem(Item changeItem) {
+        Item oldItem = getItemById(changeItem.getItemID());
+         jdbcTemplate.update(SQL_LOG_CHANGED_ITEM, oldItem.getItemID(), oldItem.getItemName(), oldItem.getItemPrice(), oldItem.getItemQty());
         jdbcTemplate.update(SQL_EDIT_ITEM, changeItem.getItemName(), changeItem.getItemPrice(),
                 changeItem.getItemQty(), changeItem.getItemID());
     }
 
-    private static final String SQL_DELETE_ITEM = "DELETE FROM ItemsDetails WHERE id = ?";
+    private static final String SQL_DELETE_ITEM = "DELETE FROM ItemsDetail WHERE id = ?";
+    private static final String SQL_RECORD_DELETED_ITEM = "INSERT INTO DeletedItems(itemId, finalName,finalPrice,finalQty)"
+            + "VALUES(?,?,?,?)";
 
     @Override
     public void deleteItem(int itemId) {
+        Item deletedItem = getItemById(itemId);
+        jdbcTemplate.update(SQL_RECORD_DELETED_ITEM, deletedItem.getItemID(), deletedItem.getItemName(), deletedItem.getItemPrice(), deletedItem.getItemQty());
         jdbcTemplate.update(SQL_DELETE_ITEM, itemId);
     }
 

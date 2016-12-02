@@ -9,7 +9,7 @@
                 </button>
 
             </div>   
-            <div class="modal-body">
+              <div class ="modal-body">
                 <h3 id="item-edit-itemId">Item ID </h3>
 
                 <form class="form-horizontal" role="form"> 
@@ -28,23 +28,22 @@
                     <div class="form-group">
                         <label for="item-edit-itemQty" class="col-md-4 control-label">Item Qty: </label>
                         <div class="col-md-8">
-                            <input id="item-edit-itemQty" name="itemQty" type="number" min = 0 max = 100 class="form-control" />
+                            <input id="item-edit-itemQty" name="itemQty" type="number" class="form-control" />
                         </div>
                     </div>
 
 
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-8">
-                            <button type="submit" id="edit-button" class="btn btn-default" data-dismiss="modal"> Update Record </button>
+                            <button type="submit" id="edit-button" class="btn btn-default"> Edit Item</button>
                         </div>
                     </div>
 
-                </form>
-                <div class="modal-footer">
+              
                      <button type="button" class="close" data-dismiss="modal">
                         Close
                     </button>
-
+</form>
                 </div>
 
 

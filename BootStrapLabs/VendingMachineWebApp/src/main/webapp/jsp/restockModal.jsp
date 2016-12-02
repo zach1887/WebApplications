@@ -10,7 +10,8 @@
 
             </div>   
             <div class="modal-body">
-                <h3 id="item-restock-itemId">Item ID </h3>
+                <h3 id="item-restock-itemId" hidden>Item ID </h3>
+                <h3 id="item-restock-itemPrice" hidden>Item ID </h3>
 
                 <form class="form-horizontal" role="form"> 
                     <div class="form-group">
@@ -18,11 +19,12 @@
                         <div class="col-md-8">
                             <div id="item-restock-itemName"> Item Name here </div>
                         </div>
+                        Current Quantity: <span id = "item-restock-itemQty" >Item qty here </span>
                     </div>
                     <div class="form-group">
-                        <label for="item-restock-Qty" class="col-md-4 control-label">How many of this item would you like to add? </label>
+                        <label for="item-restockQty" class="col-md-4 control-label">How many of this item would you like to add? Max is 100.</label>
                         <div class="col-md-8">
-                            <input id="item-edit-restockQty" name="itemPrice" type="number" min = 0 max = 100 class="form-control" />
+                            <input id="item-restockQty" name="restockQty" type="number" min = 0 max = 100 class="form-control" />
                         </div>
                     </div>
 
@@ -39,3 +41,5 @@
             </div>
         </div>
     </div>
+    
+</div>

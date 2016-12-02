@@ -202,9 +202,6 @@ function removeVacc(id) {
 }
 
 function vaccDetails(id) {
-    // Generate a REQUEST to submit the PETID to our REST endpoint
-    // Endpoint details: GET @ localhost:8080/PetShelterWebApp/pet/{petId}
-    // PATHVARIABLE : petID  , RESPONSEBODY : PET 
     $.ajax({
         type: 'GET',
         url: 'vacc/' + id,
@@ -219,14 +216,11 @@ function vaccDetails(id) {
         $("#vacc-detail-destCountry").text(trip.destCountry);
         $("#vacc-detail-lengthDays").text(trip.lengthDays);
         $("#vacc-detail-tripOverseas").text(trip.tripOverseas);
-        $("#vacc-detail-otherCities").text(trip.otherCitiesVisited);
+        $("#vacc-detail-otherCities").text(trip.otherCitiesVisited); 
     });
 }
 
 function vaccEditDetails(id) {
-    // Generate a REQUEST to submit the PETID to our REST endpoint
-    // Endpoint details: GET @ localhost:8080/PetShelterWebApp/pet/{petId}
-    // PATHVARIABLE : petID  , RESPONSEBODY : PET 
     $.ajax({
         type: 'GET',
         url: 'vacc/' + id,

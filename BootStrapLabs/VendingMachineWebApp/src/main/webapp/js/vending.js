@@ -27,8 +27,8 @@ $(document).ready(function () {
 
     // Find the pet edit modal, and register a "on show" event listener function
     $("#item-edit-modal").on('show.bs.modal', function (event) {
-        var element = $(event.relatedTarget); // Hey, go find the thing that made this event happen
-        var itemId = element.data('item-id'); // found the a tag, now get the data-pet-id value
+        var element = $(event.relatedTarget);
+        var itemId = element.data('item-id');
         itemEditDetails(itemId);
     });
 
@@ -39,10 +39,28 @@ $(document).ready(function () {
     });
 
 
+    // Find the pet edit modal, and register a "on show" event listener function
+    $("#item-restock-modal").on('show.bs.modal', function (event) {
+        var element = $(event.relatedTarget); // Hey, go find the thing that made this event happen
+        var itemId = element.data('item-id'); // found the a tag, now get the data-pet-id value
+        restockOptions(itemId);
+    });
+
     $("#restock-button").click(function (event) {
+        event.preventDefault();
+        restockItem();
+    });
+
+    $("#delete-confirmation-modal").on('show.bs.modal', function (event) {
+        var element = $(event.relatedTarget);
+        var itemId = element.data('item-id');
+        deleteOptions(itemId);
+    });
+
+    $("#delete-button").click(function (event) {
         // Stop the button, if it is trying to submit, from submitting
         event.preventDefault();
-        restockItem(); // Then do OUR thing.
+        deleteItem(); // Then do OUR thing.
     });
 
 });
@@ -60,25 +78,25 @@ function clearMgmtTable() {
 
 function addMoney() {
     var amtEntered = parseFloat($('#moneyInput').val());
-    var currentMoney = parseFloat($('#currentTotal').val());
+    var currentMoney = parseFloat($('#currentTotal').text());
 
     if (!currentMoney)
-        $("#currentTotal").val(amtEntered);
+        $("#currentTotal").text(amtEntered);
     else
-        $("#currentTotal").val(currentMoney + amtEntered);
+        $("#currentTotal").text(amtEntered + currentMoney);
     $("#moneyInput").val("0.00");
-    $("#changeReturn").val("0.00");
+    $("#changeReturn").text("0.00");
 }
 
 
 function returnChange() {
-    var currentMoney = parseFloat($('#currentTotal').val());
+    var currentMoney = parseFloat($('#currentTotal').text()).toFixed(2);
     if (!currentMoney)
         $('#changeReturn').val("0.00");
     else
-        $('#changeReturn').val(currentMoney);
+        $('#changeReturn').text(currentMoney);
     $('#moneyInput').val("0.00");
-    $('#currentTotal').val("0.00");
+    $('#currentTotal').text("0.00");
 
 }
 
@@ -128,19 +146,21 @@ function vendItem(itemId) {
         url: 'item/' + itemId,
         type: 'GET'
     }).success(function (item) {
-  
-    var currentMoney = parseFloat($('#currentTotal').val());
-    if (currentMoney < item.itemPrice)
-        alert("You have not entered enough money to purchase that item.");
-    else {
-       $.ajax({
-        url: 'vend/' + itemId,
-        type: 'PUT'
-    }).success(function() {
-        $('#currentTotal').val((currentMoney - item.itemPrice).toFixed(2));
-        loadItems();
-    });
-    }
+
+        var currentMoney = parseFloat($('#currentTotal').text());
+        if (!currentMoney || currentMoney == 0)
+            alert("You have to enter in money before you can make a purchase.")
+        else if (currentMoney < item.itemPrice)
+            alert("You have not entered enough money to purchase that item.");
+        else {
+            $.ajax({
+                url: 'vend/' + itemId,
+                type: 'PUT'
+            }).success(function () {
+                $('#currentTotal').text((currentMoney - item.itemPrice).toFixed(2));
+                loadItems();
+            });
+        }
     });
 }
 
@@ -167,23 +187,23 @@ function processMgmtList(items) {
         qtyField.append(item.itemQty);
 
         var restockLink = $("<a>");
-        restockLink.attr({
-            'onclick': 'restock(' + item.itemId + ')'
-        });
+        restockLink.attr({'data-toggle': 'modal',
+            'data-target': '#item-restock-modal',
+            'data-item-id': item.itemID});
         restockLink.text("Restock");
         restockField.append(restockLink);
 
         var editLink = $("<a>");
-        editLink.attr({
-            'onclick': 'edit(' + item.itemId + ')'
-        });
+        editLink.attr({'data-toggle': 'modal',
+            'data-target': '#item-edit-modal',
+            'data-item-id': item.itemID});
         editLink.text("Edit");
         editField.append(editLink);
 
         var deleteLink = $("<a>");
-        deleteLink.attr({
-            'onclick': 'delete(' + item.itemId + ')'
-        });
+        deleteLink.attr({'data-toggle': 'modal',
+            'data-target': '#delete-confirmation-modal',
+            'data-item-id': item.itemID});
         deleteLink.text("Delete");
         deleteField.append(deleteLink);
 
@@ -210,17 +230,6 @@ function loadItems() {
     }).success(function (data) {
         processItemList(data);
         processMgmtList(data);
-    });
-
-}
-
-function restockItem(itemid, qty) {
-
-    $.ajax({
-        url: 'items',
-        type: 'GET'
-    }).success(function (data) {
-
     });
 
 }
@@ -257,7 +266,7 @@ function addItem() {
         $("#item-add-price").val('');
         $("#item-add-qty").val('');
     }
-            ).error(function (data, status) {
+    ).error(function (data, status) {
         // Find the error div in the DOM
         var errorDiv = $("#validationErrors");
         errorDiv.empty();
@@ -271,14 +280,114 @@ function addItem() {
 
     });
 }
-function deleteItem(id) {
 
+function deleteOptions(id) {
     $.ajax({
-        url: 'items',
-        type: 'GET'
+        type: 'GET',
+        url: 'item/' + id,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).success(function (item) {
+        $("#delete-item-itemId").text(item.itemID);
+        $("#delete-item-itemName").text(item.itemName);
+    });
+
+}
+
+function deleteItem() {
+      var itemId = $("#delete-item-itemId").text();
+    $.ajax({
+        url: 'item/' + itemId,
+        type: 'DELETE'
     }).success(function (data) {
         processItemList(data);
         processMgmtList(data);
+    });
+}
+function restockOptions(itemId) {
+    $.ajax({
+        type: 'GET',
+        url: 'item/' + itemId,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).success(function (item) {
+        $("#item-restock-itemId").text(item.itemID);
+        $("#item-restock-itemName").text(item.itemName);
+        $("#item-restock-itemPrice").text(item.itemPrice);
+        $("#item-restock-itemQty").text(item.itemQty);
+    });
+
+}
+
+function restockItem() {
+    var itemId = $("#item-restock-itemId").text();
+    var itemName = $("#item-restock-itemName").text();
+    var itemPrice = $("#item-restock-itemPrice").text();
+    var itemQty = parseInt($("#item-restock-itemQty").text());
+    var addedQty = parseInt($("#item-restockQty").val());
+    var updatedQty = itemQty + addedQty;
+
+    $.ajax({
+        url: 'item/' + itemId,
+        type: 'PUT',
+        headers: {
+            'Content-Type': 'application/json' // Whatcha sending
+        },
+        'dataType': 'json', // Whatcha sending, data type
+
+        data: JSON.stringify({
+            itemName: itemName,
+            itemPrice: itemPrice,
+            itemQty: updatedQty
+        })
+    }).success(function (data) {
+        loadItems();
+
+    });
+
+}
+function itemEditDetails(itemId) {
+    $.ajax({
+        type: 'GET',
+        url: 'item/' + itemId,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).success(function (item) {
+        // h2 tags use TEXT
+        $("#item-edit-itemId").text(item.itemID);
+        $("#item-edit-itemName").val(item.itemName);
+        $("#item-edit-itemPrice").val(item.itemPrice);
+        $("#item-edit-itemQty").val(item.itemQty);
+    });
+}
+
+function editItem() {
+
+    var itemId = $("#item-edit-itemId").text();
+    var itemName = $("#item-edit-itemName").val();
+    var itemPrice = $("#item-edit-itemPrice").val();
+    var itemQty = $("#item-edit-itemQty").val();
+
+
+    $.ajax({
+        url: 'item/' + itemId,
+        type: 'PUT',
+        headers: {
+            'Content-Type': 'application/json' // Whatcha sending
+        },
+        'dataType': 'json', // Whatcha sending, data type
+
+        data: JSON.stringify({
+            itemName: itemName,
+            itemPrice: itemPrice,
+            itemQty: itemQty
+        })
+    }).success(function (data) {
+        loadItems();
+
     });
 }
 
