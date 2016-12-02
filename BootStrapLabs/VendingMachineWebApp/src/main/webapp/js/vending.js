@@ -147,9 +147,13 @@ function vendItem(itemId) {
         type: 'GET'
     }).success(function (item) {
 
+    if (item.itemQty == 0)
+        alert("You have to enter in money before you can make a purchase.");
         var currentMoney = parseFloat($('#currentTotal').text());
         if (!currentMoney || currentMoney == 0)
-            alert("You have to enter in money before you can make a purchase.")
+            alert("You have to enter in money before you can make a purchase.");
+        else if (item.itemQty == 0)
+            alert("That item is sold out.");
         else if (currentMoney < item.itemPrice)
             alert("You have not entered enough money to purchase that item.");
         else {
